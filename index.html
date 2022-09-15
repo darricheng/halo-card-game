@@ -5,9 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="app.js" charset="utf-8"></script>
-	<title>Document</title>
+	<link rel="stylesheet" href="main.css"/>
+	<title>Halo Card Game</title>
 </head>
 <body>
+<div id="container">
 	<div id="computer">
 		<div class="deck" id="computer-deck"></div>
 		<div class="hand" id="computer-hand"></div>
@@ -17,6 +19,10 @@
 		<div class="board" id="computer-board"></div>
 		<div class="battle" id="computer-battle"></div>
 	</div>
+	<!-- TEMP -->
+	<!-- Middle line -->
+	<div style="position: absolute; top: 50%; background-color: black; width: 100%; height: 1px"></div>
+	<!-- END TEMP -->
 	<div id="player">
 		<div class="deck" id="player-deck"></div>
 		<div class="hand" id="player-hand"></div>
@@ -26,6 +32,7 @@
 		<div class="board" id="player-board"></div>
 		<div class="battle" id="player-battle"></div>
 	</div>
-	<div id="pass-button"></div>
+	<div id="game-button"></div>
+</div>
 </body>
 </html>
