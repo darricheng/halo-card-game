@@ -146,6 +146,7 @@ window.onload = () => {
      ****************/
     // Player
     const player = {
+        name: "player",
         deck: defaultPlayerDeck,
         health: 20,
         maxResources: 1,
@@ -167,6 +168,7 @@ window.onload = () => {
 
     // Computer
     const com = {
+        name: "com",
         deck: defaultComDeck,
         health: 20,
         maxResources: 1,
@@ -233,7 +235,12 @@ window.onload = () => {
             if (user.hand.length < 10) {
                 user.handDiv.append(cardDOM);
             }
-            // TODO: Add a class of hidden for cards drawn by the opponent
+            // TODO: Add an else statement to burn cards + animation
+
+            // Add a class of hidden for cards drawn by the opponent
+            if (user.name === "com") {
+                cardDOM.classList.add("hidden");
+            }
         }
     };
 
