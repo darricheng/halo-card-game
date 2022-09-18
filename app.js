@@ -146,7 +146,7 @@ window.onload = () => {
      ****************/
     // Player
     const player = {
-        deck: [],
+        deck: defaultPlayerDeck,
         health: 20,
         maxResources: 1,
         currentResources: 1,
@@ -167,7 +167,7 @@ window.onload = () => {
 
     // Computer
     const com = {
-        deck: [],
+        deck: defaultComDeck,
         health: 20,
         maxResources: 1,
         currentResources: 1,
@@ -233,6 +233,7 @@ window.onload = () => {
             if (user.hand.length < 10) {
                 user.handDiv.append(cardDOM);
             }
+            // TODO: Add a class of hidden for cards drawn by the opponent
         }
     };
 
@@ -271,10 +272,6 @@ window.onload = () => {
         player.deck = defaultPlayerDeck;
         com.deck = defaultComDeck;
 
-        // Shuffle both decks
-        shuffle(player.deck);
-        shuffle(com.deck);
-
         // TODO: Do I need to attach a unique id to every card?
         // I think it makes it easier to identify the individual cards when
         // manipulating the DOM and editing the data in the respective arrays
@@ -301,5 +298,14 @@ window.onload = () => {
     /**
      * Start the game till first action
      */
-    const gameStart = () => {}; // gameStart
+    const gameStart = () => {
+        // Shuffle both decks
+        shuffle(player.deck);
+        shuffle(com.deck);
+
+        // Both players draw 4
+        draw(player, 4);
+        draw(com, 4);
+    }; // gameStart
+    gameStart();
 };
