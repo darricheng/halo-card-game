@@ -1,6 +1,6 @@
-/*************
+/************
  * Base CSS *
-*************/
+ ************/
 /* Set the screen to not scroll */
 #container {
     position: relative;
@@ -14,9 +14,9 @@
     position: absolute;
 }
 
-/************
+/***********
  * General *
-************/
+ ***********/
 #game-button {
     top: calc(50% - 100px / 2);
     right: 2%;
@@ -40,13 +40,48 @@
     background: red;
 }
 .deck {
-    width: 120px;
-    height: 200px;
+    width: 100px;
+    height: 160px;
     background: black;
 }
-/*************
+/*********
+ * Board *
+ *********/
+#board {
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+}
+.backline {
+    width: 100%;
+    height: 25%;
+    background: darkcyan;
+}
+#computer-backline {
+    top: 0;
+    left: 0;
+}
+#player-backline {
+    bottom: 0;
+    left: 0;
+}
+.battle {
+    width: 100%;
+    height: 25%;
+    background: yellowgreen;
+}
+#computer-battle {
+    top: 25%;
+    left: 0;
+}
+#player-battle {
+    bottom: 25%;
+    left: 0;
+}
+/************
  * Computer *
-*************/
+ ************/
 #computer {
     top: 0;
     left: 0;
@@ -64,16 +99,16 @@
 }
 #computer-health {
     bottom: 10%;
-    left: 5%;
+    left: 3%;
 }
 #computer-deck {
     top: 5%;
     left: 2%;
 }
 
-/***********
-* Player *
-***********/
+/**********
+ * Player *
+ **********/
 #player {
     top: 50%;
     left: 0;
@@ -91,7 +126,7 @@
 }
 #player-health {
     top: 10%;
-    left: 5%;
+    left: 3%;
 }
 #player-deck {
     bottom: 5%;
