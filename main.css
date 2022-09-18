@@ -178,6 +178,15 @@ body {
     height: 160px;
     background: coral;
 }
+.card-name {
+    bottom: 10%;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
 .card-cost {
     top: 0;
     left: 0;
