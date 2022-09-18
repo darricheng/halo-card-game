@@ -1,16 +1,36 @@
 /************
  * Base CSS *
  ************/
+/* Lock scroll, but allow rendering outside of screen */
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
 /* Set the screen to not scroll */
 #container {
     position: relative;
     height: 98vh;
-    width: 100%;
     /* Mark out the container */
     border-top: 1px solid black;
     border-bottom: 1px solid black;
 }
-#container * {
+#board,
+.backline,
+.battle,
+#com,
+#player,
+.deck,
+.hand,
+.health,
+.resources,
+.token,
+#game-button,
+.card-name,
+.card-cost,
+.card-attack,
+.card-health {
+    /* All except class="card" are absolute */
     position: absolute;
 }
 
@@ -44,66 +64,41 @@
     height: 160px;
     background: black;
 }
-/*********
- * Board *
- *********/
-#board {
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
+.hand {
+    width: 70%;
+    height: 160px;
+    background: gray;
 }
-.backline {
-    width: 100%;
-    height: 25%;
-    background: darkcyan;
-}
-#computer-backline {
-    top: 0;
-    left: 0;
-}
-#player-backline {
-    bottom: 0;
-    left: 0;
-}
-.battle {
-    width: 100%;
-    height: 25%;
-    background: yellowgreen;
-}
-#computer-battle {
-    top: 25%;
-    left: 0;
-}
-#player-battle {
-    bottom: 25%;
-    left: 0;
-}
+
 /************
  * Computer *
  ************/
-#computer {
+#com {
     top: 0;
     left: 0;
     width: 100%;
     height: 49vh;
 }
-/* All computer-X elements are positioned relative to #computer */
-#computer-token {
+/* All com-X elements are positioned relative to #com */
+#com-token {
     bottom: 18%;
     right: 5%;
 }
-#computer-resources {
+#com-resources {
     bottom: 18%;
     right: 2%;
 }
-#computer-health {
+#com-health {
     bottom: 10%;
     left: 3%;
 }
-#computer-deck {
+#com-deck {
     top: 5%;
     left: 2%;
+}
+#com-hand {
+    bottom: 90%;
+    left: 15%;
 }
 
 /**********
@@ -131,4 +126,73 @@
 #player-deck {
     bottom: 5%;
     left: 2%;
+}
+#player-hand {
+    top: 90%;
+    left: 15%;
+}
+
+/*********
+ * Board *
+ *********/
+#board {
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+}
+.backline {
+    width: 100%;
+    height: 25%;
+    background: darkcyan;
+}
+#com-backline {
+    top: 0;
+    left: 0;
+}
+#player-backline {
+    bottom: 0;
+    left: 0;
+}
+.battle {
+    width: 100%;
+    height: 25%;
+    background: yellowgreen;
+}
+#com-battle {
+    top: 25%;
+    left: 0;
+}
+#player-battle {
+    bottom: 25%;
+    left: 0;
+}
+
+/********
+ * Card *
+ ********/
+.card {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    height: 160px;
+    background: coral;
+}
+.card-cost {
+    top: 0;
+    left: 0;
+    width: 10%;
+    height: 10%;
+}
+.card-attack {
+    bottom: 0;
+    left: 0;
+    width: 10%;
+    height: 10%;
+}
+.card-health {
+    bottom: 0;
+    right: 0;
+    width: 10%;
+    height: 10%;
 }

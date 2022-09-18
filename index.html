@@ -11,17 +11,17 @@
 <body>
 <div id="container">
 	<div id="board">
-		<div class="backline" id="computer-backline"></div>
-		<div class="battle" id="computer-battle"></div>
+		<div class="backline" id="com-backline"></div>
+		<div class="battle" id="com-battle"></div>
 		<div class="backline" id="player-backline"></div>
 		<div class="battle" id="player-battle"></div>
 	</div>
-	<div id="computer">
-		<div class="deck" id="computer-deck"></div>
-		<div class="hand" id="computer-hand"></div>
-		<div class="health" id="computer-health"></div>
-		<div class="resources" id="computer-resources"></div>
-		<div class="token" id="computer-token"></div>
+	<div id="com">
+		<div class="deck" id="com-deck"></div>
+		<div class="hand" id="com-hand"></div>
+		<div class="health" id="com-health"></div>
+		<div class="resources" id="com-resources"></div>
+		<div class="token" id="com-token"></div>
 	</div>
 	<!-- TEMP -->
 	<!-- Middle line -->
@@ -36,5 +36,13 @@
 	</div>
 	<div id="game-button"></div>
 </div>
+<template id="card-template">
+	<div class="card">
+		<div class="card-name"></div>
+		<div class="card-cost"></div>
+		<div class="card-attack"></div>
+		<div class="card-health"></div>
+	</div>
+</template>
 </body>
 </html>
