@@ -17,7 +17,7 @@ body {
 }
 #board,
 .backline,
-.battle,
+.frontline,
 #com,
 #player,
 .deck,
@@ -29,7 +29,8 @@ body {
 .card-name,
 .card-cost,
 .card-attack,
-.card-health {
+.card-health,
+.card-action-button {
     /* All except class="card" are absolute */
     position: absolute;
 }
@@ -43,6 +44,7 @@ body {
     width: 100px;
     height: 100px;
     background: green;
+    cursor: pointer;
 }
 .token {
     width: 64px;
@@ -135,49 +137,71 @@ body {
 /*********
  * Board *
  *********/
-#board {
+/* Might be needed for future drag & drop stuff */
+/* #board {
     top: 10%;
     left: 10%;
     width: 80%;
     height: 80%;
-}
+} */
 .backline {
-    width: 100%;
-    height: 25%;
+    width: 80%;
+    height: 40%;
     background: darkcyan;
 }
 #com-backline {
-    top: 0;
-    left: 0;
+    bottom: 40%;
+    left: 10%;
 }
 #player-backline {
-    bottom: 0;
-    left: 0;
+    top: 40%;
+    left: 10%;
 }
-.battle {
-    width: 100%;
-    height: 25%;
+.frontline {
+    width: 80%;
+    height: 40%;
     background: yellowgreen;
 }
-#com-battle {
-    top: 25%;
-    left: 0;
+#com-frontline {
+    bottom: 0;
+    left: 10%;
 }
-#player-battle {
-    bottom: 25%;
-    left: 0;
+#player-frontline {
+    top: 0;
+    left: 10%;
 }
 
 /********
  * Card *
  ********/
+.hand .card {
+    /* Cards in hand should always be at the topmost layer */
+    z-index: 999;
+}
 .card {
+    /* Ensure cards are always at the top so that they're interactable */
+    z-index: 998;
     position: relative;
     display: inline-block;
     width: 120px;
     height: 160px;
     border: 1px solid black;
     background: coral;
+    /* For smooth transform animation defined in the next selector */
+    transition: transform 0.3s ease-out;
+}
+#player .hand > .card:hover {
+    transform: translate(0, -110px);
+}
+.card-action-button {
+    bottom: 25%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 50%;
+    height: 10%;
 }
 .card-name {
     bottom: 10%;
@@ -206,6 +230,7 @@ body {
     width: 10%;
     height: 10%;
 }
+/* For com's cards when in hand */
 .hidden > * {
     visibility: hidden;
 }

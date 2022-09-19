@@ -10,18 +10,16 @@
 </head>
 <body>
 <div id="container">
-	<div id="board">
-		<div class="backline" id="com-backline"></div>
-		<div class="battle" id="com-battle"></div>
-		<div class="backline" id="player-backline"></div>
-		<div class="battle" id="player-battle"></div>
-	</div>
+	<!-- Might be needed for future drag & drop stuff -->
+	<!-- <div id="board"></div> -->
 	<div id="com">
 		<div class="deck" id="com-deck"></div>
 		<div class="hand" id="com-hand"></div>
 		<div class="health" id="com-health"></div>
 		<div class="resources" id="com-resources"></div>
 		<div class="token" id="com-token"></div>
+		<div class="backline" id="com-backline"></div>
+		<div class="frontline" id="com-frontline"></div>
 	</div>
 	<!-- TEMP -->
 	<!-- Middle line -->
@@ -33,6 +31,8 @@
 		<div class="health" id="player-health"></div>
 		<div class="resources" id="player-resources"></div>
 		<div class="token" id="player-token"></div>
+		<div class="backline" id="player-backline"></div>
+		<div class="frontline" id="player-frontline"></div>
 	</div>
 	<div id="game-button"></div>
 </div>
@@ -42,6 +42,9 @@
 		<div class="card-cost"></div>
 		<div class="card-attack"></div>
 		<div class="card-health"></div>
+		<!-- Ideally button should be removed, then drag & drop used instead -->
+		<!-- Currently the button exists on the com's cards too -->
+		<button class="card-action-button">Action</button>
 	</div>
 </template>
 </body>
