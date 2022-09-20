@@ -340,7 +340,6 @@ window.onload = () => {
             user.resourcesDiv.querySelector(".current-resources");
         // Set the inner div to the current resources
         resourceValue.innerHTML = user.currentResources;
-        console.log(user);
 
         // Render resources according to amount left
         // Always render from 9 to 0 because of the div ordering
@@ -426,21 +425,34 @@ window.onload = () => {
     const summonUnit = (user, cardID) => {
         // Search for the card in the hand array
         let selectedCard;
+        let index;
         for (let i = 0; i < user.hand.length; i++) {
             // Convert both values to numbers
             if (Number(user.hand[i].id) === cardID) {
                 selectedCard = user.hand[i];
-                // Remove selected card from hand array
-                user.hand.splice(i, 1);
+                index = i;
                 break;
             }
         }
+        // Check whether user has sufficient resources
+        if (user.currentResources - selectedCard.cost < 0) {
+            return printMessage(
+                `Insufficient resources to summon ${selectedCard.name}!`
+            );
+        }
+
+        // Remove selected card from hand array
+        user.hand.splice(index, 1);
         // Add selected card to backline
         user.backline.push(selectedCard);
 
         // Render the DOM accordingly
         renderHand(user);
         renderBackline(user);
+
+        // Reduce the user's resources accordingly
+        user.currentResources -= selectedCard.cost;
+        renderResources(user);
 
         // TODO: Reactivate the toggleTurn below
         // toggleTurn(user);
