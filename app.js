@@ -208,6 +208,8 @@ window.onload = () => {
     // Source: https://stackoverflow.com/a/10953396
     const reference = { player: player, com: com };
 
+    /* User Objects */
+
     /*********************
      * Support Functions *
      *********************/
@@ -357,6 +359,13 @@ window.onload = () => {
         }
     };
 
+    const printMessage = (msg) => {
+        gameMessageDiv.innerHTML = msg;
+        setTimeout(() => (gameMessageDiv.innerHTML = ""), 2500);
+    };
+
+    /* Support Functions */
+
     /*************************
      * Game Action Functions *
      *************************/
@@ -487,6 +496,8 @@ window.onload = () => {
         renderBackline(user);
     }; // shiftUnitFromFrontToBackline
 
+    /* Game Action Functions */
+
     /*****************************
      * Game Management Functions *
      *****************************/
@@ -593,6 +604,8 @@ window.onload = () => {
             com.turn = true;
         }
     }; // advanceRound
+
+    /* Game Management Functions */
 
     /*******************
      * Event Listeners *
