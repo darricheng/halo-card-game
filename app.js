@@ -145,6 +145,14 @@ window.onload = () => {
     /****************
      * User Objects *
      ****************/
+    /* Some Definitions */
+    // Max resources: The maximum for that round
+    // Current resources: The amount left for that round
+    // Pass counter: Whether the player passed for the round. Two passes advance the round.
+    // Turn: Whether the player has action priority.
+
+    // TODO: I might need a total summon counter, because backline and frontline are separate arrays
+
     // Player
     const player = {
         name: "player",
@@ -163,6 +171,9 @@ window.onload = () => {
         handDiv: document.querySelector("#player-hand"),
         healthDiv: document.querySelector("#player-health"),
         resourcesDiv: document.querySelector("#player-resources"),
+        resourceBars: document.querySelectorAll(
+            "#player-resources .resource-bar"
+        ),
         tokenDiv: document.querySelector("#player-token"),
         backlineDiv: document.querySelector("#player-backline"),
         frontlineDiv: document.querySelector("#player-frontline"),
@@ -186,6 +197,7 @@ window.onload = () => {
         handDiv: document.querySelector("#com-hand"),
         healthDiv: document.querySelector("#com-health"),
         resourcesDiv: document.querySelector("#com-resources"),
+        resourceBars: document.querySelectorAll("#com-resources .resource-bar"),
         tokenDiv: document.querySelector("#com-token"),
         backlineDiv: document.querySelector("#com-backline"),
         frontlineDiv: document.querySelector("#com-frontline"),
@@ -314,6 +326,31 @@ window.onload = () => {
             com.turn = false;
         }
     }; // toggleTurn
+
+    const renderResources = (user) => {
+        // Get inner div for the resources number
+        const resourceValue =
+            user.resourcesDiv.querySelector(".current-resources");
+        // Set the inner div to the current resources
+        resourceValue.innerHTML = user.currentResources;
+        console.log(user);
+
+        // Render resources according to amount left
+        // Always render from 9 to 0 because of the div ordering
+        // 9 is bottom bar, 0 is topmost
+
+        // Render max resources first
+        // Current resources will override only the number of current resources
+
+        // Render the max resources
+        for (let i = 9; i > 9 - user.maxResources; i--) {
+            user.resourceBars[i].style.background = "black";
+        }
+        // Render the current resources
+        for (let i = 9; i > 9 - user.currentResources; i--) {
+            user.resourceBars[i].style.background = "lightgreen";
+        }
+    };
 
     /*************************
      * Game Action Functions *
@@ -471,11 +508,11 @@ window.onload = () => {
         player.health = 20;
         com.health = 20;
 
-        // Set resources to starting values
-        player.maxResources = 1;
-        com.maxResources = 1;
-        player.currentResources = 1;
-        com.currentResources = 1;
+        // Set resources to round 0 values
+        player.maxResources = 0;
+        com.maxResources = 0;
+        player.currentResources = 0;
+        com.currentResources = 0;
 
         // Clear hands
         player.hand = [];
@@ -485,8 +522,11 @@ window.onload = () => {
         player.backline = [];
         com.backline = [];
 
-        // Set round to 1
-        roundNumber = 1;
+        // Set round to 0
+        roundNumber = 0;
+
+        // Advance the round to round 1
+        advanceRound();
     }; // init
 
     /**
@@ -529,13 +569,23 @@ window.onload = () => {
         player.currentResources = player.maxResources;
         com.currentResources = com.maxResources;
 
+        // Render the resources
+        renderResources(player);
+        renderResources(com);
+
         // Pass attack token based on round number
-        if (roundNumber % 2 === 0) {
+        // Then set the turns based on attacker first
+        // Player gets token on round 1
+        if (roundNumber % 2 !== 0) {
             player.attackToken = true;
             com.attackToken = false;
+            player.turn = true;
+            com.turn = false;
         } else {
             player.attackToken = false;
             com.attackToken = true;
+            player.turn = false;
+            com.turn = true;
         }
     }; // advanceRound
 
