@@ -328,6 +328,10 @@ window.onload = () => {
         }
     }; // toggleTurn
 
+    /**
+     * Renders the resources of the user
+     * @param {Object} user User object
+     */
     const renderResources = (user) => {
         // Get inner div for the resources number
         const resourceValue =
