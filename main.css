@@ -41,6 +41,7 @@ body {
  * General *
  ***********/
 #game-button {
+    z-index: 9999;
     top: calc(50% - 100px / 2);
     right: 2%;
     width: 100px;

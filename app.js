@@ -202,6 +202,12 @@ window.onload = () => {
         tokenDiv: document.querySelector("#com-token"),
         backlineDiv: document.querySelector("#com-backline"),
         frontlineDiv: document.querySelector("#com-frontline"),
+        // Com functions
+        //
+        takeTurn() {
+            printMessage("Computer passed!");
+            return toggleTurn(this);
+        },
     };
 
     // For referencing the respective objects when provided with a string
@@ -324,9 +330,11 @@ window.onload = () => {
         if (user.name === "player") {
             player.turn = false;
             com.turn = true;
+            return com.takeTurn();
         } else {
             player.turn = true;
             com.turn = false;
+            return;
         }
     }; // toggleTurn
 
@@ -454,8 +462,8 @@ window.onload = () => {
         user.currentResources -= selectedCard.cost;
         renderResources(user);
 
-        // TODO: Reactivate the toggleTurn below
-        // toggleTurn(user);
+        // Pass the turn after summoning
+        toggleTurn(user);
     }; // summonUnit
 
     /**
