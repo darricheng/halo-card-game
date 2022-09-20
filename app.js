@@ -4,6 +4,7 @@ window.onload = () => {
      *****************/
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
+    const gameMessageDiv = document.querySelector("#game-message");
     // Card
     const cardTemplate = document.querySelector("#card-template");
 

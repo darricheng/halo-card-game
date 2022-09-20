@@ -26,6 +26,7 @@ body {
 .resources,
 .token,
 #game-button,
+#game-message,
 .card-name,
 .card-cost,
 .card-attack,
@@ -46,6 +47,16 @@ body {
     height: 100px;
     background: green;
     cursor: pointer;
+}
+#game-message {
+    z-index: 999;
+    bottom: 49%;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 .token {
     width: 64px;
