@@ -10,16 +10,30 @@
 </head>
 <body>
 <div id="container">
-	<!-- Might be needed for future drag & drop stuff -->
+	<!-- boardDiv: Might be needed for future drag & drop stuff -->
 	<!-- <div id="board"></div> -->
+	<!-- boardDiv end -->
+	<div id="game-message"></div>
 	<div id="com">
 		<div class="deck" id="com-deck"></div>
 		<div class="hand" id="com-hand"></div>
 		<div class="health" id="com-health"></div>
-		<div class="resources" id="com-resources"></div>
 		<div class="token" id="com-token"></div>
 		<div class="backline" id="com-backline"></div>
 		<div class="frontline" id="com-frontline"></div>
+		<div class="resources" id="com-resources">
+			<div class="current-resources"></div>
+			<div class="resource-bar" resource-id="0"></div>
+			<div class="resource-bar" resource-id="1"></div>
+			<div class="resource-bar" resource-id="2"></div>
+			<div class="resource-bar" resource-id="3"></div>
+			<div class="resource-bar" resource-id="4"></div>
+			<div class="resource-bar" resource-id="5"></div>
+			<div class="resource-bar" resource-id="6"></div>
+			<div class="resource-bar" resource-id="7"></div>
+			<div class="resource-bar" resource-id="8"></div>
+			<div class="resource-bar" resource-id="9"></div>
+		</div>
 	</div>
 	<!-- TEMP -->
 	<!-- Middle line -->
@@ -29,10 +43,22 @@
 		<div class="deck" id="player-deck"></div>
 		<div class="hand" id="player-hand"></div>
 		<div class="health" id="player-health"></div>
-		<div class="resources" id="player-resources"></div>
 		<div class="token" id="player-token"></div>
 		<div class="backline" id="player-backline"></div>
 		<div class="frontline" id="player-frontline"></div>
+		<div class="resources" id="player-resources">
+			<div class="current-resources"></div>
+			<div class="resource-bar" resource-id="0"></div>
+			<div class="resource-bar" resource-id="1"></div>
+			<div class="resource-bar" resource-id="2"></div>
+			<div class="resource-bar" resource-id="3"></div>
+			<div class="resource-bar" resource-id="4"></div>
+			<div class="resource-bar" resource-id="5"></div>
+			<div class="resource-bar" resource-id="6"></div>
+			<div class="resource-bar" resource-id="7"></div>
+			<div class="resource-bar" resource-id="8"></div>
+			<div class="resource-bar" resource-id="9"></div>
+		</div>
 	</div>
 	<div id="game-button"></div>
 </div>

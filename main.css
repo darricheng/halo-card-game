@@ -26,11 +26,13 @@ body {
 .resources,
 .token,
 #game-button,
+#game-message,
 .card-name,
 .card-cost,
 .card-attack,
 .card-health,
-.card-action-button {
+.card-action-button,
+.current-resources {
     /* All except class="card" are absolute */
     position: absolute;
 }
@@ -39,12 +41,28 @@ body {
  * General *
  ***********/
 #game-button {
+    z-index: 9999;
     top: calc(50% - 100px / 2);
     right: 2%;
     width: 100px;
     height: 100px;
     background: green;
     cursor: pointer;
+}
+#game-message {
+    z-index: 999;
+    bottom: 49%;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 60%;
+    height: 4%;
+    border: 1px solid black;
+    background: white;
+    font-size: 24px;
 }
 .token {
     width: 64px;
@@ -54,7 +72,7 @@ body {
 .resources {
     width: 20px;
     height: 256px;
-    background: blue;
+    background: lightblue;
 }
 .health {
     width: 70px;
@@ -70,6 +88,16 @@ body {
     width: 70%;
     height: 160px;
     background: gray;
+}
+.resource-bar {
+    width: 80%;
+    height: 18px;
+    margin: 2px auto;
+    background: lightgray;
+    border: 1px solid black;
+}
+.hide-cursor {
+    cursor: none;
 }
 
 /************
@@ -89,6 +117,15 @@ body {
 #com-resources {
     bottom: 18%;
     right: 2%;
+}
+#com-resources .current-resources {
+    bottom: 0;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 #com-health {
     bottom: 10%;
@@ -120,6 +157,15 @@ body {
 #player-resources {
     top: 18%;
     right: 2%;
+}
+#player-resources .current-resources {
+    bottom: 0;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 #player-health {
     top: 10%;
@@ -194,6 +240,7 @@ body {
     transform: translate(0, -110px);
 }
 .card-action-button {
+    cursor: pointer;
     bottom: 25%;
     left: 0;
     right: 0;

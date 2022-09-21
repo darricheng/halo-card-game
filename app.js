@@ -2,8 +2,10 @@ window.onload = () => {
     /*****************
      * Page Elements *
      *****************/
+    const containerDiv = document.querySelector("#container");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
+    const gameMessageDiv = document.querySelector("#game-message");
     // Card
     const cardTemplate = document.querySelector("#card-template");
 
@@ -145,6 +147,12 @@ window.onload = () => {
     /****************
      * User Objects *
      ****************/
+    /* Some Definitions */
+    // Max resources: The maximum for that round
+    // Current resources: The amount left for that round
+    // Pass counter: Whether the player passed for the round. Two passes advance the round.
+    // Turn: Whether the player has action priority.
+
     // Player
     const player = {
         name: "player",
@@ -152,6 +160,7 @@ window.onload = () => {
         health: 0,
         maxResources: 0,
         currentResources: 0,
+        summonCount: 0,
         hand: [],
         backline: [],
         frontline: [],
@@ -163,6 +172,9 @@ window.onload = () => {
         handDiv: document.querySelector("#player-hand"),
         healthDiv: document.querySelector("#player-health"),
         resourcesDiv: document.querySelector("#player-resources"),
+        resourceBars: document.querySelectorAll(
+            "#player-resources .resource-bar"
+        ),
         tokenDiv: document.querySelector("#player-token"),
         backlineDiv: document.querySelector("#player-backline"),
         frontlineDiv: document.querySelector("#player-frontline"),
@@ -175,6 +187,7 @@ window.onload = () => {
         health: 0,
         maxResources: 0,
         currentResources: 0,
+        summonCount: 0,
         hand: [],
         backline: [],
         frontline: [],
@@ -186,14 +199,24 @@ window.onload = () => {
         handDiv: document.querySelector("#com-hand"),
         healthDiv: document.querySelector("#com-health"),
         resourcesDiv: document.querySelector("#com-resources"),
+        resourceBars: document.querySelectorAll("#com-resources .resource-bar"),
         tokenDiv: document.querySelector("#com-token"),
         backlineDiv: document.querySelector("#com-backline"),
         frontlineDiv: document.querySelector("#com-frontline"),
+        // Com functions
+        // Com takes their turn
+        takeTurn() {
+            setTimeout(() => {
+                return hitGameButton(this);
+            }, 3000);
+        }, // takeTurn
     };
 
     // For referencing the respective objects when provided with a string
     // Source: https://stackoverflow.com/a/10953396
     const reference = { player: player, com: com };
+
+    /* User Objects */
 
     /*********************
      * Support Functions *
@@ -306,14 +329,95 @@ window.onload = () => {
      * @param {Object} user
      */
     const toggleTurn = (user) => {
+        // TODO: Make the player's cursor disappear and appear during computer's turn
+        // I.e. when player.turn is false
         if (user.name === "player") {
             player.turn = false;
             com.turn = true;
+            showHideCursor(false);
+            // Com's turn
+            return com.takeTurn();
         } else {
             player.turn = true;
             com.turn = false;
+            showHideCursor(true);
+            return;
         }
     }; // toggleTurn
+
+    /**
+     * Renders the resources of the user
+     * @param {Object} user User object
+     */
+    const renderResources = (user) => {
+        // Get inner div for the resources number
+        const resourceValue =
+            user.resourcesDiv.querySelector(".current-resources");
+        // Set the inner div to the current resources
+        resourceValue.innerHTML = user.currentResources;
+
+        // Render resources according to amount left
+        // Always render from 9 to 0 because of the div ordering
+        // 9 is bottom bar, 0 is topmost
+
+        // Render max resources first
+        // Current resources will override only the number of current resources
+
+        // Render the max resources
+        for (let i = 9; i > 9 - user.maxResources; i--) {
+            user.resourceBars[i].style.background = "black";
+        }
+        // Render the current resources
+        for (let i = 9; i > 9 - user.currentResources; i--) {
+            user.resourceBars[i].style.background = "lightgreen";
+        }
+    }; // renderResources
+
+    /**
+     * Prints the given string to the game message box
+     * @param {String} msg
+     */
+    const printMessage = (msg) => {
+        gameMessageDiv.innerHTML = msg;
+        setTimeout(() => (gameMessageDiv.innerHTML = ""), 2500);
+    }; // printMessage
+
+    /**
+     * Resets both pass counters to false
+     * Invoked whenever a user takes an action other than passing
+     * When both counters are true, the game will advance to the next round
+     */
+    const resetPassCounters = () => {
+        player.passCounter = false;
+        com.passCounter = false;
+    };
+
+    /**
+     * Shows or hides the player's cursor based on turn
+     * If true, show the cursor
+     * If false, hide it
+     * @param {Boolean} bool
+     */
+    const showHideCursor = (bool) => {
+        switch (bool) {
+            case true:
+                containerDiv.classList.remove("hide-cursor");
+                break;
+            case false:
+                containerDiv.classList.add("hide-cursor");
+                break;
+        }
+    }; // showHideCursor
+
+    /**
+     * Updates the health value of the affected user
+     * @param {Object} user User whose health was affected
+     */
+    const renderHealth = (user) => {
+        user.healthDiv.innerHTML = user.health;
+    }; // renderHealth
+
+    /* Support Functions */
 
     /*************************
      * Game Action Functions *
@@ -373,17 +477,37 @@ window.onload = () => {
      * @param {Number} card The id of the card that was clicked
      */
     const summonUnit = (user, cardID) => {
+        // Check that user doesn't have more than 6 units in play
+        if (user.summonCount >= 6) {
+            return printMessage("Too many units in play!");
+        }
+        // Check that user isn't preparing for an attack (i.e. unit in frontline)
+        if (user.frontline.length > 0) {
+            return printMessage(
+                "You can't summon when a unit is preparing to attack."
+            );
+        }
+
         // Search for the card in the hand array
         let selectedCard;
+        let index;
         for (let i = 0; i < user.hand.length; i++) {
             // Convert both values to numbers
             if (Number(user.hand[i].id) === cardID) {
                 selectedCard = user.hand[i];
-                // Remove selected card from hand array
-                user.hand.splice(i, 1);
+                index = i;
                 break;
             }
         }
+        // Check whether user has sufficient resources to summon the selected card
+        if (user.currentResources - selectedCard.cost < 0) {
+            return printMessage(
+                `Insufficient resources to summon ${selectedCard.name}!`
+            );
+        }
+
+        // Remove selected card from hand array
+        user.hand.splice(index, 1);
         // Add selected card to backline
         user.backline.push(selectedCard);
 
@@ -391,8 +515,21 @@ window.onload = () => {
         renderHand(user);
         renderBackline(user);
 
-        // TODO: Reactivate the toggleTurn below
-        // toggleTurn(user);
+        // Reduce the user's resources accordingly
+        user.currentResources -= selectedCard.cost;
+        renderResources(user);
+
+        // Increaase the summonCount accordingly
+        user.summonCount++;
+
+        // Reset the pass counters since an action was taken
+        resetPassCounters();
+
+        // Print the relevant message
+        printMessage(`${user.name} has summoned ${selectedCard.name}`);
+
+        // Pass the turn after summoning
+        toggleTurn(user);
     }; // summonUnit
 
     /**
@@ -445,6 +582,8 @@ window.onload = () => {
         renderBackline(user);
     }; // shiftUnitFromFrontToBackline
 
+    /* Game Action Functions */
+
     /*****************************
      * Game Management Functions *
      *****************************/
@@ -470,12 +609,19 @@ window.onload = () => {
         // Set health to full
         player.health = 20;
         com.health = 20;
+        // Render health of players
+        renderHealth(player);
+        renderHealth(com);
 
-        // Set resources to starting values
-        player.maxResources = 1;
-        com.maxResources = 1;
-        player.currentResources = 1;
-        com.currentResources = 1;
+        // Set resources to round 0 values
+        player.maxResources = 0;
+        com.maxResources = 0;
+        player.currentResources = 0;
+        com.currentResources = 0;
+
+        // Set summonCount to 0
+        player.summonCount = 0;
+        com.summonCount = 0;
 
         // Clear hands
         player.hand = [];
@@ -485,8 +631,11 @@ window.onload = () => {
         player.backline = [];
         com.backline = [];
 
-        // Set round to 1
-        roundNumber = 1;
+        // Set round to 0
+        roundNumber = 0;
+
+        // Advance the round to round 1
+        advanceRound();
     }; // init
 
     /**
@@ -507,16 +656,46 @@ window.onload = () => {
      * @param {Object} user The user object that hits the game button
      */
     const hitGameButton = (user) => {
-        console.log("Game button hit by " + user.name);
-    };
+        /** Actions that a user can take:
+         * Summon a unit (Turn taken care of by action of summoning)
+         * Declare an attack
+         * Declare blockers & finalise the attack
+         * Pass the turn
+         */
+
+        // Pass the turn if user has no units in their frontline
+        if (user.frontline.length === 0) {
+            user.passCounter = true;
+            // If both players passed, end the current round
+            // Then advance to a new round
+            if (player.passCounter && com.passCounter) {
+                return advanceRound();
+            }
+            printMessage(`${user.name} has passed`);
+            return toggleTurn(user);
+        }
+        // TODO: Declare an attack
+
+        // TODO: Declare blockers
+    }; // hitGameButton
 
     /**
      * When both players pass, this function will be invoked to advance the round
      * Then set the relevant states accordingly
      */
     const advanceRound = () => {
+        // Set both pass counters to false
+        resetPassCounters();
+
         // Advance round
         roundNumber++;
+
+        // Draw cards
+        draw(player);
+        draw(com);
+
+        // Print the round number
+        printMessage(`Round ${roundNumber}`);
 
         // Increment max resources by 1
         if (player.maxResources !== 10) {
@@ -529,15 +708,31 @@ window.onload = () => {
         player.currentResources = player.maxResources;
         com.currentResources = com.maxResources;
 
+        // Render the resources
+        renderResources(player);
+        renderResources(com);
+
         // Pass attack token based on round number
-        if (roundNumber % 2 === 0) {
+        // Then set the turns based on attacker first
+        // Player gets token on round 1
+        if (roundNumber % 2 !== 0) {
             player.attackToken = true;
             com.attackToken = false;
+            player.turn = true;
+            com.turn = false;
+            showHideCursor(true);
         } else {
             player.attackToken = false;
             com.attackToken = true;
+            player.turn = false;
+            com.turn = true;
+            showHideCursor(false);
+            // Com takes turn first
+            com.takeTurn();
         }
     }; // advanceRound
+
+    /* Game Management Functions */
 
     /*******************
      * Event Listeners *
