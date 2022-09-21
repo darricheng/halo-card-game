@@ -204,12 +204,12 @@ window.onload = () => {
         backlineDiv: document.querySelector("#com-backline"),
         frontlineDiv: document.querySelector("#com-frontline"),
         // Com functions
-        //
+        // Com takes their turn
         takeTurn() {
             setTimeout(() => {
                 return hitGameButton(this);
             }, 3000);
-        },
+        }, // takeTurn
     };
 
     // For referencing the respective objects when provided with a string
@@ -371,12 +371,16 @@ window.onload = () => {
         for (let i = 9; i > 9 - user.currentResources; i--) {
             user.resourceBars[i].style.background = "lightgreen";
         }
-    };
+    }; // renderResources
 
+    /**
+     * Prints the given string to the game message box
+     * @param {String} msg
+     */
     const printMessage = (msg) => {
         gameMessageDiv.innerHTML = msg;
         setTimeout(() => (gameMessageDiv.innerHTML = ""), 2500);
-    };
+    }; // printMessage
 
     /**
      * Resets both pass counters to false
@@ -403,7 +407,7 @@ window.onload = () => {
                 containerDiv.classList.add("hide-cursor");
                 break;
         }
-    };
+    }; // showHideCursor
 
     /* Support Functions */
 
@@ -649,7 +653,7 @@ window.onload = () => {
          * Pass the turn
          */
 
-        // Pass the turn when user has no units in their frontline
+        // Pass the turn if user has no units in their frontline
         if (user.frontline.length === 0) {
             user.passCounter = true;
             // If both players passed, end the current round
@@ -660,7 +664,7 @@ window.onload = () => {
             printMessage(`${user.name} has passed`);
             return toggleTurn(user);
         }
-    };
+    }; // hitGameButton
 
     /**
      * When both players pass, this function will be invoked to advance the round
