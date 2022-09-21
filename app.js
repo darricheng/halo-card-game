@@ -2,6 +2,7 @@ window.onload = () => {
     /*****************
      * Page Elements *
      *****************/
+    const containerDiv = document.querySelector("#container");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
     const gameMessageDiv = document.querySelector("#game-message");
@@ -205,8 +206,9 @@ window.onload = () => {
         // Com functions
         //
         takeTurn() {
-            printMessage("Computer passed!");
-            return toggleTurn(this);
+            setTimeout(() => {
+                return hitGameButton(this);
+            }, 3000);
         },
     };
 
@@ -327,13 +329,18 @@ window.onload = () => {
      * @param {Object} user
      */
     const toggleTurn = (user) => {
+        // TODO: Make the player's cursor disappear and appear during computer's turn
+        // I.e. when player.turn is false
         if (user.name === "player") {
             player.turn = false;
             com.turn = true;
+            showHideCursor(false);
+            // Com's turn
             return com.takeTurn();
         } else {
             player.turn = true;
             com.turn = false;
+            showHideCursor(true);
             return;
         }
     }; // toggleTurn
@@ -369,6 +376,33 @@ window.onload = () => {
     const printMessage = (msg) => {
         gameMessageDiv.innerHTML = msg;
         setTimeout(() => (gameMessageDiv.innerHTML = ""), 2500);
+    };
+
+    /**
+     * Resets both pass counters to false
+     * Invoked whenever a user takes an action other than passing
+     * When both counters are true, the game will advance to the next round
+     */
+    const resetPassCounters = () => {
+        player.passCounter = false;
+        com.passCounter = false;
+    };
+
+    /**
+     * Shows or hides the player's cursor based on turn
+     * If true, show the cursor
+     * If false, hide it
+     * @param {Boolean} bool
+     */
+    const showHideCursor = (bool) => {
+        switch (bool) {
+            case true:
+                containerDiv.classList.remove("hide-cursor");
+                break;
+            case false:
+                containerDiv.classList.add("hide-cursor");
+                break;
+        }
     };
 
     /* Support Functions */
@@ -475,6 +509,12 @@ window.onload = () => {
 
         // Increaase the summonCount accordingly
         user.summonCount++;
+
+        // Reset the pass counters since an action was taken
+        resetPassCounters();
+
+        // Print the relevant message
+        printMessage(`${user.name} has summoned ${selectedCard.name}`);
 
         // Pass the turn after summoning
         toggleTurn(user);
@@ -601,7 +641,25 @@ window.onload = () => {
      * @param {Object} user The user object that hits the game button
      */
     const hitGameButton = (user) => {
-        console.log("Game button hit by " + user.name);
+        // TODO:
+        /** Actions that a user can take:
+         * Summon a unit (Turn taken care of by action of summoning)
+         * Declare an attack
+         * Declare blockers & finalise the attack
+         * Pass the turn
+         */
+
+        // Pass the turn when user has no units in their frontline
+        if (user.frontline.length === 0) {
+            user.passCounter = true;
+            // If both players passed, end the current round
+            // Then advance to a new round
+            if (player.passCounter && com.passCounter) {
+                return advanceRound();
+            }
+            printMessage(`${user.name} has passed`);
+            return toggleTurn(user);
+        }
     };
 
     /**
@@ -609,8 +667,18 @@ window.onload = () => {
      * Then set the relevant states accordingly
      */
     const advanceRound = () => {
+        // Set both pass counters to false
+        resetPassCounters();
+
         // Advance round
         roundNumber++;
+
+        // Draw cards
+        draw(player);
+        draw(com);
+
+        // Print the round number
+        printMessage(`Round ${roundNumber}`);
 
         // Increment max resources by 1
         if (player.maxResources !== 10) {
@@ -635,11 +703,15 @@ window.onload = () => {
             com.attackToken = false;
             player.turn = true;
             com.turn = false;
+            showHideCursor(true);
         } else {
             player.attackToken = false;
             com.attackToken = true;
             player.turn = false;
             com.turn = true;
+            showHideCursor(false);
+            // Com takes turn first
+            com.takeTurn();
         }
     }; // advanceRound
 

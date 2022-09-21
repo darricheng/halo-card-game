@@ -96,6 +96,9 @@ body {
     background: lightgray;
     border: 1px solid black;
 }
+.hide-cursor {
+    cursor: none;
+}
 
 /************
  * Computer *
@@ -237,6 +240,7 @@ body {
     transform: translate(0, -110px);
 }
 .card-action-button {
+    cursor: pointer;
     bottom: 25%;
     left: 0;
     right: 0;
