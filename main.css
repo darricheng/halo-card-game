@@ -58,6 +58,11 @@ body {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    width: 60%;
+    height: 4%;
+    border: 1px solid black;
+    background: white;
+    font-size: 24px;
 }
 .token {
     width: 64px;
