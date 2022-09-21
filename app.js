@@ -409,6 +409,14 @@ window.onload = () => {
         }
     }; // showHideCursor
 
+    /**
+     * Updates the health value of the affected user
+     * @param {Object} user User whose health was affected
+     */
+    const renderHealth = (user) => {
+        user.healthDiv.innerHTML = user.health;
+    }; // renderHealth
+
     /* Support Functions */
 
     /*************************
@@ -601,6 +609,9 @@ window.onload = () => {
         // Set health to full
         player.health = 20;
         com.health = 20;
+        // Render health of players
+        renderHealth(player);
+        renderHealth(com);
 
         // Set resources to round 0 values
         player.maxResources = 0;
@@ -645,7 +656,6 @@ window.onload = () => {
      * @param {Object} user The user object that hits the game button
      */
     const hitGameButton = (user) => {
-        // TODO:
         /** Actions that a user can take:
          * Summon a unit (Turn taken care of by action of summoning)
          * Declare an attack
@@ -664,6 +674,9 @@ window.onload = () => {
             printMessage(`${user.name} has passed`);
             return toggleTurn(user);
         }
+        // TODO: Declare an attack
+
+        // TODO: Declare blockers
     }; // hitGameButton
 
     /**
