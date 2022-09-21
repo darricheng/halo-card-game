@@ -152,8 +152,6 @@ window.onload = () => {
     // Pass counter: Whether the player passed for the round. Two passes advance the round.
     // Turn: Whether the player has action priority.
 
-    // TODO: I might need a total summon counter, because backline and frontline are separate arrays
-
     // Player
     const player = {
         name: "player",
@@ -161,6 +159,7 @@ window.onload = () => {
         health: 0,
         maxResources: 0,
         currentResources: 0,
+        summonCount: 0,
         hand: [],
         backline: [],
         frontline: [],
@@ -187,6 +186,7 @@ window.onload = () => {
         health: 0,
         maxResources: 0,
         currentResources: 0,
+        summonCount: 0,
         hand: [],
         backline: [],
         frontline: [],
@@ -431,6 +431,17 @@ window.onload = () => {
      * @param {Number} card The id of the card that was clicked
      */
     const summonUnit = (user, cardID) => {
+        // Check that user doesn't have more than 6 units in play
+        if (user.summonCount >= 6) {
+            return printMessage("Too many units in play!");
+        }
+        // Check that user isn't preparing for an attack (i.e. unit in frontline)
+        if (user.frontline.length > 0) {
+            return printMessage(
+                "You can't summon when a unit is preparing to attack."
+            );
+        }
+
         // Search for the card in the hand array
         let selectedCard;
         let index;
@@ -442,7 +453,7 @@ window.onload = () => {
                 break;
             }
         }
-        // Check whether user has sufficient resources
+        // Check whether user has sufficient resources to summon the selected card
         if (user.currentResources - selectedCard.cost < 0) {
             return printMessage(
                 `Insufficient resources to summon ${selectedCard.name}!`
@@ -461,6 +472,9 @@ window.onload = () => {
         // Reduce the user's resources accordingly
         user.currentResources -= selectedCard.cost;
         renderResources(user);
+
+        // Increaase the summonCount accordingly
+        user.summonCount++;
 
         // Pass the turn after summoning
         toggleTurn(user);
@@ -549,6 +563,10 @@ window.onload = () => {
         com.maxResources = 0;
         player.currentResources = 0;
         com.currentResources = 0;
+
+        // Set summonCount to 0
+        player.summonCount = 0;
+        com.summonCount = 0;
 
         // Clear hands
         player.hand = [];
