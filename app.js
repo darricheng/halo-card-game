@@ -144,6 +144,9 @@ window.onload = () => {
     // Round counter
     let roundNumber = 0;
 
+    // Whether a battle is currently ongoing
+    let battleState = false;
+
     /****************
      * User Objects *
      ****************/
@@ -167,6 +170,8 @@ window.onload = () => {
         attackToken: true,
         passCounter: false,
         turn: true,
+        isAttacking: false,
+        isDefending: false,
         // Player divs
         deckDiv: document.querySelector("#player-deck"),
         handDiv: document.querySelector("#player-hand"),
@@ -194,6 +199,8 @@ window.onload = () => {
         attackToken: true,
         passCounter: false,
         turn: false,
+        isAttacking: false,
+        isDefending: false,
         // Com divs
         deckDiv: document.querySelector("#com-deck"),
         handDiv: document.querySelector("#com-hand"),
@@ -290,7 +297,7 @@ window.onload = () => {
             const cardDOM = renderCard(user.hand[i]);
             user.handDiv.append(cardDOM);
             // Add a class of hidden for com's cards in hand
-            if (user.name === "com") {
+            if (user.name === com.name) {
                 cardDOM.classList.add("hidden");
             }
         }
@@ -329,9 +336,8 @@ window.onload = () => {
      * @param {Object} user
      */
     const toggleTurn = (user) => {
-        // TODO: Make the player's cursor disappear and appear during computer's turn
         // I.e. when player.turn is false
-        if (user.name === "player") {
+        if (user.name === player.name) {
             player.turn = false;
             com.turn = true;
             showHideCursor(false);
@@ -417,6 +423,12 @@ window.onload = () => {
         user.healthDiv.innerHTML = user.health;
     }; // renderHealth
 
+    // TODO: Disable and enable card action button to summon unit
+    // To be used when declaring blockers
+    // And also when opponent's turn
+    // function(user, "disable") or function(user, "enable")
+    // Loop through the user's hand to disable or enable all cards' action button
+
     /* Support Functions */
 
     /*************************
@@ -463,6 +475,9 @@ window.onload = () => {
         }
         // Button clicked on card in backline
         if (selectedCard.parentElement.classList.contains("backline")) {
+            if (!user.attackToken) {
+                return printMessage("You do not have the attack token!");
+            }
             return shiftUnitFromBackToFrontline(user, cardID);
         }
         // Button clicked on card in frontline
@@ -634,6 +649,13 @@ window.onload = () => {
         // Set round to 0
         roundNumber = 0;
 
+        // Reset all battle states
+        battleState = false;
+        player.isAttacking = false;
+        player.isDefending = false;
+        com.isAttacking = false;
+        com.isDefending = false;
+
         // Advance the round to round 1
         advanceRound();
     }; // init
@@ -675,9 +697,76 @@ window.onload = () => {
             return toggleTurn(user);
         }
         // TODO: Declare an attack
+        // If user has placed at least one unit in the frontline, declare an attack
+        if (user.frontline.length > 0) {
+            // Set attack token to false
+            user.attackToken = false;
+            let attacker = user;
+            let defender;
+            // Determine the defender
+            if (user.name === player.name) {
+                defender = com;
+            } else {
+                defender = player;
+            }
+            // Enter the battle sequence
+            return battleSequence(attacker, defender);
+        }
 
         // TODO: Declare blockers
+
+        // TODO: Let an attack through without blocking
     }; // hitGameButton
+
+    /**
+     * Handles the entire battle sequence
+     * From the declaration of attack to the resolution of battle
+     * And the subsequent handling of turn
+     * @param {Object} attacker The user that is attacking
+     * @param {Object} defender The user that is defending
+     */
+    const battleSequence = (attacker, defender) => {
+        // Set the relevant battle states
+        battleState = true;
+        attacker.isAttacking = true;
+        defender.isDefending = true;
+
+        // Use an array with the below syntax to determine the battle's outcome
+        const unitsInBattle = [];
+        // [{ atk: {atkUnit}, def: {defUnit} }, ...]
+        // Where the array index is the unit position
+        // The array length also determines the number of defenders required
+        // At each index, atk is the attacking unit, def is the defending unit. These two units will do battle.
+        // If the def has no unit, the atk unit strikes the defender's health
+        // We can use a for loop to determine the battle outcome and damage to health
+        // It's a matter of setting up the case for this to work
+
+        // Push the attacking units into the battle array
+        for (let i = 0; i < attacker.frontline.length; i++) {
+            const attackingUnit = attacker.frontline[i];
+            const battleTemp = { atk: attackingUnit, def: null };
+            unitsInBattle.push(battleTemp);
+        }
+
+        // Store the number of units attacking (which is also max number of possible defenders)
+        const numberOfFights = unitsInBattle.length;
+
+        // Create the relevant number of divs for the defender to place units
+        for (let i = 0; i < numberOfFights; i++) {
+            const defDiv = document.createElement("div");
+            defDiv.classList.add("defense-slot");
+            defender.frontlineDiv.append(defDiv);
+        }
+
+        // Deciding which units to block which attacker
+        // Click on a card's "to defend" button
+        // Available defence slots light up
+        // Click on a defence slot to transfer card to that slot
+        // Can explore using event handlers with parameters
+        // Because I'll want a way to pass the cardDOM to the clicked defence slot
+
+        // Add the relevant data to the unitsInBattle array once the defender hits the game button
+    }; // battleSequence
 
     /**
      * When both players pass, this function will be invoked to advance the round
