@@ -282,13 +282,21 @@ body {
     visibility: hidden;
 }
 
+/* TODO: Add a css rule for hiding the card action button on com's cards */
+
 /**********
  * Battle *
  **********/
-.defense-slot {
+.defence-slot {
     display: inline-block;
     width: 120px;
     height: 160px;
     background: lightblue;
     border: 1px solid black;
+}
+.clickable-def-slot {
+    /* https://stackoverflow.com/a/5670984 */
+    border: 2px solid #9ecaed;
+    outline: none;
+    box-shadow: 0 0 10px #9ecaed;
 }

@@ -144,8 +144,15 @@ window.onload = () => {
     // Round counter
     let roundNumber = 0;
 
-    // Whether a battle is currently ongoing
-    let battleState = false;
+    // Battle
+    const unitsInBattle = [];
+    // [{ atk: {atkUnit}, def: {defUnit} }, ...]
+    // Where the array index is the unit position
+    // The array length also determines the number of defenders required
+    // At each index, atk is the attacking unit, def is the defending unit. These two units will do battle.
+    // If the def has no unit, the atk unit strikes the defender's health
+    // We can use a for loop to determine the battle outcome and damage to health
+    // It's a matter of setting up the case for this to work
 
     /****************
      * User Objects *
@@ -469,19 +476,64 @@ window.onload = () => {
         const user = reference[userStr];
 
         // Conditions for the various actions
+
+        // Button clicked when user is defending and card is in a defense slot
+        if (
+            user.isDefending &&
+            selectedCard.parentElement.classList.contains("defence-slot")
+        ) {
+            // Shift the card back from the def div to the backline
+        }
+
+        // Button clicked when user is defending
+        if (user.isDefending) {
+            // After clicking button, user can click on a defDiv next to assign the card to that def position
+            // TODO: Add event listeners to all available defDivs
+            const defDivs = user.frontline.querySelectorAll("defence-slot");
+            // Remove defDivs with a card in it (i.e. don't add an event listener)
+            // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
+            const emptyDefDivs = [];
+            for (let i = 0; i < defDivs.length; i++) {
+                if (defDivs[i].childNodes.length === 0) {
+                    // Animate available def divs
+                    defDivs[i].classList.add("clickable-def-slot");
+                    // Add to empty def divs array
+                    emptyDefDivs.push(defDivs[i]);
+                }
+            }
+
+            // Add an event listener to the empty def divs
+            // Upon selecting a def div, do the following
+            // - Remove the cardDOM from the backline
+            // - Add the cardDOM to the selected def div
+            // - Remove the listeners for all defDivs
+            // - Remove the clickable-def-slot class from all empty def divs
+            /****************************************/
+            // Deciding which units to block which attacker
+            // Click on a card's action button
+            // Available defence slots light up
+            // Click on a defence slot to transfer card to that slot
+            // Can explore using event handlers with parameters, see: https://stackoverflow.com/a/10000178
+            // Because I'll want a way to pass the cardDOM to the clicked defence slot
+            // Add the relevant data to the unitsInBattle array once the defender hits the game button
+            // TODO: Have an option to remove the defender also
+        }
+
         // Button clicked on card in hand
         if (selectedCard.parentElement.classList.contains("hand")) {
             return summonUnit(user, cardID);
         }
+
         // Button clicked on card in backline
-        if (selectedCard.parentElement.classList.contains("backline")) {
+        else if (selectedCard.parentElement.classList.contains("backline")) {
             if (!user.attackToken) {
                 return printMessage("You do not have the attack token!");
             }
             return shiftUnitFromBackToFrontline(user, cardID);
         }
+
         // Button clicked on card in frontline
-        if (selectedCard.parentElement.classList.contains("frontline")) {
+        else if (selectedCard.parentElement.classList.contains("frontline")) {
             return shiftUnitFromFrontToBackline(user, cardID);
         }
     }; // cardActionButton
@@ -650,7 +702,6 @@ window.onload = () => {
         roundNumber = 0;
 
         // Reset all battle states
-        battleState = false;
         player.isAttacking = false;
         player.isDefending = false;
         com.isAttacking = false;
@@ -684,62 +735,47 @@ window.onload = () => {
          * Declare blockers & finalise the attack
          * Pass the turn
          */
-
-        // Pass the turn if user has no units in their frontline
-        if (user.frontline.length === 0) {
-            user.passCounter = true;
-            // If both players passed, end the current round
-            // Then advance to a new round
-            if (player.passCounter && com.passCounter) {
-                return advanceRound();
-            }
-            printMessage(`${user.name} has passed`);
-            return toggleTurn(user);
-        }
-        // TODO: Declare an attack
         // If user has placed at least one unit in the frontline, declare an attack
         if (user.frontline.length > 0) {
             // Set attack token to false
             user.attackToken = false;
-            let attacker = user;
-            let defender;
-            // Determine the defender
-            if (user.name === player.name) {
-                defender = com;
-            } else {
-                defender = player;
-            }
             // Enter the battle sequence
-            return battleSequence(attacker, defender);
+            return declareAttackers(user);
         }
 
-        // TODO: Declare blockers
+        // Invoke the resolve battle function when the defender hits the game button
+        if (user.isDefending) {
+            return resolveBattle(user);
+        }
 
-        // TODO: Let an attack through without blocking
+        // Pass the turn if user took no action
+        user.passCounter = true;
+        // If both players passed, advance to a new round
+        if (player.passCounter && com.passCounter) {
+            return advanceRound();
+        }
+        printMessage(`${user.name} has passed`);
+        return toggleTurn(user);
     }; // hitGameButton
 
     /**
-     * Handles the entire battle sequence
-     * From the declaration of attack to the resolution of battle
-     * And the subsequent handling of turn
+     * Declares the attacker for the attacking user
      * @param {Object} attacker The user that is attacking
-     * @param {Object} defender The user that is defending
      */
-    const battleSequence = (attacker, defender) => {
-        // Set the relevant battle states
-        battleState = true;
+    const declareAttackers = (attacker) => {
+        // Declare the defender variable
+        let defender;
+        // Set the relevant battle states & assign the relevant user object to defender
+        // Attacker
         attacker.isAttacking = true;
-        defender.isDefending = true;
-
-        // Use an array with the below syntax to determine the battle's outcome
-        const unitsInBattle = [];
-        // [{ atk: {atkUnit}, def: {defUnit} }, ...]
-        // Where the array index is the unit position
-        // The array length also determines the number of defenders required
-        // At each index, atk is the attacking unit, def is the defending unit. These two units will do battle.
-        // If the def has no unit, the atk unit strikes the defender's health
-        // We can use a for loop to determine the battle outcome and damage to health
-        // It's a matter of setting up the case for this to work
+        // Defender
+        if (attacker.name === player.name) {
+            com.isDefending = true;
+            defender = com;
+        } else {
+            player.isDefending = true;
+            defender = player;
+        }
 
         // Push the attacking units into the battle array
         for (let i = 0; i < attacker.frontline.length; i++) {
@@ -753,20 +789,29 @@ window.onload = () => {
 
         // Create the relevant number of divs for the defender to place units
         for (let i = 0; i < numberOfFights; i++) {
+            // Create the div and add the relevant class
             const defDiv = document.createElement("div");
-            defDiv.classList.add("defense-slot");
+            defDiv.classList.add("defence-slot");
+
+            // Add a unique defender id to each div (this id will match the index of respective attackers)
+            defDiv.setAttribute("def-id", i);
+
+            // Append the div to the frontline
             defender.frontlineDiv.append(defDiv);
         }
 
-        // Deciding which units to block which attacker
-        // Click on a card's "to defend" button
-        // Available defence slots light up
-        // Click on a defence slot to transfer card to that slot
-        // Can explore using event handlers with parameters
-        // Because I'll want a way to pass the cardDOM to the clicked defence slot
+        return toggleTurn(attacker);
+    }; // declareAttackers
 
-        // Add the relevant data to the unitsInBattle array once the defender hits the game button
-    }; // battleSequence
+    /**
+     * Resolves the battle after the defender hits the game button with optional placing of defending units
+     * @param {Object} defender The user that hits the game button
+     */
+    const resolveBattle = (defender) => {
+        // Push the defender's units into the unitsInBattle array
+        // Do the necessary calculations for the units and the defender's health
+        // At the end, remember to clear the defender's frontline of defence divs
+    };
 
     /**
      * When both players pass, this function will be invoked to advance the round
