@@ -896,6 +896,9 @@ window.onload = () => {
             }
         }
 
+        // Render the defender's new health
+        renderHealth(defender);
+
         // Re-render the backlines
         renderBackline(attacker);
         renderBackline(defender);
