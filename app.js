@@ -506,14 +506,16 @@ window.onload = () => {
         // Conditions for the various actions
 
         // Button clicked when user is defending and card is in a defense slot
-        if (
-            user.isDefending &&
-            selectedCardDOM.parentElement.classList.contains("defence-slot")
-        ) {
-            // TODO: Shift the card back from the def div to the backline
+        if (selectedCardDOM.parentElement.classList.contains("defence-slot")) {
+            // Specifically for shifting card out of def div
+            const defUserStr =
+                selectedCardDOM.parentElement.parentElement.parentElement.id;
+            const defUser = reference[defUserStr];
+
+            return shiftCardOutOfDefDiv(defUser, selectedCardDOM, cardID);
         }
 
-        // Button clicked when user is defending
+        // Button clicked on card in backline when user is defending
         if (user.isDefending) {
             return addCardToDefDiv(user, selectedCardDOM, cardID);
         }
@@ -720,6 +722,23 @@ window.onload = () => {
             emptyDefDivs[i].addEventListener("click", defDivEventListener);
         }
     }; // addCardToDefDiv
+
+    const shiftCardOutOfDefDiv = (user, selectedCardDOM, cardID) => {
+        // Remove card DOM from def div
+        selectedCardDOM.remove();
+
+        // Search for the card in the backline array
+        let selectedCardObj;
+        for (let i = 0; i < user.backline.length; i++) {
+            // Convert both values to numbers
+            if (Number(user.backline[i].id) === cardID) {
+                selectedCardObj = user.backline[i];
+            }
+        }
+
+        // Append the card DOM to the backline
+        user.backlineDiv.append(renderCard(selectedCardObj));
+    }; // shiftCardOutOfDefDiv
 
     /* Game Action Functions */
 
