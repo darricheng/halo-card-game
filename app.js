@@ -221,6 +221,7 @@ window.onload = () => {
         // Com takes their turn
         takeTurn() {
             setTimeout(() => {
+                console.log(this);
                 // * Summon a unit
                 // Check for sufficient resources and board space, and not currently defending
                 if (
@@ -248,7 +249,7 @@ window.onload = () => {
 
                 // Default
                 return hitGameButton(this);
-            }, 3000);
+            }, 10);
         }, // takeTurn
     };
 
@@ -587,7 +588,7 @@ window.onload = () => {
         renderResources(user);
 
         // Increaase the summonCount accordingly
-        user.summonCount++;
+        user.summonCount = user.backline.length;
 
         // Reset the pass counters since an action was taken
         resetPassCounters();
@@ -942,6 +943,10 @@ window.onload = () => {
             }
         }
 
+        // Set the summon count accordingly
+        attacker.summonCount = attacker.backline.length;
+        defender.summonCount = defender.backline.length;
+
         // Render the defender's new health
         renderHealth(defender);
 
@@ -960,11 +965,17 @@ window.onload = () => {
 
         // Clear the defender's frontline of def divs.
         defender.frontlineDiv.textContent = "";
+
+        // Check whether the defender is still alive
+        if (defender.health <= 0) {
+            return endTheGame(defender);
+        }
+
         // At the end, return the turn to the defender.
         if (com.turn) {
             com.takeTurn();
         }
-    };
+    }; // resolveBattle
 
     /**
      * When both players pass, this function will be invoked to advance the round
@@ -1018,6 +1029,19 @@ window.onload = () => {
             com.takeTurn();
         }
     }; // advanceRound
+
+    /**
+     * Invoked when one player's health drops below 0
+     * @param {Object} user The user who's health dropped below 0
+     */
+    const endTheGame = (user) => {
+        // Determine winner
+        if (user.name === player.name) {
+            printMessage(`Defeat`);
+        } else {
+            printMessage(`Victory!`);
+        }
+    }; // endTheGame
 
     /* Game Management Functions */
 
