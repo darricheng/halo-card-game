@@ -659,6 +659,9 @@ window.onload = () => {
      * @param {Number} cardID The id of the card that was clicked
      */
     const addCardToDefDiv = (user, selectedCardDOM, cardID) => {
+        // TODO (Bug): If I click two action buttons before clicking the def div, both clicked cards get appended to the same div
+        // The above bug can be solved by clicking the buttons to shift the cards back to the backline
+
         // I have to re-render the cards every time they are added to the def div
         // I think when I shift the card into the def div, the event listener isn't removed,
         // so when I shift the second card into the def div, the first card follows.
@@ -828,6 +831,8 @@ window.onload = () => {
          */
         // If user has placed at least one unit in the frontline, declare an attack
         if (user.frontline.length > 0) {
+            // Reset the pass counters since an action was taken
+            resetPassCounters();
             // Set attack token to false
             user.attackToken = false;
             // Enter the battle sequence
