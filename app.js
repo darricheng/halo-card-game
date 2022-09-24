@@ -145,7 +145,7 @@ window.onload = () => {
     let roundNumber = 0;
 
     // Battle
-    const unitsInBattle = [];
+    let unitsInBattle = [];
     // [{ atk: {atkUnit}, def: {defUnit} }, ...]
     // Where the array index is the unit position
     // The array length also determines the number of defenders required
@@ -222,8 +222,12 @@ window.onload = () => {
         takeTurn() {
             setTimeout(() => {
                 // * Summon a unit
-                // Check for sufficient resources and board space
-                if (this.currentResources > 0 && this.summonCount < 6) {
+                // Check for sufficient resources and board space, and not currently defending
+                if (
+                    !this.isDefending &&
+                    this.currentResources > 0 &&
+                    this.summonCount < 6
+                ) {
                     // Loop through hand to find cards that are low enough cost to summon
                     for (let i = 0; i < this.hand.length; i++) {
                         if (this.hand[i].cost <= this.currentResources) {
@@ -244,7 +248,7 @@ window.onload = () => {
 
                 // Default
                 return hitGameButton(this);
-            }, 10);
+            }, 3000);
         }, // takeTurn
     };
 
@@ -489,11 +493,12 @@ window.onload = () => {
      * @param {Event} e
      */
     const cardActionButton = (e) => {
+        // Assign the card DOM to a variable
+        const selectedCardDOM = e.currentTarget.parentElement;
         // Assign the cardID to a variable
-        const selectedCard = e.target.parentElement;
-        const cardID = Number(selectedCard.getAttribute("card-id"));
+        const cardID = Number(selectedCardDOM.getAttribute("card-id"));
         // Save element id as String into variable
-        const userStr = selectedCard.parentElement.parentElement.id;
+        const userStr = selectedCardDOM.parentElement.parentElement.id;
         // Use reference object to convert it to actual user object
         const user = reference[userStr];
 
@@ -502,23 +507,23 @@ window.onload = () => {
         // Button clicked when user is defending and card is in a defense slot
         if (
             user.isDefending &&
-            selectedCard.parentElement.classList.contains("defence-slot")
+            selectedCardDOM.parentElement.classList.contains("defence-slot")
         ) {
             // TODO: Shift the card back from the def div to the backline
         }
 
         // Button clicked when user is defending
         if (user.isDefending) {
-            return addCardToDefDiv(user, selectedCard);
+            return addCardToDefDiv(user, selectedCardDOM, cardID);
         }
 
         // Button clicked on card in hand
-        if (selectedCard.parentElement.classList.contains("hand")) {
+        if (selectedCardDOM.parentElement.classList.contains("hand")) {
             return summonUnit(user, cardID);
         }
 
         // Button clicked on card in backline
-        else if (selectedCard.parentElement.classList.contains("backline")) {
+        else if (selectedCardDOM.parentElement.classList.contains("backline")) {
             if (!user.attackToken) {
                 return printMessage("You do not have the attack token!");
             }
@@ -526,7 +531,9 @@ window.onload = () => {
         }
 
         // Button clicked on card in frontline
-        else if (selectedCard.parentElement.classList.contains("frontline")) {
+        else if (
+            selectedCardDOM.parentElement.classList.contains("frontline")
+        ) {
             return shiftUnitFromFrontToBackline(user, cardID);
         }
     }; // cardActionButton
@@ -534,7 +541,7 @@ window.onload = () => {
     /**
      * Summons the card from hand to the backline
      * @param {Object} user The user object that summoned a unit
-     * @param {Number} card The id of the card that was clicked
+     * @param {Number} cardID The id of the card that was clicked
      */
     const summonUnit = (user, cardID) => {
         // Check that user doesn't have more than 6 units in play
@@ -549,34 +556,34 @@ window.onload = () => {
         }
 
         // Search for the card in the hand array
-        let selectedCard;
+        let selectedCardObj;
         let index;
         for (let i = 0; i < user.hand.length; i++) {
             // Convert both values to numbers
             if (Number(user.hand[i].id) === cardID) {
-                selectedCard = user.hand[i];
+                selectedCardObj = user.hand[i];
                 index = i;
                 break;
             }
         }
         // Check whether user has sufficient resources to summon the selected card
-        if (user.currentResources - selectedCard.cost < 0) {
+        if (user.currentResources - selectedCardObj.cost < 0) {
             return printMessage(
-                `Insufficient resources to summon ${selectedCard.name}!`
+                `Insufficient resources to summon ${selectedCardObj.name}!`
             );
         }
 
         // Remove selected card from hand array
         user.hand.splice(index, 1);
         // Add selected card to backline
-        user.backline.push(selectedCard);
+        user.backline.push(selectedCardObj);
 
         // Render the DOM accordingly
         renderHand(user);
         renderBackline(user);
 
         // Reduce the user's resources accordingly
-        user.currentResources -= selectedCard.cost;
+        user.currentResources -= selectedCardObj.cost;
         renderResources(user);
 
         // Increaase the summonCount accordingly
@@ -586,7 +593,7 @@ window.onload = () => {
         resetPassCounters();
 
         // Print the relevant message
-        printMessage(`${user.name} has summoned ${selectedCard.name}`);
+        printMessage(`${user.name} has summoned ${selectedCardObj.name}`);
 
         // Pass the turn after summoning
         toggleTurn(user);
@@ -595,22 +602,22 @@ window.onload = () => {
     /**
      * Shifts card from backline to frontline
      * @param {Object} user The user object that shifted the unit
-     * @param {Number} card The id of the card that was clicked
+     * @param {Number} cardID The id of the card that was clicked
      */
     const shiftUnitFromBackToFrontline = (user, cardID) => {
         // Search for the card in the backline array
-        let selectedCard;
+        let selectedCardObj;
         for (let i = 0; i < user.backline.length; i++) {
             // Convert both values to numbers
             if (Number(user.backline[i].id) === cardID) {
-                selectedCard = user.backline[i];
+                selectedCardObj = user.backline[i];
                 // Remove selected card from backline array
                 user.backline.splice(i, 1);
                 break;
             }
         }
         // Add selected card to frontline
-        user.frontline.push(selectedCard);
+        user.frontline.push(selectedCardObj);
 
         // Render the DOM accordingly
         renderBackline(user);
@@ -620,22 +627,22 @@ window.onload = () => {
     /**
      * Shifts card from frontline to backline
      * @param {Object} user The user object that shifted the unit
-     * @param {Number} card The id of the card that was clicked
+     * @param {Number} cardID The id of the card that was clicked
      */
     const shiftUnitFromFrontToBackline = (user, cardID) => {
         // Search for the card in the frontline array
-        let selectedCard;
+        let selectedCardObj;
         for (let i = 0; i < user.frontline.length; i++) {
             // Convert both values to numbers
             if (Number(user.frontline[i].id) === cardID) {
-                selectedCard = user.frontline[i];
+                selectedCardObj = user.frontline[i];
                 // Remove selected card from frontline array
                 user.frontline.splice(i, 1);
                 break;
             }
         }
         // Add selected card to backline
-        user.backline.push(selectedCard);
+        user.backline.push(selectedCardObj);
 
         // Render the DOM accordingly
         renderFrontline(user);
@@ -645,9 +652,14 @@ window.onload = () => {
     /**
      * Shifts the clicked card's DOM Object to the selected def div during the defending player's turn to place defenders
      * @param {Object} user The user clicking the cards
-     * @param {DOM Object} selectedCard The DOM Object of the selected card
+     * @param {DOM Object} selectedCardDOM The DOM Object of the selected card
+     * @param {Number} cardID The id of the card that was clicked
      */
-    const addCardToDefDiv = (user, selectedCard) => {
+    const addCardToDefDiv = (user, selectedCardDOM, cardID) => {
+        // I have to re-render the cards every time they are added to the def div
+        // I think when I shift the card into the def div, the event listener isn't removed,
+        // so when I shift the second card into the def div, the first card follows.
+
         /****************************************/
         // Deciding which units to block which attacker
         // Click on a card's action button
@@ -658,7 +670,7 @@ window.onload = () => {
         /****************************************/
         // After clicking button, user can click on a defDiv next to assign the card to that def position
         // Add event listeners to all available defDivs
-        const defDivs = user.frontlineDiv.querySelectorAll("defence-slot");
+        const defDivs = user.frontlineDiv.querySelectorAll(".defence-slot");
         // Remove defDivs with a card in it (i.e. don't add an event listener)
         // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
         const emptyDefDivs = [];
@@ -668,31 +680,43 @@ window.onload = () => {
                 emptyDefDivs.push(defDivs[i]);
             }
         }
+
+        // Search for the card in the backline array
+        let selectedCardObj;
+        for (let i = 0; i < user.backline.length; i++) {
+            // Convert both values to numbers
+            if (Number(user.backline[i].id) === cardID) {
+                selectedCardObj = user.backline[i];
+            }
+        }
+
         // Add event listeners to empty def divs
+
+        /**
+         * Trasfers the selectedCardDOM to the clicked def div
+         * @param {Event} e
+         */
+        const defDivEventListener = (e) => {
+            // Remove the cardDOM from the backline, add the cardDOM to the selected def div
+            const selectedDefDiv = e.currentTarget;
+            selectedCardDOM.remove();
+            selectedDefDiv.append(renderCard(selectedCardObj));
+
+            // Remove the listeners and clickable-def-slot class for all defDivs
+            for (let j = 0; j < emptyDefDivs.length; j++) {
+                emptyDefDivs[j].classList.remove("clickable-def-slot");
+                emptyDefDivs[j].removeEventListener(
+                    "click",
+                    defDivEventListener
+                );
+            }
+        };
+
         for (let i = 0; i < emptyDefDivs.length; i++) {
             // Animate available def divs
             emptyDefDivs[i].classList.add("clickable-def-slot");
             // Add event listener to the empty def divs
-            emptyDefDivs[i].addEventListener(
-                "click",
-                /**
-                 * Trasfers the selectedCard to the clicked def div
-                 * @param {Event} f
-                 */
-                function addCardToDefDiv(f) {
-                    const selectedDefDiv = f.target;
-                    // Remove the cardDOM from the backline, add the cardDOM to the selected def div
-                    selectedDefDiv.appendChild(selectedCard);
-                    // Remove the listeners and clickable-def-slot class for all defDivs
-                    for (let j = 0; j < emptyDefDivs.length; j++) {
-                        emptyDefDivs[j].removeEventListener(
-                            "click",
-                            addCardToDefDiv
-                        );
-                        emptyDefDivs[j].classList.remove("clickable-def-slot");
-                    }
-                }
-            );
+            emptyDefDivs[i].addEventListener("click", defDivEventListener);
         }
     }; // addCardToDefDiv
 
@@ -858,7 +882,7 @@ window.onload = () => {
      */
     const resolveBattle = (defender) => {
         // Push the defender's units into the unitsInBattle array
-        const defDivs = defender.frontlineDiv.querySelectorAll("defence-slot");
+        const defDivs = defender.frontlineDiv.querySelectorAll(".defence-slot");
         for (let i = 0; i < defDivs.length; i++) {
             // Variable to store the index of the non-empty def div
             let defDivID = -1;
@@ -921,13 +945,25 @@ window.onload = () => {
         // Render the defender's new health
         renderHealth(defender);
 
+        // Re-render the frontlines
+        renderFrontline(attacker);
+        renderFrontline(defender);
+
         // Re-render the backlines
         renderBackline(attacker);
         renderBackline(defender);
 
+        // Set the states back
+        attacker.isAttacking = false;
+        defender.isDefending = false;
+        unitsInBattle = [];
+
         // Clear the defender's frontline of def divs.
-        defender.frontline.textContent = "";
+        defender.frontlineDiv.textContent = "";
         // At the end, return the turn to the defender.
+        if (com.turn) {
+            com.takeTurn();
+        }
     };
 
     /**

@@ -301,4 +301,5 @@ body {
     border: 2px solid #9ecaed;
     outline: none;
     box-shadow: 0 0 10px #9ecaed;
+    cursor: pointer;
 }
