@@ -88,6 +88,9 @@ body {
     width: 70%;
     height: 160px;
     background: gray;
+    /* Flex box */
+    display: flex;
+    justify-content: center;
 }
 .resource-bar {
     width: 80%;
@@ -194,6 +197,9 @@ body {
     width: 80%;
     height: 40%;
     background: darkcyan;
+    /* Flex box */
+    display: flex;
+    justify-content: center;
 }
 #com-backline {
     bottom: 40%;
@@ -207,6 +213,9 @@ body {
     width: 80%;
     height: 40%;
     background: yellowgreen;
+    /* Flex box */
+    display: flex;
+    justify-content: center;
 }
 #com-frontline {
     bottom: 0;
