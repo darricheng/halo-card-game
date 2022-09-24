@@ -281,8 +281,10 @@ body {
 .hidden > * {
     visibility: hidden;
 }
-
-/* TODO: Add a css rule for hiding the card action button on com's cards */
+/* Hide the card action button on com's cards */
+#com .card-action-button {
+    display: none;
+}
 
 /**********
  * Battle *

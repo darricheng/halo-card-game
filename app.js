@@ -221,6 +221,26 @@ window.onload = () => {
         // Com takes their turn
         takeTurn() {
             setTimeout(() => {
+                // Loop in case com gets stuck
+                // E.g. Try to summon when insufficient resources. If run once, the AI will hang.
+                // So will keep trying a number of times
+                let tryCounter = 0;
+                while (this.turn && tryCounter < 10) {
+                    // Summon a unit
+                    if (this.currentResources > 0) {
+                        // Loop through hand to find cards that are low enough cost to summon
+                        for (let i = 0; i < this.hand.length; i++) {
+                            if (this.hand[i].cost <= this.currentResources) {
+                                return summonUnit(this, this.hand[i].id);
+                            }
+                        }
+                    }
+
+                    // Increment tryCounter in case com gets stuck
+                    tryCounter++;
+                }
+
+                // Default
                 return hitGameButton(this);
             }, 3000);
         }, // takeTurn
