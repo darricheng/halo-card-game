@@ -482,41 +482,12 @@ window.onload = () => {
             user.isDefending &&
             selectedCard.parentElement.classList.contains("defence-slot")
         ) {
-            // Shift the card back from the def div to the backline
+            // TODO: Shift the card back from the def div to the backline
         }
 
         // Button clicked when user is defending
         if (user.isDefending) {
-            // After clicking button, user can click on a defDiv next to assign the card to that def position
-            // TODO: Add event listeners to all available defDivs
-            const defDivs = user.frontline.querySelectorAll("defence-slot");
-            // Remove defDivs with a card in it (i.e. don't add an event listener)
-            // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
-            const emptyDefDivs = [];
-            for (let i = 0; i < defDivs.length; i++) {
-                if (defDivs[i].childNodes.length === 0) {
-                    // Animate available def divs
-                    defDivs[i].classList.add("clickable-def-slot");
-                    // Add to empty def divs array
-                    emptyDefDivs.push(defDivs[i]);
-                }
-            }
-
-            // Add an event listener to the empty def divs
-            // Upon selecting a def div, do the following
-            // - Remove the cardDOM from the backline
-            // - Add the cardDOM to the selected def div
-            // - Remove the listeners for all defDivs
-            // - Remove the clickable-def-slot class from all empty def divs
-            /****************************************/
-            // Deciding which units to block which attacker
-            // Click on a card's action button
-            // Available defence slots light up
-            // Click on a defence slot to transfer card to that slot
-            // Can explore using event handlers with parameters, see: https://stackoverflow.com/a/10000178
-            // Because I'll want a way to pass the cardDOM to the clicked defence slot
-            // Add the relevant data to the unitsInBattle array once the defender hits the game button
-            // TODO: Have an option to remove the defender also
+            return addCardToDefDiv(user, selectedCard);
         }
 
         // Button clicked on card in hand
@@ -648,6 +619,60 @@ window.onload = () => {
         renderFrontline(user);
         renderBackline(user);
     }; // shiftUnitFromFrontToBackline
+
+    /**
+     * Shifts the clicked card's DOM Object to the selected def div during the defending player's turn to place defenders
+     * @param {Object} user The user clicking the cards
+     * @param {DOM Object} selectedCard The DOM Object of the selected card
+     */
+    const addCardToDefDiv = (user, selectedCard) => {
+        /****************************************/
+        // Deciding which units to block which attacker
+        // Click on a card's action button
+        // Available defence slots light up
+        // Click on a defence slot to transfer card to that slot
+        // Can explore using event handlers with parameters, see: https://stackoverflow.com/a/10000178
+        // Because I'll want a way to pass the cardDOM to the clicked defence slot
+        /****************************************/
+        // After clicking button, user can click on a defDiv next to assign the card to that def position
+        // Add event listeners to all available defDivs
+        const defDivs = user.frontlineDiv.querySelectorAll("defence-slot");
+        // Remove defDivs with a card in it (i.e. don't add an event listener)
+        // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
+        const emptyDefDivs = [];
+        for (let i = 0; i < defDivs.length; i++) {
+            if (defDivs[i].childNodes.length === 0) {
+                // Add to empty def divs array
+                emptyDefDivs.push(defDivs[i]);
+            }
+        }
+        // Add event listeners to empty def divs
+        for (let i = 0; i < emptyDefDivs.length; i++) {
+            // Animate available def divs
+            emptyDefDivs[i].classList.add("clickable-def-slot");
+            // Add event listener to the empty def divs
+            emptyDefDivs[i].addEventListener(
+                "click",
+                /**
+                 * Trasfers the selectedCard to the clicked def div
+                 * @param {Event} f
+                 */
+                function addCardToDefDiv(f) {
+                    const selectedDefDiv = f.target;
+                    // Remove the cardDOM from the backline, add the cardDOM to the selected def div
+                    selectedDefDiv.appendChild(selectedCard);
+                    // Remove the listeners and clickable-def-slot class for all defDivs
+                    for (let j = 0; j < emptyDefDivs.length; j++) {
+                        emptyDefDivs[j].removeEventListener(
+                            "click",
+                            addCardToDefDiv
+                        );
+                        emptyDefDivs[j].classList.remove("clickable-def-slot");
+                    }
+                }
+            );
+        }
+    }; // addCardToDefDiv
 
     /* Game Action Functions */
 
@@ -783,6 +808,8 @@ window.onload = () => {
             const battleTemp = { atk: attackingUnit, def: null };
             unitsInBattle.push(battleTemp);
         }
+        // Empty the frontline array (all the card data is now in unitsInBattle)
+        attacker.frontline = [];
 
         // Store the number of units attacking (which is also max number of possible defenders)
         const numberOfFights = unitsInBattle.length;
@@ -809,8 +836,73 @@ window.onload = () => {
      */
     const resolveBattle = (defender) => {
         // Push the defender's units into the unitsInBattle array
+        const defDivs = defender.frontlineDiv.querySelectorAll("defence-slot");
+        for (let i = 0; i < defDivs.length; i++) {
+            // Variable to store the index of the non-empty def div
+            let defDivID = -1;
+            // Variable to store the id of the defending card
+            let defCardID = -1;
+            // Variable to store the card object
+            let cardObj = null;
+            // Check if the def div has a card in it
+            if (defDivs[i].childNodes.length > 0) {
+                defDivID = defDivs[i].getAttribute("def-id");
+                defCardID = defDivs[i].childNodes[0].getAttribute("card-id");
+
+                // Shift card object from backline array to unitsInBattle array
+                for (let j = 0; j < defender.backline.length; j++) {
+                    // Store card in cardObj
+                    if (Number(defender.backline[j].id) === Number(defCardID)) {
+                        cardObj = defender.backline.splice(j, 1).pop();
+                        // Assign the cardObj to the respective def slot in the unitsInBattle array
+                        unitsInBattle[defDivID].def = cardObj;
+                    }
+                }
+            }
+        } // At this point, the units are gone from the attacker's frontline array
+        // and gone from the defender's backline array.
+        // They are stored in the unitsInBattle array.
+        // Any surviving units will be pushed to the end of the respective backline arrays.
+
+        // Attacker
+        let attacker;
+        if (defender.name === player.name) {
+            attacker = com;
+        } else {
+            attacker = player;
+        }
+
         // Do the necessary calculations for the units and the defender's health
-        // At the end, remember to clear the defender's frontline of defence divs
+        for (let i = 0; i < unitsInBattle.length; i++) {
+            // Resolve the combat for the two units. If unit died, change atk/def to null.
+            if (unitsInBattle[i].def) {
+                // Calculate damage to fighting units
+                unitsInBattle[i].atk.health -= unitsInBattle[i].def.attack;
+                unitsInBattle[i].def.health -= unitsInBattle[i].atk.attack;
+            }
+            // If the def property is null, deal the atk's attack to the defender's health
+            else {
+                defender.health -= unitsInBattle[i].atk.attack;
+            }
+
+            // Shift the alive units back to the respective backline arrays.
+            // Attacker
+            if (unitsInBattle[i].atk.health > 0) {
+                attacker.backline.push(unitsInBattle[i].atk);
+            }
+            // Defender
+            if (unitsInBattle[i].def && unitsInBattle[i].def.health > 0) {
+                defender.backline.push(unitsInBattle[i].def);
+            }
+        }
+
+        // Re-render the backlines
+        renderBackline(attacker);
+        renderBackline(defender);
+
+        // Clear the defender's frontline of def divs.
+        defender.frontline.textContent = "";
+        // At the end, return the turn to the defender.
     };
 
     /**
