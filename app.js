@@ -174,9 +174,9 @@ window.onload = () => {
         hand: [],
         backline: [],
         frontline: [],
-        attackToken: true,
+        attackToken: false,
         passCounter: false,
-        turn: true,
+        turn: false,
         isAttacking: false,
         isDefending: false,
         // Player divs
@@ -203,7 +203,7 @@ window.onload = () => {
         hand: [],
         backline: [],
         frontline: [],
-        attackToken: true,
+        attackToken: false,
         passCounter: false,
         turn: false,
         isAttacking: false,
@@ -221,28 +221,30 @@ window.onload = () => {
         // Com takes their turn
         takeTurn() {
             setTimeout(() => {
-                // Loop in case com gets stuck
-                // E.g. Try to summon when insufficient resources. If run once, the AI will hang.
-                // So will keep trying a number of times
-                let tryCounter = 0;
-                while (this.turn && tryCounter < 10) {
-                    // Summon a unit
-                    if (this.currentResources > 0) {
-                        // Loop through hand to find cards that are low enough cost to summon
-                        for (let i = 0; i < this.hand.length; i++) {
-                            if (this.hand[i].cost <= this.currentResources) {
-                                return summonUnit(this, this.hand[i].id);
-                            }
+                // * Summon a unit
+                // Check for sufficient resources and board space
+                if (this.currentResources > 0 && this.summonCount < 6) {
+                    // Loop through hand to find cards that are low enough cost to summon
+                    for (let i = 0; i < this.hand.length; i++) {
+                        if (this.hand[i].cost <= this.currentResources) {
+                            return summonUnit(this, this.hand[i].id);
                         }
                     }
+                }
 
-                    // Increment tryCounter in case com gets stuck
-                    tryCounter++;
+                // * Attack!
+                if (this.attackToken) {
+                    // Shift units to frontline
+                    const backlineLength = this.backline.length;
+                    for (let i = backlineLength - 1; i >= 0; i--) {
+                        shiftUnitFromBackToFrontline(this, this.backline[i].id);
+                    }
+                    return hitGameButton(this);
                 }
 
                 // Default
                 return hitGameButton(this);
-            }, 3000);
+            }, 10);
         }, // takeTurn
     };
 
