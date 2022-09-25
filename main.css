@@ -89,7 +89,7 @@ body {
     background: red;
 }
 .hand {
-    width: 70%;
+    width: 1220px;
     height: 160px;
     background: gray;
     /* Flex box */
@@ -118,7 +118,8 @@ body {
     height: 80%;
 } */
 .backline {
-    width: 80%;
+    left: calc((100% - 740px) / 2);
+    width: 740px;
     height: 40%;
     background: darkcyan;
     /* Flex box */
@@ -127,14 +128,13 @@ body {
 }
 #com-backline {
     bottom: 40%;
-    left: 10%;
 }
 #player-backline {
     top: 40%;
-    left: 10%;
 }
 .frontline {
-    width: 80%;
+    left: calc((100% - 740px) / 2);
+    width: 740px;
     height: 40%;
     background: yellowgreen;
     /* Flex box */
@@ -143,11 +143,9 @@ body {
 }
 #com-frontline {
     bottom: 0;
-    left: 10%;
 }
 #player-frontline {
     top: 0;
-    left: 10%;
 }
 
 /********
@@ -325,7 +323,7 @@ body {
 }
 #com-hand {
     bottom: 90%;
-    left: 15%;
+    left: calc((100% - 1220px) / 2);
 }
 
 /**********
@@ -367,5 +365,5 @@ body {
 }
 #player-hand {
     top: 90%;
-    left: 15%;
+    left: calc((100% - 1220px) / 2);
 }
