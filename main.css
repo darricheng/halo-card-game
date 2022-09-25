@@ -1,6 +1,13 @@
 /************
  * Base CSS *
  ************/
+@font-face {
+    font-family: "haloregular";
+    src: url("./assets/fonts/halo-webfont.woff2") format("woff2"),
+        url("./assets/fonts/halo-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
 /* Lock scroll, but allow rendering outside of screen */
 html,
 body {
@@ -14,6 +21,8 @@ body {
     /* Mark out the container */
     border-top: 1px solid black;
     border-bottom: 1px solid black;
+    /* font */
+    font-family: haloregular, Helvetica, sans-serif;
 }
 #board,
 .backline,
@@ -137,6 +146,7 @@ body {
 #com-deck {
     top: 5%;
     left: 2%;
+    background: no-repeat center/100% url("./assets/img/elite-card-back.png");
 }
 #com-hand {
     bottom: 90%;
@@ -177,6 +187,8 @@ body {
 #player-deck {
     bottom: 5%;
     left: 2%;
+    background: no-repeat center/100%
+        url("./assets/img/master-chief-card-back.jpg");
 }
 #player-hand {
     top: 90%;
@@ -236,21 +248,36 @@ body {
 .card {
     /* Ensure cards are always at the top so that they're interactable */
     z-index: 998;
+    /* Position */
     position: relative;
     display: inline-block;
+    /* Size */
     width: 120px;
     height: 160px;
     border: 1px solid black;
-    background: coral;
+    border-radius: 12px;
     /* For smooth transform animation defined in the next selector */
     transition: transform 0.3s ease-out;
+    /* border */
+    border-image-slice: 15 15 15 15 fill;
+    border-image-width: 0px 0px 0px 0px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: round round;
+    border-image-source: url("./assets/img/lor-card-border.png");
+    border-style: solid;
+    /* Background */
+    background-size: 112px 144px;
+    background-repeat: no-repeat;
+    background-position: 4px 8px;
+    /* Temp BG (Will be determined dynamically based on the card */
+    background-image: url("./assets/img/halo-marine.jpg");
 }
 #player .hand > .card:hover {
     transform: translate(0, -110px);
 }
 .card-action-button {
     cursor: pointer;
-    bottom: 25%;
+    bottom: 30%;
     left: 0;
     right: 0;
     margin-left: auto;
@@ -260,7 +287,8 @@ body {
     height: 10%;
 }
 .card-name {
-    bottom: 10%;
+    bottom: 15%;
+    color: white;
     /* Center text */
     left: 0;
     right: 0;
@@ -269,22 +297,46 @@ body {
     text-align: center;
 }
 .card-cost {
-    top: 0;
-    left: 0;
-    width: 10%;
-    height: 10%;
+    /* Position */
+    top: 4px;
+    left: 3px;
+    /* Size & shape */
+    width: 24px;
+    height: 24px;
+    background: rgb(3, 36, 0);
+    background: linear-gradient(
+        135deg,
+        rgba(9, 71, 3, 1) 0%,
+        rgba(38, 143, 51, 1) 49%,
+        rgba(0, 99, 14, 1) 100%
+    );
+    border-radius: 50%;
+    /* Text */
+    color: white;
+    /* Text in center */
+    text-align: center;
+    vertical-align: middle;
+    display: inline;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
 }
 .card-attack {
-    bottom: 0;
-    left: 0;
+    bottom: 10px;
+    left: 8px;
     width: 10%;
     height: 10%;
+    /* Text */
+    color: white;
 }
 .card-health {
-    bottom: 0;
-    right: 0;
+    bottom: 10px;
+    right: 10px;
     width: 10%;
     height: 10%;
+    /* Text */
+    color: white;
 }
 /* For com's cards when in hand */
 .hidden > * {
