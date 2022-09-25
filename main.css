@@ -193,14 +193,18 @@ body {
 }
 .card-action-button {
     cursor: pointer;
-    bottom: 30%;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    width: 50%;
-    height: 10%;
+    top: 10%;
+    /* left: 0; */
+    right: 10%;
+    /* margin-left: auto;
+    margin-right: auto; */
+    /* text-align: center; */
+    width: 20%;
+    height: 16%;
+    background-image: url("./assets/img/cursor-hand-click-line.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 20%;
 }
 .card-name {
     bottom: 15%;
