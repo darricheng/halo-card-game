@@ -1,3 +1,7 @@
+// Import cards for computer and player
+import playerCards from "./decks/player-cards.js";
+import comCards from "./decks/computer-cards.js";
+
 window.onload = () => {
     /*****************
      * Page Elements *
@@ -13,130 +17,8 @@ window.onload = () => {
      * Resources *
      *************/
     // Default decks
-    const defaultPlayerDeck = [
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-    ];
-    const defaultComDeck = [
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-        },
-    ];
+    const defaultPlayerDeck = playerCards;
+    const defaultComDeck = comCards;
 
     /**********
      * States *
@@ -330,10 +212,6 @@ window.onload = () => {
         for (let i = 0; i < user.hand.length; i++) {
             const cardDOM = renderCard(user.hand[i]);
             user.handDiv.append(cardDOM);
-            // Add a class of hidden for com's cards in hand
-            if (user.name === com.name) {
-                cardDOM.classList.add("hidden");
-            }
         }
     }; // renderHand
 

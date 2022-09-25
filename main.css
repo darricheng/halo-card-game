@@ -88,11 +88,6 @@ body {
     height: 70px;
     background: red;
 }
-.deck {
-    width: 100px;
-    height: 160px;
-    background: black;
-}
 .hand {
     width: 70%;
     height: 160px;
@@ -110,89 +105,6 @@ body {
 }
 .hide-cursor {
     cursor: none;
-}
-
-/************
- * Computer *
- ************/
-#com {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 49vh;
-}
-/* All com-X elements are positioned relative to #com */
-#com-token {
-    bottom: 18%;
-    right: 5%;
-}
-#com-resources {
-    bottom: 18%;
-    right: 2%;
-}
-#com-resources .current-resources {
-    bottom: 0;
-    /* Center text */
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-#com-health {
-    bottom: 10%;
-    left: 3%;
-}
-#com-deck {
-    top: 5%;
-    left: 2%;
-    background: no-repeat center/100% url("./assets/img/elite-card-back.png");
-}
-#com-hand {
-    bottom: 90%;
-    left: 15%;
-}
-
-/**********
- * Player *
- **********/
-#player {
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 49vh;
-}
-/* All player-X elements are positioned relative to #player */
-#player-token {
-    top: 18%;
-    right: 5%;
-}
-#player-resources {
-    top: 18%;
-    right: 2%;
-}
-#player-resources .current-resources {
-    bottom: 0;
-    /* Center text */
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-#player-health {
-    top: 10%;
-    left: 3%;
-}
-#player-deck {
-    bottom: 5%;
-    left: 2%;
-    background: no-repeat center/100%
-        url("./assets/img/master-chief-card-back.jpg");
-}
-#player-hand {
-    top: 90%;
-    left: 15%;
 }
 
 /*********
@@ -245,17 +157,21 @@ body {
     /* Cards in hand should always be at the topmost layer */
     z-index: 999;
 }
+.deck,
+.card {
+    /* Size */
+    width: 120px;
+    height: 160px;
+    border: 1px solid black;
+    border-radius: 12px;
+}
 .card {
     /* Ensure cards are always at the top so that they're interactable */
     z-index: 998;
     /* Position */
     position: relative;
     display: inline-block;
-    /* Size */
-    width: 120px;
-    height: 160px;
-    border: 1px solid black;
-    border-radius: 12px;
+
     /* For smooth transform animation defined in the next selector */
     transition: transform 0.3s ease-out;
     /* border */
@@ -269,7 +185,7 @@ body {
     background-size: 112px 144px;
     background-repeat: no-repeat;
     background-position: 4px 8px;
-    /* Temp BG (Will be determined dynamically based on the card */
+    /* TODO: Temp BG (Will be determined dynamically based on the card */
     background-image: url("./assets/img/halo-marine.jpg");
 }
 #player .hand > .card:hover {
@@ -338,10 +254,6 @@ body {
     /* Text */
     color: white;
 }
-/* For com's cards when in hand */
-.hidden > * {
-    visibility: hidden;
-}
 /* Hide the card action button on com's cards */
 #com .card-action-button {
     display: none;
@@ -363,4 +275,95 @@ body {
     outline: none;
     box-shadow: 0 0 10px #9ecaed;
     cursor: pointer;
+}
+
+/************
+ * Computer *
+ ************/
+#com {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 49vh;
+}
+/* All com-X elements are positioned relative to #com */
+#com-token {
+    bottom: 18%;
+    right: 5%;
+}
+#com-resources {
+    bottom: 18%;
+    right: 2%;
+}
+#com-resources .current-resources {
+    bottom: 0;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#com-health {
+    bottom: 10%;
+    left: 3%;
+}
+#com-deck {
+    top: 5%;
+    left: 2%;
+}
+/* Com's deck cover and cards in hand should look the same */
+#com-hand .hidden,
+#com-deck {
+    border: 1px solid black;
+    background: no-repeat center/100% url("./assets/img/elite-card-back.png");
+}
+.hidden > * {
+    visibility: hidden;
+}
+#com-hand {
+    bottom: 90%;
+    left: 15%;
+}
+
+/**********
+ * Player *
+ **********/
+#player {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 49vh;
+}
+/* All player-X elements are positioned relative to #player */
+#player-token {
+    top: 18%;
+    right: 5%;
+}
+#player-resources {
+    top: 18%;
+    right: 2%;
+}
+#player-resources .current-resources {
+    bottom: 0;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#player-health {
+    top: 10%;
+    left: 3%;
+}
+#player-deck {
+    bottom: 5%;
+    left: 2%;
+    background: no-repeat center/108%
+        url("./assets/img/master-chief-card-back.jpg");
+}
+#player-hand {
+    top: 90%;
+    left: 15%;
 }
