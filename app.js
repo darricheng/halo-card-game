@@ -1,6 +1,6 @@
 // Import cards for computer and player
-import playerCards from "./decks/player-cards.js";
-import comCards from "./decks/computer-cards.js";
+import playerCards from "./cards/player-cards.js";
+import comCards from "./cards/computer-cards.js";
 
 window.onload = () => {
     /*****************
@@ -197,6 +197,9 @@ window.onload = () => {
 
         // Add event listener to card button
         cardButton.addEventListener("click", cardActionButton);
+
+        // Render card bg
+        renderedCard.style.backgroundImage = `url(${card.bg})`;
 
         return renderedCard;
     }; // renderCard

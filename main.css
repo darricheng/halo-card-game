@@ -185,8 +185,6 @@ body {
     background-size: 112px 144px;
     background-repeat: no-repeat;
     background-position: 4px 8px;
-    /* TODO: Temp BG (Will be determined dynamically based on the card */
-    background-image: url("./assets/img/halo-marine.jpg");
 }
 #player .hand > .card:hover {
     transform: translate(0, -110px);
