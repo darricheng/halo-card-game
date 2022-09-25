@@ -103,7 +103,6 @@ window.onload = () => {
         // Com takes their turn
         takeTurn() {
             setTimeout(() => {
-                console.log(this);
                 // * Summon a unit
                 // Check for sufficient resources and board space, and not currently defending
                 if (
@@ -173,33 +172,38 @@ window.onload = () => {
     /**
      * Takes a card and returns a DOM Object
      * @param {Object} card The card to be rendered
+     * @param {Boolean} cardBack Whether the card to be rendered needs to be just the card back
      * @return {DOM Object}
      */
-    const renderCard = (card) => {
+    const renderCard = (card, cardBack = false) => {
         // Clone the template to a variable
         const renderedCard =
             cardTemplate.content.firstElementChild.cloneNode(true);
-        // Get the inner divs of the new rendered card
-        const cardName = renderedCard.querySelector(".card-name");
-        const cardCost = renderedCard.querySelector(".card-cost");
-        const cardAttack = renderedCard.querySelector(".card-attack");
-        const cardHealth = renderedCard.querySelector(".card-health");
+
+        // Get the inner div of the card button
         const cardButton = renderedCard.querySelector(".card-action-button");
-
-        // Assign the card values to the respective divs
-        cardName.innerHTML = card.name;
-        cardCost.innerHTML = card.cost;
-        cardAttack.innerHTML = card.attack;
-        cardHealth.innerHTML = card.health;
-
-        // Add a unique ID to the card
-        renderedCard.setAttribute("card-id", card.id);
-
         // Add event listener to card button
         cardButton.addEventListener("click", cardActionButton);
 
-        // Render card bg
-        renderedCard.style.backgroundImage = `url(${card.bg})`;
+        // If it's not just rendering the card back
+        if (!cardBack) {
+            // Get inner divs of the card details
+            const cardName = renderedCard.querySelector(".card-name");
+            const cardCost = renderedCard.querySelector(".card-cost");
+            const cardAttack = renderedCard.querySelector(".card-attack");
+            const cardHealth = renderedCard.querySelector(".card-health");
+            // Assign the card values to the respective divs
+            cardName.innerHTML = card.name;
+            cardCost.innerHTML = card.cost;
+            cardAttack.innerHTML = card.attack;
+            cardHealth.innerHTML = card.health;
+
+            // Render card bg
+            renderedCard.style.backgroundImage = `url(${card.bg})`;
+        }
+
+        // Add a unique ID to the card
+        renderedCard.setAttribute("card-id", card.id);
 
         return renderedCard;
     }; // renderCard
@@ -212,8 +216,14 @@ window.onload = () => {
         // Empty the hand
         user.handDiv.textContent = "";
         // Render the hand
+        // TODO: Make it such that the com's cards will render the card back
         for (let i = 0; i < user.hand.length; i++) {
-            const cardDOM = renderCard(user.hand[i]);
+            let cardDOM;
+            if (user.name === com.name) {
+                cardDOM = renderCard(user.hand[i], true);
+            } else {
+                cardDOM = renderCard(user.hand[i]);
+            }
             user.handDiv.append(cardDOM);
         }
     }; // renderHand

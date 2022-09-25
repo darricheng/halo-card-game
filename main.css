@@ -315,7 +315,7 @@ body {
     left: 2%;
 }
 /* Com's deck cover and cards in hand should look the same */
-#com-hand .hidden,
+#com-hand .card,
 #com-deck {
     border: 1px solid black;
     background: no-repeat center/100% url("./assets/img/elite-card-back.png");

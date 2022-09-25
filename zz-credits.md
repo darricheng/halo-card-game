@@ -10,5 +10,7 @@
     [Halo Alpha](https://halo.fandom.com/wiki/Legendary)
 -   lor-card-border.png
     [creative-runeterra](https://creative-runeterra.netlify.app/)
--       halo-marine.jpg
+-   halo-marine.jpg
     [405th](https://www.405th.com/forums/threads/eggs-noob-h1-marine.18387/)
+-   grunt-major.webp
+    [alients fandom](https://aliens.fandom.com/wiki/Unggoy)
