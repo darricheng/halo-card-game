@@ -348,6 +348,23 @@ window.onload = () => {
         user.healthDiv.innerHTML = user.health;
     }; // renderHealth
 
+    /**
+     * Updates the attack token of the indicated user
+     * @param {Object} user User who's attack token needs to be updated
+     */
+    const renderAttackToken = (user) => {
+        // Render attack token
+        if (user.attackToken) {
+            const tokenImg = document.createElement("div");
+            tokenImg.classList.add("weapon");
+            user.tokenDiv.append(tokenImg);
+        }
+        // Remove the attack token
+        else {
+            user.tokenDiv.textContent = "";
+        }
+    };
+
     // TODO: Disable and enable card action button to summon unit
     // To be used when declaring blockers
     // And also when opponent's turn
@@ -750,6 +767,9 @@ window.onload = () => {
      * @param {Object} attacker The user that is attacking
      */
     const declareAttackers = (attacker) => {
+        // Set attack token accordingly
+        attacker.attackToken = false;
+        renderAttackToken(attacker);
         // Declare the defender variable
         let defender;
         // Set the relevant battle states & assign the relevant user object to defender
@@ -940,7 +960,14 @@ window.onload = () => {
             player.turn = false;
             com.turn = true;
             showHideCursor(false);
-            // Com takes turn first
+        }
+
+        // Render attack tokens
+        renderAttackToken(player);
+        renderAttackToken(com);
+
+        if (com.turn) {
+            // Com takes turn
             com.takeTurn();
         }
     }; // advanceRound

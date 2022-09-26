@@ -13,6 +13,8 @@ html,
 body {
     height: 100%;
     overflow: hidden;
+    /* font */
+    font-family: haloregular, Helvetica, sans-serif;
 }
 /* Set the screen to not scroll */
 #container {
@@ -20,9 +22,6 @@ body {
     height: 98vh;
     /* Mark out the container */
     border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    /* font */
-    font-family: haloregular, Helvetica, sans-serif;
 }
 #board,
 .backline,
@@ -34,6 +33,7 @@ body {
 .health,
 .resources,
 .token,
+.weapon,
 #game-button,
 #game-message,
 .card-name,
@@ -76,8 +76,38 @@ body {
 .token {
     width: 64px;
     height: 64px;
-    background: orange;
+    background: no-repeat center/100% url("./assets/img/weapon-pad.png");
 }
+/* The weapon class is assigned to a div, to show when a user has the attack token */
+.weapon {
+    top: -18px;
+    left: -18px;
+    width: 100px;
+    height: 100px;
+    background: no-repeat center/100% url("./assets/img/battle-rifle.png");
+    /* transform: scaleX(-1) rotate(-30deg); */
+    /* Floating animation */
+    -webkit-animation: action 1s infinite alternate;
+    animation: action 1s infinite alternate;
+}
+/* For weapon floating animation */
+@-webkit-keyframes action {
+    0% {
+        transform: translateY(-36px);
+    }
+    100% {
+        transform: translateY(-48px);
+    }
+}
+@keyframes action {
+    0% {
+        transform: translateY(-36px);
+    }
+    100% {
+        transform: translateY(-48px);
+    }
+}
+/* For weapon floating animation END */
 .resources {
     width: 20px;
     height: 256px;
@@ -91,7 +121,6 @@ body {
 .hand {
     width: 1220px;
     height: 160px;
-    background: gray;
     /* Flex box */
     display: flex;
     justify-content: center;

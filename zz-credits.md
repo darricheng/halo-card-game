@@ -14,3 +14,5 @@
     [405th](https://www.405th.com/forums/threads/eggs-noob-h1-marine.18387/)
 -   grunt-major.webp
     [alients fandom](https://aliens.fandom.com/wiki/Unggoy)
+-   weapon-pad.png
+    [reddit](https://www.reddit.com/r/halo/comments/ov26kg/did_you_know_weapon_pads_have_built_in_timers/)
