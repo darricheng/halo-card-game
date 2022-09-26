@@ -82,6 +82,11 @@ body {
     height: 100px;
     background: green;
     cursor: pointer;
+    border: outset darkgray;
+    border-radius: 50%;
+}
+#game-button:hover {
+    background: darkgreen;
 }
 #game-message {
     z-index: 999;
