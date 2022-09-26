@@ -6,6 +6,12 @@ window.onload = () => {
     /*****************
      * Page Elements *
      *****************/
+    // Start Screen
+    const startScreen = document.querySelector("#start-screen");
+    const campaignButton = document.querySelector("#campaign-button");
+    const tutorialButton = document.querySelector("tutorial-button");
+
+    // Game
     const containerDiv = document.querySelector("#container");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
@@ -216,7 +222,6 @@ window.onload = () => {
         // Empty the hand
         user.handDiv.textContent = "";
         // Render the hand
-        // TODO: Make it such that the com's cards will render the card back
         for (let i = 0; i < user.hand.length; i++) {
             let cardDOM;
             if (user.name === com.name) {
@@ -383,6 +388,10 @@ window.onload = () => {
         // If it's opponent's turn
         else if (!player.turn) {
             gameButtonDiv.textContent = "OPPONENT TURN";
+        }
+        // If com passed
+        else if (com.passCounter) {
+            gameButtonDiv.textContent = "END ROUND";
         }
         // If player hasn't taken any action, i.e. can pass
         else {
@@ -644,15 +653,20 @@ window.onload = () => {
          * @param {Event} e
          */
         const defDivEventListener = (e) => {
+            // Remove the text from all def divs
+            for (let i = 0; i < emptyDefDivs.length; i++) {
+                emptyDefDivs[i].textContent = "";
+            }
             // Remove the cardDOM from the backline, add the cardDOM to the selected def div
             const selectedDefDiv = e.currentTarget;
             selectedCardDOM.remove();
             selectedDefDiv.append(renderCard(selectedCardObj));
 
             // Remove the listeners and clickable-def-slot class for all defDivs
-            for (let j = 0; j < emptyDefDivs.length; j++) {
-                emptyDefDivs[j].classList.remove("clickable-def-slot");
-                emptyDefDivs[j].removeEventListener(
+            for (let i = 0; i < emptyDefDivs.length; i++) {
+                // emptyDefDivs[i].textContent = "";
+                emptyDefDivs[i].classList.remove("clickable-def-slot");
+                emptyDefDivs[i].removeEventListener(
                     "click",
                     defDivEventListener
                 );
@@ -664,6 +678,8 @@ window.onload = () => {
             emptyDefDivs[i].classList.add("clickable-def-slot");
             // Add event listener to the empty def divs
             emptyDefDivs[i].addEventListener("click", defDivEventListener);
+            // Add instruction text to the def slot
+            emptyDefDivs[i].textContent = "CLICK TO DEFEND HERE";
         }
     }; // addCardToDefDiv
 
@@ -945,6 +961,9 @@ window.onload = () => {
         // Clear the defender's frontline of def divs.
         defender.frontlineDiv.textContent = "";
 
+        // Render the game button text accordingly
+        renderGameButtonText();
+
         // Check whether the defender is still alive
         if (defender.health <= 0) {
             return endTheGame(defender);
@@ -1034,14 +1053,34 @@ window.onload = () => {
 
     /* Game Management Functions */
 
+    /****************
+     * Start Screen *
+     ****************/
+    /**
+     * Starts the game when the campaign button on the home screen is clicked
+     */
+    const startCampaign = () => {
+        startScreen.style.display = "none";
+        containerDiv.style.display = "block";
+        init();
+        gameStart();
+    };
+
+    /**
+     * Shows the tutorial for the game
+     */
+    const showTutorial = () => {};
+
     /*******************
      * Event Listeners *
      *******************/
     gameButtonDiv.addEventListener("click", () => hitGameButton(player));
+    campaignButton.addEventListener("click", startCampaign);
+    tutorialButton.addEventListener("click", showTutorial);
 
     /****************
      * Run the game *
      ****************/
-    init();
-    gameStart();
+    // init();
+    // gameStart();
 };

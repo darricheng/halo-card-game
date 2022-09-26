@@ -34,12 +34,13 @@ body {
     font-family: haloregular, Helvetica, sans-serif;
 }
 /* Set the screen to not scroll */
-#container {
+#container,
+#start-screen {
     position: relative;
     height: 98vh;
     /* background: no-repeat center/100% url("./assets/img/halo-ring-bg.jpg"); */
     /* Mark out the container */
-    border-top: 1px solid black;
+    /* border-top: 1px solid black; */
 }
 /* #bg-video {
     width: 100%;
@@ -71,9 +72,59 @@ body {
     position: absolute;
 }
 
-/***********
- * General *
- ***********/
+/****************
+ * Start Screen *
+ ****************/
+@font-face {
+    font-family: "handel-gothic";
+    src: url("/assets/fonts/handel-gothic.woff2") format("woff2"),
+        url("/assets/fonts/handel-gothic.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+#container {
+    /* Hide the game container on the start screen */
+    display: none;
+}
+#start-screen {
+    /* display: none; */
+    background: no-repeat center/100% url("./assets/img/halo-ring-bg.jpg");
+}
+#start-screen * {
+    position: absolute;
+}
+#start-screen #logo {
+    top: 200px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 80%;
+}
+.menu-item {
+    font-family: handel-gothic, Helvetica, sans-serif;
+    font-size: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(64, 145, 207, 0.6);
+}
+.menu-item:hover {
+    cursor: pointer;
+    color: #fff;
+    text-shadow: 10px 0 16px rgb(64, 145, 207);
+}
+#campaign-button {
+    top: 500px;
+    left: calc((100% - 360px) / 2);
+}
+#tutorial-button {
+    top: 580px;
+    left: calc((100% - 327px) / 2);
+}
+
+/****************
+ * Game General *
+ ****************/
 #game-button {
     z-index: 9999;
     top: calc(50% - 100px / 2);
@@ -382,6 +433,11 @@ body {
     outline: none;
     box-shadow: 0 0 10px #9ecaed;
     cursor: pointer;
+    /* Text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 /************

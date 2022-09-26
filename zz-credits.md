@@ -28,3 +28,5 @@
     [Deviant Art: ToraiinXamikaze](https://www.deviantart.com/toraiinxamikaze/art/Halo-2-Phantom-Dropship-242912114)
 -   board-bg.jpg
     [Deviant Art: Tardifice](https://www.deviantart.com/tardifice/art/Forge-World-Halo-Reach-438580339)
+-   halo-logo.png
+    [Logopedia](<https://logos.fandom.com/wiki/Halo_(video_game_series)>)
