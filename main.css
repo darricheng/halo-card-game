@@ -40,6 +40,7 @@ body {
 #board,
 .backline,
 .frontline,
+#battle-zone,
 #com,
 #player,
 .deck,
@@ -182,18 +183,33 @@ body {
 /*********
  * Board *
  *********/
-/* Might be needed for future drag & drop stuff */
-/* #board {
+#board {
     top: 10%;
-    left: 10%;
-    width: 80%;
+    left: calc((100% - 740px) / 2);
+    width: 740px;
     height: 80%;
-} */
+    background: no-repeat center/100% url("./assets/img/board-bg.jpg");
+    background-size: cover;
+    border: 2px solid darkgreen;
+    border-radius: 12px;
+}
+#battle-zone {
+    top: 30%;
+    left: calc((100% - 740px) / 2);
+    width: 740px;
+    height: 40%;
+    background-color: rgba(116, 21, 21, 0.2);
+    border: 4px dashed rgba(177, 27, 27, 0.7);
+    color: rgba(177, 27, 27, 0.9);
+    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .backline {
     left: calc((100% - 740px) / 2);
     width: 740px;
     height: 40%;
-    background: darkcyan;
     /* Flex box */
     display: flex;
     justify-content: center;
@@ -208,7 +224,6 @@ body {
     left: calc((100% - 740px) / 2);
     width: 740px;
     height: 40%;
-    background: yellowgreen;
     /* Flex box */
     display: flex;
     justify-content: center;
