@@ -292,7 +292,7 @@ body {
     background-position: 4px 8px;
 }
 #player .hand > .card:hover {
-    transform: translate(0, -100px);
+    transform: translate(0, -54px);
 }
 .card-action-button {
     cursor: pointer;
@@ -485,7 +485,7 @@ body {
         url("./assets/img/master-chief-card-back.jpg");
 }
 #player-hand {
-    top: 90%;
+    top: 80%;
     left: calc((100% - 1220px) / 2);
 }
 #pelican {
