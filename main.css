@@ -17,9 +17,17 @@
     font-weight: normal;
     font-style: normal;
 }
-/* Lock scroll, but allow rendering outside of screen */
+html {
+    box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
 html,
 body {
+    /* Lock scroll, but allow rendering outside of screen */
     height: 100%;
     overflow: hidden;
     /* font */
@@ -76,7 +84,6 @@ body {
     cursor: pointer;
 }
 #game-message {
-    box-sizing: border-box;
     z-index: 999;
     top: 5%;
     right: 2%;
@@ -272,7 +279,7 @@ body {
     background-position: 4px 8px;
 }
 #player .hand > .card:hover {
-    transform: translate(0, -110px);
+    transform: translate(0, -100px);
 }
 .card-action-button {
     cursor: pointer;
