@@ -2,9 +2,18 @@
  * Base CSS *
  ************/
 @font-face {
+    /* Halo font */
     font-family: "haloregular";
     src: url("./assets/fonts/halo-webfont.woff2") format("woff2"),
         url("./assets/fonts/halo-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    /* Digital font */
+    font-family: "ds-digitalnormal";
+    src: url("./assets/fonts/ds-digi-webfont.woff2") format("woff2"),
+        url("./assets/fonts/ds-digi-webfont.woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
@@ -58,26 +67,33 @@ body {
 #game-button {
     z-index: 9999;
     top: calc(50% - 100px / 2);
-    right: 2%;
+    left: 20%;
     width: 100px;
     height: 100px;
     background: green;
     cursor: pointer;
 }
 #game-message {
+    box-sizing: border-box;
     z-index: 999;
-    bottom: 49%;
-    /* Center text */
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    top: 5%;
+    right: 2%;
+    width: 400px;
+    height: 90%;
+    border: 4px solid #19e40e;
+    border-radius: 24px;
+    padding: 24px;
+    background: #0a1e05;
     text-align: center;
-    width: 60%;
-    height: 4%;
-    border: 1px solid black;
-    background: white;
+    overflow: scroll;
+    /* Font */
+    font-family: ds-digitalnormal;
     font-size: 24px;
+    color: #00a000;
+}
+#game-message ol {
+    text-align: left;
+    line-height: 36px;
 }
 .token {
     width: 64px;
@@ -340,12 +356,12 @@ body {
 }
 /* All com-X elements are positioned relative to #com */
 #com-token {
-    bottom: 18%;
-    right: 5%;
+    bottom: 16%;
+    left: 22%;
 }
 #com-resources {
-    bottom: 18%;
-    right: 2%;
+    bottom: 10%;
+    left: 12%;
 }
 #com-resources .current-resources {
     bottom: 0;
@@ -392,12 +408,12 @@ body {
 }
 /* All player-X elements are positioned relative to #player */
 #player-token {
-    top: 18%;
-    right: 5%;
+    top: 24%;
+    left: 22%;
 }
 #player-resources {
-    top: 18%;
-    right: 2%;
+    top: 8%;
+    left: 12%;
 }
 #player-resources .current-resources {
     bottom: 0;

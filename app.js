@@ -9,7 +9,7 @@ window.onload = () => {
     const containerDiv = document.querySelector("#container");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
-    const gameMessageDiv = document.querySelector("#game-message");
+    const gameMessages = document.querySelector("#game-message ol");
     // Card
     const cardTemplate = document.querySelector("#card-template");
 
@@ -309,8 +309,10 @@ window.onload = () => {
      * @param {String} msg
      */
     const printMessage = (msg) => {
-        gameMessageDiv.innerHTML = msg;
-        setTimeout(() => (gameMessageDiv.innerHTML = ""), 2500);
+        const newMsg = document.createElement("li");
+        newMsg.textContent = msg;
+        console.log(gameMessages);
+        gameMessages.append(newMsg);
     }; // printMessage
 
     /**
