@@ -22,3 +22,7 @@
     [Halo Alpha](https://halo.fandom.com/wiki/Prophet_of_Regret)
 -   halo-ring-bg.jpg
     [Halopedia](https://www.halopedia.org/Installation_04)
+-   pelican.png
+    [pngkey](https://www.pngkey.com/maxpic/u2q8e6w7u2i1a9o0/)
+-   phantom-dropship.png
+    [Deviant Art: ToraiinXamikaze](https://www.deviantart.com/toraiinxamikaze/art/Halo-2-Phantom-Dropship-242912114)
