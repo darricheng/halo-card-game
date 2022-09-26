@@ -17,6 +17,10 @@
 </head>
 <body>
 <div id="container">
+	<!-- Video background -->
+	<!-- <video id="bg-video" controls preload="true" autoplay loop muted>
+		<source src="./assets/img/animated-bg.mp4" type="video/mp4"/>
+	</video> -->
 	<!-- boardDiv: Might be needed for future drag & drop stuff -->
 	<!-- <div id="board"></div> -->
 	<!-- boardDiv end -->
@@ -24,7 +28,10 @@
 	<div id="com">
 		<div class="deck" id="com-deck"></div>
 		<div class="hand" id="com-hand"></div>
-		<div class="health" id="com-health"></div>
+		<div class="health">
+			<div id="com-health"></div>
+			<div class="health-avatar" id="prophet"></div>
+		</div>
 		<div class="token" id="com-token"></div>
 		<div class="backline" id="com-backline"></div>
 		<div class="frontline" id="com-frontline"></div>
@@ -49,7 +56,10 @@
 	<div id="player">
 		<div class="deck" id="player-deck"></div>
 		<div class="hand" id="player-hand"></div>
-		<div class="health" id="player-health"></div>
+		<div class="health">
+			<div id="player-health"></div>
+			<div class="health-avatar" id="cortana"></div>
+		</div>
 		<div class="token" id="player-token"></div>
 		<div class="backline" id="player-backline"></div>
 		<div class="frontline" id="player-frontline"></div>
