@@ -77,13 +77,19 @@ body {
 #game-button {
     z-index: 9999;
     top: calc(50% - 100px / 2);
-    left: 20%;
-    width: 100px;
-    height: 100px;
+    left: 18%;
+    width: 120px;
+    height: 120px;
     background: green;
     cursor: pointer;
     border: outset darkgray;
     border-radius: 12px;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #game-button:hover {
     background: darkgreen;
@@ -124,7 +130,6 @@ body {
     width: 100px;
     height: 100px;
     background: no-repeat center/100% url("./assets/img/battle-rifle.png");
-    /* transform: scaleX(-1) rotate(-30deg); */
     /* Floating animation */
     -webkit-animation: action 1s infinite alternate;
     animation: action 1s infinite alternate;

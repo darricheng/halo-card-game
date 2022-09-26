@@ -266,13 +266,15 @@ window.onload = () => {
             player.turn = false;
             com.turn = true;
             showHideCursor(false);
-            // Com's turn
-            return com.takeTurn();
         } else {
             player.turn = true;
             com.turn = false;
             showHideCursor(true);
-            return;
+        }
+        // Render the game button text
+        renderGameButtonText();
+        if (com.turn) {
+            return com.takeTurn();
         }
     }; // toggleTurn
 
@@ -364,7 +366,29 @@ window.onload = () => {
         else {
             user.tokenDiv.textContent = "";
         }
-    };
+    }; // renderAttackToken
+
+    /**
+     * Updates the text in the game button accordingly for the player
+     */
+    const renderGameButtonText = () => {
+        // If player is preparing to attack
+        if (player.frontline.length > 0) {
+            gameButtonDiv.textContent = "ATTACK";
+        }
+        // If player is defending an attack
+        else if (player.isDefending) {
+            gameButtonDiv.textContent = "DECLARE BLOCKERS";
+        }
+        // If it's opponent's turn
+        else if (!player.turn) {
+            gameButtonDiv.textContent = "OPPONENT TURN";
+        }
+        // If player hasn't taken any action, i.e. can pass
+        else {
+            gameButtonDiv.textContent = "PASS";
+        }
+    }; // renderGameButtonText
 
     // TODO: Disable and enable card action button to summon unit
     // To be used when declaring blockers
@@ -533,6 +557,9 @@ window.onload = () => {
         // Add selected card to frontline
         user.frontline.push(selectedCardObj);
 
+        // Render the game button text
+        renderGameButtonText();
+
         // Render the DOM accordingly
         renderBackline(user);
         renderFrontline(user);
@@ -557,6 +584,9 @@ window.onload = () => {
         }
         // Add selected card to backline
         user.backline.push(selectedCardObj);
+
+        // Render the game button text
+        renderGameButtonText();
 
         // Render the DOM accordingly
         renderFrontline(user);
@@ -734,7 +764,6 @@ window.onload = () => {
      * @param {Object} user The user object that hits the game button
      */
     const hitGameButton = (user) => {
-        console.log(user);
         /** Actions that a user can take:
          * Summon a unit (Turn taken care of by action of summoning)
          * Declare an attack
@@ -976,6 +1005,9 @@ window.onload = () => {
             com.turn = true;
             showHideCursor(false);
         }
+
+        // Render the game button text
+        renderGameButtonText();
 
         // Render attack tokens
         renderAttackToken(player);
