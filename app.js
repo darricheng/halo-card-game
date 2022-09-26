@@ -311,7 +311,6 @@ window.onload = () => {
     const printMessage = (msg) => {
         const newMsg = document.createElement("li");
         newMsg.textContent = msg;
-        console.log(gameMessages);
         gameMessages.append(newMsg);
     }; // printMessage
 
@@ -385,15 +384,17 @@ window.onload = () => {
      * @param {Number} num
      */
     const draw = (user, num = 1) => {
-        for (let i = 0; i < num; i++) {
-            // Remove top card from deck (end of array)
-            const drawnCard = user.deck.pop();
-            // Only push card into hand if user has < 10 cards
-            if (user.hand.length < 10) {
-                // Push drawn card to end of hand
-                user.hand.push(drawnCard);
+        if (user.deck.length > 0) {
+            for (let i = 0; i < num; i++) {
+                // Remove top card from deck (end of array)
+                const drawnCard = user.deck.pop();
+                // Only push card into hand if user has < 10 cards
+                if (user.hand.length < 10) {
+                    // Push drawn card to end of hand
+                    user.hand.push(drawnCard);
+                }
+                // TODO: Add an else statement to burn cards + animation
             }
-            // TODO: Add an else statement to burn cards + animation
         }
         renderHand(user);
     }; // draw
@@ -733,6 +734,7 @@ window.onload = () => {
      * @param {Object} user The user object that hits the game button
      */
     const hitGameButton = (user) => {
+        console.log(user);
         /** Actions that a user can take:
          * Summon a unit (Turn taken care of by action of summoning)
          * Declare an attack
@@ -741,10 +743,7 @@ window.onload = () => {
          */
         // If user has placed at least one unit in the frontline, declare an attack
         if (user.frontline.length > 0) {
-            // Reset the pass counters since an action was taken
-            resetPassCounters();
-            // Set attack token to false
-            user.attackToken = false;
+            printMessage(`${user.name} is declaring an attack`);
             // Enter the battle sequence
             return declareAttackers(user);
         }
@@ -756,11 +755,11 @@ window.onload = () => {
 
         // Pass the turn if user took no action
         user.passCounter = true;
+        printMessage(`${user.name} has passed`);
         // If both players passed, advance to a new round
         if (player.passCounter && com.passCounter) {
             return advanceRound();
         }
-        printMessage(`${user.name} has passed`);
         return toggleTurn(user);
     }; // hitGameButton
 
@@ -769,6 +768,8 @@ window.onload = () => {
      * @param {Object} attacker The user that is attacking
      */
     const declareAttackers = (attacker) => {
+        // Reset the pass counters since an action was taken
+        resetPassCounters();
         // Set attack token accordingly
         attacker.attackToken = false;
         renderAttackToken(attacker);
@@ -857,6 +858,7 @@ window.onload = () => {
         }
 
         // Do the necessary calculations for the units and the defender's health
+        let totalDmg = 0;
         for (let i = 0; i < unitsInBattle.length; i++) {
             // Resolve the combat for the two units. If unit died, change atk/def to null.
             if (unitsInBattle[i].def) {
@@ -867,6 +869,8 @@ window.onload = () => {
             // If the def property is null, deal the atk's attack to the defender's health
             else {
                 defender.health -= unitsInBattle[i].atk.attack;
+                // Add up the total damage for printing
+                totalDmg += unitsInBattle[i].atk.attack;
             }
 
             // Shift the alive units back to the respective backline arrays.
@@ -879,6 +883,15 @@ window.onload = () => {
                 defender.backline.push(unitsInBattle[i].def);
             }
         }
+
+        // Print message accordingly
+        let msg = "Battle resolved, ";
+        if (totalDmg > 0) {
+            msg += `${defender.name} got hit for ${totalDmg} damage`;
+        } else {
+            msg += `${defender.name} took no damage`;
+        }
+        printMessage(msg);
 
         // Set the summon count accordingly
         attacker.summonCount = attacker.backline.length;

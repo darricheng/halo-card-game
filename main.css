@@ -83,10 +83,13 @@ body {
     background: green;
     cursor: pointer;
     border: outset darkgray;
-    border-radius: 50%;
+    border-radius: 12px;
 }
 #game-button:hover {
     background: darkgreen;
+}
+#game-button:active {
+    border: inset;
 }
 #game-message {
     z-index: 999;
