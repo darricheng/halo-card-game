@@ -1,30 +1,81 @@
 /************
  * Base CSS *
  ************/
-/* Lock scroll, but allow rendering outside of screen */
+@font-face {
+    /* Halo font */
+    font-family: "haloregular";
+    src: url("./assets/fonts/halo-webfont.woff2") format("woff2"),
+        url("./assets/fonts/halo-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    /* Digital font */
+    font-family: "ds-digitalnormal";
+    src: url("./assets/fonts/ds-digi-webfont.woff2") format("woff2"),
+        url("./assets/fonts/ds-digi-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    /* Start screen font */
+    font-family: "handel-gothic";
+    src: url("./assets/fonts/handel-gothic.woff2") format("woff2"),
+        url("./assets/fonts/handel-gothic.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    /* Tutorial text font */
+    font-family: "conduit_itcmedium";
+    src: url("./assets/fonts/conduit_itc_medium1-webfont.woff2") format("woff2"),
+        url("./assets/fonts/conduit_itc_medium1-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
 html,
 body {
+    /* Lock scroll, but allow rendering outside of screen */
     height: 100%;
     overflow: hidden;
+    /* font */
+    font-family: haloregular, Helvetica, sans-serif;
 }
 /* Set the screen to not scroll */
-#container {
+#container,
+#start-screen {
     position: relative;
     height: 98vh;
+    /* background: no-repeat center/100% url("./assets/img/halo-ring-bg.jpg"); */
     /* Mark out the container */
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    /* border-top: 1px solid black; */
 }
+/* #bg-video {
+    width: 100%;
+    height: 100%;
+} */
 #board,
 .backline,
 .frontline,
+#battle-zone,
 #com,
 #player,
 .deck,
 .hand,
 .health,
+.health-avatar,
 .resources,
 .token,
+.weapon,
 #game-button,
 #game-message,
 .card-name,
@@ -32,62 +83,244 @@ body {
 .card-attack,
 .card-health,
 .card-action-button,
-.current-resources {
+.current-resources,
+.aesthetics {
     /* All except class="card" are absolute */
     position: absolute;
 }
+.halo-ce-button {
+    width: 200px;
+    height: 32px;
+    border: 3px solid rgb(44, 151, 250);
+    border-radius: 16px;
+    background: rgb(3, 49, 95);
+    color: white;
+    /* Center text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.halo-ce-button:hover {
+    cursor: pointer;
+    border-color: rgb(223, 235, 247);
+    box-shadow: 0 0 4px 0 rgb(223, 235, 247);
+}
 
-/***********
- * General *
- ***********/
+/****************
+ * Start Screen *
+ ****************/
+#container {
+    /* Hide the game container on the start screen */
+    display: none;
+}
+#start-screen {
+    background: no-repeat center/100% url("./assets/img/halo-ring-bg.jpg");
+}
+#start-screen * {
+    position: absolute;
+}
+#start-screen #logo {
+    top: 200px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 80%;
+}
+.menu-item {
+    font-family: handel-gothic, Helvetica, sans-serif;
+    font-size: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(51, 151, 250, 0.6);
+}
+.menu-item:hover {
+    cursor: pointer;
+    color: #fff;
+    text-shadow: 10px 0 16px rgb(51, 151, 250);
+}
+#campaign-button {
+    top: 500px;
+    left: calc((100% - 360px) / 2);
+}
+#home-tutorial-button {
+    top: 580px;
+    left: calc((100% - 327px) / 2);
+}
+
+/************
+ * Tutorial *
+ ************/
+#tutorial {
+    z-index: 10000;
+    display: none;
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    font-family: handel-gothic, Helvetica, sans-serif;
+    width: 80%;
+    height: 90%;
+    background: linear-gradient(rgba(22, 66, 110, 0.8), rgba(0, 0, 0, 0.8));
+    border: 4px solid rgb(51, 151, 250);
+    border-radius: 24px;
+    padding: 12px 36px;
+    color: rgb(44, 151, 250);
+    overflow: scroll;
+}
+#close-tutorial-button {
+    /* Make close button remain at top-right */
+    position: sticky;
+    top: 24px;
+    margin-left: 80%;
+}
+md-block {
+    font-family: conduit_itcmedium, Helvetica, sans-serif;
+}
+md-block h1 {
+    margin-top: 0;
+    font-size: 48px;
+}
+md-block h2 {
+    font-size: 40px;
+}
+md-block h3 {
+    font-size: 42px;
+}
+md-block p,
+md-block ul {
+    font-size: 20px;
+}
+md-block img {
+    max-width: 100%;
+}
+
+/****************
+ * Game General *
+ ****************/
+#container {
+    background: linear-gradient(rgba(22, 66, 110, 0.7), rgba(0, 0, 0, 0.7)),
+        no-repeat center/100% url("./assets/img/halo-ring-bg.jpg");
+}
+#game-tutorial-button {
+    z-index: 9999;
+    position: absolute;
+    top: 24px;
+    right: 128px;
+    font-family: handel-gothic, Helvetica, sans-serif;
+}
 #game-button {
     z-index: 9999;
     top: calc(50% - 100px / 2);
-    right: 2%;
-    width: 100px;
-    height: 100px;
+    left: 18%;
+    width: 120px;
+    height: 120px;
     background: green;
     cursor: pointer;
+    border: outset darkgray;
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: handel-gothic, Helvetica, sans-serif;
+}
+#game-button:hover {
+    background: darkgreen;
+}
+#game-button:active {
+    border: inset;
 }
 #game-message {
     z-index: 999;
-    bottom: 49%;
-    /* Center text */
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    top: 80px;
+    right: 2%;
+    width: 400px;
+    height: 85%;
+    border: 4px solid #19e40e;
+    border-radius: 24px;
+    padding: 24px;
+    background: #0a1e05;
     text-align: center;
-    width: 60%;
-    height: 4%;
-    border: 1px solid black;
-    background: white;
+    overflow: scroll;
+    /* Font */
+    font-family: ds-digitalnormal;
     font-size: 24px;
+    color: #00a000;
+}
+#game-message ol {
+    text-align: left;
+    line-height: 36px;
 }
 .token {
     width: 64px;
     height: 64px;
-    background: orange;
+    background: no-repeat center/100% url("./assets/img/weapon-pad.png");
 }
+/* The weapon class is assigned to a div, to show when a user has the attack token */
+.weapon {
+    top: -18px;
+    left: -18px;
+    width: 100px;
+    height: 100px;
+    background: no-repeat center/100% url("./assets/img/battle-rifle.png");
+    /* Floating animation */
+    -webkit-animation: action 1s infinite alternate;
+    animation: action 1s infinite alternate;
+}
+/* For weapon floating animation */
+@-webkit-keyframes action {
+    0% {
+        transform: translateY(-36px);
+    }
+    100% {
+        transform: translateY(-48px);
+    }
+}
+@keyframes action {
+    0% {
+        transform: translateY(-36px);
+    }
+    100% {
+        transform: translateY(-48px);
+    }
+}
+/* For weapon floating animation END */
 .resources {
     width: 20px;
     height: 256px;
     background: lightblue;
 }
 .health {
-    width: 70px;
-    height: 70px;
-    background: red;
+    width: 64px;
+    height: 32px;
+    background: lightblue;
+    border: 1px solid blue;
+    border-radius: 12px;
+    font-size: 24px;
+    /* Text in center */
+    text-align: center;
+    vertical-align: middle;
+    display: inline;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    font-family: handel-gothic, Helvetica, sans-serif;
 }
-.deck {
+.health-avatar {
+    top: -160px;
+    left: -20px;
     width: 100px;
     height: 160px;
-    background: black;
 }
 .hand {
-    width: 70%;
+    width: 1220px;
     height: 160px;
-    background: gray;
+    /* Flex box */
+    display: flex;
+    justify-content: center;
 }
 .resource-bar {
     width: 80%;
@@ -99,122 +332,63 @@ body {
 .hide-cursor {
     cursor: none;
 }
-
-/************
- * Computer *
- ************/
-#com {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 49vh;
-}
-/* All com-X elements are positioned relative to #com */
-#com-token {
-    bottom: 18%;
-    right: 5%;
-}
-#com-resources {
-    bottom: 18%;
-    right: 2%;
-}
-#com-resources .current-resources {
-    bottom: 0;
-    /* Center text */
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-#com-health {
-    bottom: 10%;
-    left: 3%;
-}
-#com-deck {
-    top: 5%;
-    left: 2%;
-}
-#com-hand {
-    bottom: 90%;
-    left: 15%;
-}
-
-/**********
- * Player *
- **********/
-#player {
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 49vh;
-}
-/* All player-X elements are positioned relative to #player */
-#player-token {
-    top: 18%;
-    right: 5%;
-}
-#player-resources {
-    top: 18%;
-    right: 2%;
-}
-#player-resources .current-resources {
-    bottom: 0;
-    /* Center text */
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-#player-health {
-    top: 10%;
-    left: 3%;
-}
-#player-deck {
-    bottom: 5%;
-    left: 2%;
-}
-#player-hand {
-    top: 90%;
-    left: 15%;
+.aesthetics {
+    z-index: 0;
 }
 
 /*********
  * Board *
  *********/
-/* Might be needed for future drag & drop stuff */
-/* #board {
+#board {
     top: 10%;
-    left: 10%;
-    width: 80%;
+    left: calc((100% - 740px) / 2);
+    width: 740px;
     height: 80%;
-} */
-.backline {
-    width: 80%;
+    background: no-repeat center/100% url("./assets/img/board-bg.jpg");
+    background-size: cover;
+    border: 2px solid darkgreen;
+    border-radius: 12px;
+}
+#battle-zone {
+    top: 30%;
+    left: calc((100% - 740px) / 2);
+    width: 740px;
     height: 40%;
-    background: darkcyan;
+    background-color: rgba(116, 21, 21, 0.2);
+    border: 4px dashed rgba(177, 27, 27, 0.7);
+    color: rgba(177, 27, 27, 0.9);
+    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.backline {
+    left: calc((100% - 740px) / 2);
+    width: 740px;
+    height: 40%;
+    /* Flex box */
+    display: flex;
+    justify-content: center;
 }
 #com-backline {
     bottom: 40%;
-    left: 10%;
 }
 #player-backline {
     top: 40%;
-    left: 10%;
 }
 .frontline {
-    width: 80%;
+    left: calc((100% - 740px) / 2);
+    width: 740px;
     height: 40%;
-    background: yellowgreen;
+    /* Flex box */
+    display: flex;
+    justify-content: center;
 }
 #com-frontline {
     bottom: 0;
-    left: 10%;
 }
 #player-frontline {
     top: 0;
-    left: 10%;
 }
 
 /********
@@ -224,34 +398,56 @@ body {
     /* Cards in hand should always be at the topmost layer */
     z-index: 999;
 }
+.deck,
 .card {
-    /* Ensure cards are always at the top so that they're interactable */
-    z-index: 998;
-    position: relative;
-    display: inline-block;
+    /* Size */
     width: 120px;
     height: 160px;
     border: 1px solid black;
-    background: coral;
+    border-radius: 12px;
+}
+.card {
+    /* Ensure cards are always at the top so that they're interactable */
+    z-index: 998;
+    /* Position */
+    position: relative;
+    display: inline-block;
+
     /* For smooth transform animation defined in the next selector */
     transition: transform 0.3s ease-out;
+    /* border */
+    border-image-slice: 15 15 15 15 fill;
+    border-image-width: 0px 0px 0px 0px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: round round;
+    border-image-source: url("./assets/img/lor-card-border.png");
+    border-style: solid;
+    /* Background */
+    background-size: 112px 144px;
+    background-repeat: no-repeat;
+    background-position: 4px 8px;
 }
 #player .hand > .card:hover {
-    transform: translate(0, -110px);
+    transform: translate(0, -54px);
 }
 .card-action-button {
     cursor: pointer;
-    bottom: 25%;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    width: 50%;
-    height: 10%;
+    top: 10%;
+    /* left: 0; */
+    right: 10%;
+    /* margin-left: auto;
+    margin-right: auto; */
+    /* text-align: center; */
+    width: 20%;
+    height: 16%;
+    background-image: url("./assets/img/cursor-hand-click-line.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 20%;
 }
 .card-name {
-    bottom: 10%;
+    bottom: 15%;
+    color: white;
     /* Center text */
     left: 0;
     right: 0;
@@ -260,26 +456,46 @@ body {
     text-align: center;
 }
 .card-cost {
-    top: 0;
-    left: 0;
-    width: 10%;
-    height: 10%;
+    /* Position */
+    top: 4px;
+    left: 3px;
+    /* Size & shape */
+    width: 24px;
+    height: 24px;
+    background: rgb(3, 36, 0);
+    background: linear-gradient(
+        135deg,
+        rgba(9, 71, 3, 1) 0%,
+        rgba(38, 143, 51, 1) 49%,
+        rgba(0, 99, 14, 1) 100%
+    );
+    border-radius: 50%;
+    /* Text */
+    color: white;
+    /* Text in center */
+    text-align: center;
+    vertical-align: middle;
+    display: inline;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
 }
 .card-attack {
-    bottom: 0;
-    left: 0;
+    bottom: 10px;
+    left: 8px;
     width: 10%;
     height: 10%;
+    /* Text */
+    color: white;
 }
 .card-health {
-    bottom: 0;
-    right: 0;
+    bottom: 10px;
+    right: 10px;
     width: 10%;
     height: 10%;
-}
-/* For com's cards when in hand */
-.hidden > * {
-    visibility: hidden;
+    /* Text */
+    color: white;
 }
 /* Hide the card action button on com's cards */
 #com .card-action-button {
@@ -302,4 +518,122 @@ body {
     outline: none;
     box-shadow: 0 0 10px #9ecaed;
     cursor: pointer;
+    /* Text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/************
+ * Computer *
+ ************/
+#com {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 49vh;
+}
+/* All com-X elements are positioned relative to #com */
+#com-token {
+    bottom: 16%;
+    left: 22%;
+}
+#com-resources {
+    bottom: 10%;
+    left: 12%;
+}
+#com-resources .current-resources {
+    bottom: 0;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#com .health {
+    bottom: 10%;
+    left: 3%;
+}
+#prophet {
+    background: no-repeat center/60% url("./assets/img/prophet-of-regret.webp");
+}
+#com-deck {
+    top: 5%;
+    left: 2%;
+}
+/* Com's deck cover and cards in hand should look the same */
+#com-hand .card,
+#com-deck {
+    border: 1px solid black;
+    background: no-repeat center/100% url("./assets/img/elite-card-back.png");
+}
+.hidden > * {
+    visibility: hidden;
+}
+#com-hand {
+    bottom: 90%;
+    left: calc((100% - 1220px) / 2);
+}
+#phantom {
+    bottom: 40%;
+    left: 12%;
+    width: 250px;
+    height: 250px;
+    background: no-repeat center/100% url("./assets/img/phantom-dropship.png");
+}
+
+/**********
+ * Player *
+ **********/
+#player {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 49vh;
+    /* border-top: 2px solid gold; */
+}
+/* All player-X elements are positioned relative to #player */
+#player-token {
+    top: 24%;
+    left: 22%;
+}
+#player-resources {
+    top: 8%;
+    left: 12%;
+}
+#player-resources .current-resources {
+    bottom: 0;
+    /* Center text */
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#player .health {
+    top: 40%;
+    left: 3%;
+}
+#cortana {
+    background: no-repeat center/100% url("./assets/img/cortana.webp");
+}
+#player-deck {
+    bottom: 5%;
+    left: 2%;
+    background: no-repeat center/108%
+        url("./assets/img/master-chief-card-back.jpg");
+}
+#player-hand {
+    top: 80%;
+    left: calc((100% - 1220px) / 2);
+}
+#pelican {
+    top: 40%;
+    left: 12%;
+    width: 250px;
+    height: 250px;
+    background: no-repeat center/100% url("./assets/img/pelican.png");
+    transform: scaleX(-1);
 }

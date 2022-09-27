@@ -4,20 +4,43 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="app.js" charset="utf-8"></script>
+	<script type="module "src="app.js" charset="utf-8"></script>
+	<!-- Script for in line markdown -->
+	<script type="module" src="https://md-block.verou.me/md-block.js"></script>
+	<!-- Script for in line markdown END -->
 	<link rel="stylesheet" href="main.css"/>
 	<title>Halo Card Game</title>
+	<!-- Favicons -->
+	<!-- Source: https://favicon.io -->
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+	<link rel="manifest" href="assets/favicons/site.webmanifest">
+	<!-- Favicons -->
 </head>
 <body>
+<div id="start-screen">
+	<img id="logo" src="./assets/img/halo-logo.png" />
+	<div class="menu-item" id="campaign-button">CAMPAIGN</div>
+	<div class="menu-item" id="home-tutorial-button">TUTORIAL</div>
+</div>
 <div id="container">
-	<!-- boardDiv: Might be needed for future drag & drop stuff -->
-	<!-- <div id="board"></div> -->
-	<!-- boardDiv end -->
-	<div id="game-message"></div>
+	<div class="halo-ce-button" id="game-tutorial-button">TUTORIAL</div>
+	<div id="board"></div>
+	<div id="game-button"></div>
+	<div id="battle-zone">BATTLE ZONE</div>
+	<div id="game-message">
+		Message Box
+		<ol></ol>
+	</div>
 	<div id="com">
+		<div class="aesthetics" id="phantom"></div>
 		<div class="deck" id="com-deck"></div>
 		<div class="hand" id="com-hand"></div>
-		<div class="health" id="com-health"></div>
+		<div class="health">
+			<div id="com-health"></div>
+			<div class="health-avatar" id="prophet"></div>
+		</div>
 		<div class="token" id="com-token"></div>
 		<div class="backline" id="com-backline"></div>
 		<div class="frontline" id="com-frontline"></div>
@@ -35,14 +58,14 @@
 			<div class="resource-bar" resource-id="9"></div>
 		</div>
 	</div>
-	<!-- TEMP -->
-	<!-- Middle line -->
-	<div style="position: absolute; top: 50%; background-color: black; width: 100%; height: 1px"></div>
-	<!-- END TEMP -->
 	<div id="player">
+		<div class="aesthetics" id="pelican"></div>
 		<div class="deck" id="player-deck"></div>
 		<div class="hand" id="player-hand"></div>
-		<div class="health" id="player-health"></div>
+		<div class="health">
+			<div id="player-health"></div>
+			<div class="health-avatar" id="cortana"></div>
+		</div>
 		<div class="token" id="player-token"></div>
 		<div class="backline" id="player-backline"></div>
 		<div class="frontline" id="player-frontline"></div>
@@ -60,7 +83,146 @@
 			<div class="resource-bar" resource-id="9"></div>
 		</div>
 	</div>
-	<div id="game-button"></div>
+</div>
+<div id="tutorial">
+	<div class="halo-ce-button" id="close-tutorial-button">CLOSE</div>
+	<md-block>
+# Halo: The Card Game
+Welcome to the Tutorial for Halo: The Card Game!
+
+This tutorial will go through the basics of the game.
+
+## Board Orientation
+The below image is an example of what the game screen looks like:
+
+![game-screen](./assets/tut/game-screen-details.jpeg)
+
+1: Deck covers (the image on the back of the cards)
+
+2: Prophet of Regret and his health
+
+3: Cortana and her health (You!)
+
+4: The available resources for each player to play cards
+
+5: The main game button
+
+6: Attack token indicators (Presence of battle rifle means an attack is available)
+
+7: Cards in each player's hand
+
+8: Backline where summoned units go to
+
+9: The battle zone
+
+10: The message box, where all game messages are displayed
+
+11: The tutorial button to access this tutorial
+
+12: Phantom dropship (aesthetics)
+
+13: Pelican dropship (aesthetics)
+
+## Card Details
+What a card looks like:
+
+![card-details](./assets/tut/card-details.jpeg)
+
+1: The card action button
+
+2: The cost of each card, i.e. how much resources is needed to summon this unit
+
+3: The unit's attack
+
+4: The unit's health
+
+5: Card art
+
+## Goal
+Kill the Prophet of Regret, i.e. reduce his health to 0, while staying alive!
+
+You can do so by summoning units to the battlefield and attacking him.
+
+## Game Mechanics
+This game is heavily inspired by Legends of Runeterra, so if you're familiar with LoR, you'll be familiar with the mechanics of this game too.
+
+Each round, the player with the attack token (indicated by a floating battle rifle) gets to act first.
+There are a few things they can do:
+- Summon a unit
+- Declare an attack
+- Pass
+
+As for the player without the attack token, they can only summon a unit or pass (unless the opposing player declares an attack).
+
+The round ends when both players pass. 
+
+At the start of the new round, the previously defending player gain the attack token and the initiative to act first for the round.
+
+## Card Action Button
+Most actions involving the card are executed with this button.
+
+Clicking the button on a card in the following states results in the respective outcome:
+- Card in hand: Summons the unit
+- Card in backline: Shifts unit to the Battle Zone
+- Card in battle zone: Shifts unit back to backline
+- When opponent is declaring an attack: Selects unit to place in a defence slot
+
+## Main Game Button
+Hitting this button at the appropriate time will progress the game state accordingly.
+
+The text on the button will be updated to reflect how the game will be progressed:
+- Pass: Pass your turn
+- Attack: Declare an attack with your units in the battle zone
+- Declare blockers: Block the opponent's attack with the declared units
+- Opponent's turn: As described
+- End round: End the round as the opponent also passed their turn
+
+## Battle Zone Combat
+To kill the opponent, you'll have to attack them with your units.
+
+This section will describe how to do battle with your units.
+
+## Declare Attack
+When it's your turn and you have the attack token, you can declare an attack.
+
+This is done by first clicking on the card action button on units in your backline that you want to attack with.
+Doing so will shift those units into the battle zone.
+
+You'll see the main game button text update to "attack".
+
+If you click the main game button now, you'll declare an attack with the units in the battle zone.
+
+Example:
+
+![declare-attack](./assets/tut/declare-attack.png)
+
+In the above example, the player is declaring an attack with only the two marines in the battle zone.
+
+## Declare Defenders
+When your opponent declares an attack, you have an opportunity to place your defenders in the battle zone to block the incoming attack.
+
+Blocking with your units results in no damage taken to your health. 
+Instead, both units will do battle, reducing the opposing unit's health by their attack value.
+
+When the opponent declares an attack, the board will update to show the following:
+
+![defence-prep](./assets/tut/defence-prep.png)
+
+The blue boxes indicate where defenders can be placed to block the opponent's units.
+
+At this point, if you click the game button to declare blockers, all the opponent's units will deal damage to your health because none of them are blocked by your units.
+
+To block, you must first click the action button of a unit you want to block with. The following will then appear:
+
+![place-defencer](./assets/tut/place-defender.png)
+
+As stated by the text, you can then click on a defence slot to place the selected unit into that slot, blocking the opposite attacker from dealing damage to your health.
+
+If you change your mind about your blockers, simply click on the card action button again to remove the unit from the defence slot and move it back to the backline.
+
+## End
+That is all for this tutorial. Now go out there and kick some Covenant butt!
+	</md-block>
 </div>
 <template id="card-template">
 	<div class="card">
@@ -70,7 +232,7 @@
 		<div class="card-health"></div>
 		<!-- Ideally button should be removed, then drag & drop used instead -->
 		<!-- Currently the button exists on the com's cards too -->
-		<button class="card-action-button">Action</button>
+		<button class="card-action-button"></button>
 	</div>
 </template>
 </body>

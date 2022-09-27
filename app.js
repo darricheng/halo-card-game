@@ -1,11 +1,28 @@
+// Import cards for computer and player
+import playerCards from "./cards/player-cards.js";
+import comCards from "./cards/computer-cards.js";
+
 window.onload = () => {
     /*****************
      * Page Elements *
      *****************/
+    // Start Screen
+    const startScreen = document.querySelector("#start-screen");
+    const campaignButton = document.querySelector("#campaign-button");
+    const homeTutorialButton = document.querySelector("#home-tutorial-button");
+
+    // Tutorial
+    const tutorialDiv = document.querySelector("#tutorial");
+    const closeTutorialButton = document.querySelector(
+        "#close-tutorial-button"
+    );
+
+    // Game
     const containerDiv = document.querySelector("#container");
+    const gameTutorialButton = document.querySelector("#game-tutorial-button");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
-    const gameMessageDiv = document.querySelector("#game-message");
+    const gameMessages = document.querySelector("#game-message ol");
     // Card
     const cardTemplate = document.querySelector("#card-template");
 
@@ -13,134 +30,15 @@ window.onload = () => {
      * Resources *
      *************/
     // Default decks
-    const defaultPlayerDeck = [
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-        },
-    ];
-    const defaultComDeck = [
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 2,
-        },
-    ];
+    const defaultPlayerDeck = playerCards;
+    const defaultComDeck = comCards;
 
     /**********
      * States *
      **********/
+    // Tutorial display
+    let tutorialShown = false;
+
     // Round counter
     let roundNumber = 0;
 
@@ -221,7 +119,6 @@ window.onload = () => {
         // Com takes their turn
         takeTurn() {
             setTimeout(() => {
-                console.log(this);
                 // * Summon a unit
                 // Check for sufficient resources and board space, and not currently defending
                 if (
@@ -291,30 +188,38 @@ window.onload = () => {
     /**
      * Takes a card and returns a DOM Object
      * @param {Object} card The card to be rendered
+     * @param {Boolean} cardBack Whether the card to be rendered needs to be just the card back
      * @return {DOM Object}
      */
-    const renderCard = (card) => {
+    const renderCard = (card, cardBack = false) => {
         // Clone the template to a variable
         const renderedCard =
             cardTemplate.content.firstElementChild.cloneNode(true);
-        // Get the inner divs of the new rendered card
-        const cardName = renderedCard.querySelector(".card-name");
-        const cardCost = renderedCard.querySelector(".card-cost");
-        const cardAttack = renderedCard.querySelector(".card-attack");
-        const cardHealth = renderedCard.querySelector(".card-health");
-        const cardButton = renderedCard.querySelector(".card-action-button");
 
-        // Assign the card values to the respective divs
-        cardName.innerHTML = card.name;
-        cardCost.innerHTML = card.cost;
-        cardAttack.innerHTML = card.attack;
-        cardHealth.innerHTML = card.health;
+        // Get the inner div of the card button
+        const cardButton = renderedCard.querySelector(".card-action-button");
+        // Add event listener to card button
+        cardButton.addEventListener("click", cardActionButton);
+
+        // If it's not just rendering the card back
+        if (!cardBack) {
+            // Get inner divs of the card details
+            const cardName = renderedCard.querySelector(".card-name");
+            const cardCost = renderedCard.querySelector(".card-cost");
+            const cardAttack = renderedCard.querySelector(".card-attack");
+            const cardHealth = renderedCard.querySelector(".card-health");
+            // Assign the card values to the respective divs
+            cardName.innerHTML = card.name;
+            cardCost.innerHTML = card.cost;
+            cardAttack.innerHTML = card.attack;
+            cardHealth.innerHTML = card.health;
+
+            // Render card bg
+            renderedCard.style.backgroundImage = `url(${card.bg})`;
+        }
 
         // Add a unique ID to the card
         renderedCard.setAttribute("card-id", card.id);
-
-        // Add event listener to card button
-        cardButton.addEventListener("click", cardActionButton);
 
         return renderedCard;
     }; // renderCard
@@ -328,12 +233,13 @@ window.onload = () => {
         user.handDiv.textContent = "";
         // Render the hand
         for (let i = 0; i < user.hand.length; i++) {
-            const cardDOM = renderCard(user.hand[i]);
-            user.handDiv.append(cardDOM);
-            // Add a class of hidden for com's cards in hand
+            let cardDOM;
             if (user.name === com.name) {
-                cardDOM.classList.add("hidden");
+                cardDOM = renderCard(user.hand[i], true);
+            } else {
+                cardDOM = renderCard(user.hand[i]);
             }
+            user.handDiv.append(cardDOM);
         }
     }; // renderHand
 
@@ -375,13 +281,15 @@ window.onload = () => {
             player.turn = false;
             com.turn = true;
             showHideCursor(false);
-            // Com's turn
-            return com.takeTurn();
         } else {
             player.turn = true;
             com.turn = false;
             showHideCursor(true);
-            return;
+        }
+        // Render the game button text
+        renderGameButtonText();
+        if (com.turn) {
+            return com.takeTurn();
         }
     }; // toggleTurn
 
@@ -418,8 +326,9 @@ window.onload = () => {
      * @param {String} msg
      */
     const printMessage = (msg) => {
-        gameMessageDiv.innerHTML = msg;
-        setTimeout(() => (gameMessageDiv.innerHTML = ""), 2500);
+        const newMsg = document.createElement("li");
+        newMsg.textContent = msg;
+        gameMessages.append(newMsg);
     }; // printMessage
 
     /**
@@ -457,6 +366,49 @@ window.onload = () => {
         user.healthDiv.innerHTML = user.health;
     }; // renderHealth
 
+    /**
+     * Updates the attack token of the indicated user
+     * @param {Object} user User who's attack token needs to be updated
+     */
+    const renderAttackToken = (user) => {
+        // Render attack token
+        if (user.attackToken) {
+            const tokenImg = document.createElement("div");
+            tokenImg.classList.add("weapon");
+            user.tokenDiv.append(tokenImg);
+        }
+        // Remove the attack token
+        else {
+            user.tokenDiv.textContent = "";
+        }
+    }; // renderAttackToken
+
+    /**
+     * Updates the text in the game button accordingly for the player
+     */
+    const renderGameButtonText = () => {
+        // If player is preparing to attack
+        if (player.frontline.length > 0) {
+            gameButtonDiv.textContent = "ATTACK";
+        }
+        // If player is defending an attack
+        else if (player.isDefending) {
+            gameButtonDiv.textContent = "DECLARE BLOCKERS";
+        }
+        // If it's opponent's turn
+        else if (!player.turn) {
+            gameButtonDiv.textContent = "OPPONENT TURN";
+        }
+        // If com passed
+        else if (com.passCounter) {
+            gameButtonDiv.textContent = "END ROUND";
+        }
+        // If player hasn't taken any action, i.e. can pass
+        else {
+            gameButtonDiv.textContent = "PASS";
+        }
+    }; // renderGameButtonText
+
     // TODO: Disable and enable card action button to summon unit
     // To be used when declaring blockers
     // And also when opponent's turn
@@ -475,15 +427,17 @@ window.onload = () => {
      * @param {Number} num
      */
     const draw = (user, num = 1) => {
-        for (let i = 0; i < num; i++) {
-            // Remove top card from deck (end of array)
-            const drawnCard = user.deck.pop();
-            // Only push card into hand if user has < 10 cards
-            if (user.hand.length < 10) {
-                // Push drawn card to end of hand
-                user.hand.push(drawnCard);
+        if (user.deck.length > 0) {
+            for (let i = 0; i < num; i++) {
+                // Remove top card from deck (end of array)
+                const drawnCard = user.deck.pop();
+                // Only push card into hand if user has < 10 cards
+                if (user.hand.length < 10) {
+                    // Push drawn card to end of hand
+                    user.hand.push(drawnCard);
+                }
+                // TODO: Add an else statement to burn cards + animation
             }
-            // TODO: Add an else statement to burn cards + animation
         }
         renderHand(user);
     }; // draw
@@ -528,7 +482,7 @@ window.onload = () => {
         // Button clicked on card in backline
         else if (selectedCardDOM.parentElement.classList.contains("backline")) {
             if (!user.attackToken) {
-                return printMessage("You do not have the attack token!");
+                return printMessage("You do not have the attack token");
             }
             return shiftUnitFromBackToFrontline(user, cardID);
         }
@@ -622,6 +576,9 @@ window.onload = () => {
         // Add selected card to frontline
         user.frontline.push(selectedCardObj);
 
+        // Render the game button text
+        renderGameButtonText();
+
         // Render the DOM accordingly
         renderBackline(user);
         renderFrontline(user);
@@ -647,6 +604,9 @@ window.onload = () => {
         // Add selected card to backline
         user.backline.push(selectedCardObj);
 
+        // Render the game button text
+        renderGameButtonText();
+
         // Render the DOM accordingly
         renderFrontline(user);
         renderBackline(user);
@@ -659,6 +619,9 @@ window.onload = () => {
      * @param {Number} cardID The id of the card that was clicked
      */
     const addCardToDefDiv = (user, selectedCardDOM, cardID) => {
+        // TODO (Bug): If I click two action buttons before clicking the def div, both clicked cards get appended to the same div
+        // The above bug can be solved by clicking the buttons to shift the cards back to the backline
+
         // I have to re-render the cards every time they are added to the def div
         // I think when I shift the card into the def div, the event listener isn't removed,
         // so when I shift the second card into the def div, the first card follows.
@@ -700,15 +663,20 @@ window.onload = () => {
          * @param {Event} e
          */
         const defDivEventListener = (e) => {
+            // Remove the text from all def divs
+            for (let i = 0; i < emptyDefDivs.length; i++) {
+                emptyDefDivs[i].textContent = "";
+            }
             // Remove the cardDOM from the backline, add the cardDOM to the selected def div
             const selectedDefDiv = e.currentTarget;
             selectedCardDOM.remove();
             selectedDefDiv.append(renderCard(selectedCardObj));
 
             // Remove the listeners and clickable-def-slot class for all defDivs
-            for (let j = 0; j < emptyDefDivs.length; j++) {
-                emptyDefDivs[j].classList.remove("clickable-def-slot");
-                emptyDefDivs[j].removeEventListener(
+            for (let i = 0; i < emptyDefDivs.length; i++) {
+                // emptyDefDivs[i].textContent = "";
+                emptyDefDivs[i].classList.remove("clickable-def-slot");
+                emptyDefDivs[i].removeEventListener(
                     "click",
                     defDivEventListener
                 );
@@ -720,6 +688,8 @@ window.onload = () => {
             emptyDefDivs[i].classList.add("clickable-def-slot");
             // Add event listener to the empty def divs
             emptyDefDivs[i].addEventListener("click", defDivEventListener);
+            // Add instruction text to the def slot
+            emptyDefDivs[i].textContent = "CLICK TO DEFEND HERE";
         }
     }; // addCardToDefDiv
 
@@ -828,8 +798,7 @@ window.onload = () => {
          */
         // If user has placed at least one unit in the frontline, declare an attack
         if (user.frontline.length > 0) {
-            // Set attack token to false
-            user.attackToken = false;
+            printMessage(`${user.name} is declaring an attack`);
             // Enter the battle sequence
             return declareAttackers(user);
         }
@@ -841,11 +810,12 @@ window.onload = () => {
 
         // Pass the turn if user took no action
         user.passCounter = true;
+        printMessage(`${user.name} has passed`);
         // If both players passed, advance to a new round
         if (player.passCounter && com.passCounter) {
+            printMessage(`Both players passed, end of round ${roundNumber}`);
             return advanceRound();
         }
-        printMessage(`${user.name} has passed`);
         return toggleTurn(user);
     }; // hitGameButton
 
@@ -854,6 +824,11 @@ window.onload = () => {
      * @param {Object} attacker The user that is attacking
      */
     const declareAttackers = (attacker) => {
+        // Reset the pass counters since an action was taken
+        resetPassCounters();
+        // Set attack token accordingly
+        attacker.attackToken = false;
+        renderAttackToken(attacker);
         // Declare the defender variable
         let defender;
         // Set the relevant battle states & assign the relevant user object to defender
@@ -939,6 +914,7 @@ window.onload = () => {
         }
 
         // Do the necessary calculations for the units and the defender's health
+        let totalDmg = 0;
         for (let i = 0; i < unitsInBattle.length; i++) {
             // Resolve the combat for the two units. If unit died, change atk/def to null.
             if (unitsInBattle[i].def) {
@@ -949,6 +925,8 @@ window.onload = () => {
             // If the def property is null, deal the atk's attack to the defender's health
             else {
                 defender.health -= unitsInBattle[i].atk.attack;
+                // Add up the total damage for printing
+                totalDmg += unitsInBattle[i].atk.attack;
             }
 
             // Shift the alive units back to the respective backline arrays.
@@ -961,6 +939,15 @@ window.onload = () => {
                 defender.backline.push(unitsInBattle[i].def);
             }
         }
+
+        // Print message accordingly
+        let msg = "Battle resolved, ";
+        if (totalDmg > 0) {
+            msg += `${defender.name} got hit for ${totalDmg} damage`;
+        } else {
+            msg += `${defender.name} took no damage`;
+        }
+        printMessage(msg);
 
         // Set the summon count accordingly
         attacker.summonCount = attacker.backline.length;
@@ -984,6 +971,9 @@ window.onload = () => {
 
         // Clear the defender's frontline of def divs.
         defender.frontlineDiv.textContent = "";
+
+        // Render the game button text accordingly
+        renderGameButtonText();
 
         // Check whether the defender is still alive
         if (defender.health <= 0) {
@@ -1044,8 +1034,20 @@ window.onload = () => {
             player.turn = false;
             com.turn = true;
             showHideCursor(false);
-            // Com takes turn first
+        }
+
+        // Render the game button text
+        renderGameButtonText();
+
+        // Render attack tokens
+        renderAttackToken(player);
+        renderAttackToken(com);
+
+        if (com.turn) {
+            // Com takes turn
             com.takeTurn();
+        } else {
+            printMessage("You have the attack token");
         }
     }; // advanceRound
 
@@ -1064,14 +1066,47 @@ window.onload = () => {
 
     /* Game Management Functions */
 
+    /****************
+     * Start Screen *
+     ****************/
+    /**
+     * Starts the game when the campaign button on the home screen is clicked
+     */
+    const startCampaign = () => {
+        startScreen.style.display = "none";
+        containerDiv.style.display = "block";
+        init();
+        gameStart();
+    };
+
+    /**
+     * Shows the tutorial for the game
+     */
+    const toggleTutorial = () => {
+        // Close tutorial if it is shown
+        if (tutorialShown) {
+            tutorialShown = false;
+            tutorialDiv.style.display = "none";
+        }
+        // Open tutorial
+        else {
+            tutorialShown = true;
+            tutorialDiv.style.display = "block";
+        }
+    };
+
     /*******************
      * Event Listeners *
      *******************/
     gameButtonDiv.addEventListener("click", () => hitGameButton(player));
+    campaignButton.addEventListener("click", startCampaign);
+    homeTutorialButton.addEventListener("click", toggleTutorial);
+    gameTutorialButton.addEventListener("click", toggleTutorial);
+    closeTutorialButton.addEventListener("click", toggleTutorial);
 
     /****************
      * Run the game *
      ****************/
-    init();
-    gameStart();
+    // init();
+    // gameStart();
 };
