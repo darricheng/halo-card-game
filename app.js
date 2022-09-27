@@ -813,6 +813,7 @@ window.onload = () => {
         printMessage(`${user.name} has passed`);
         // If both players passed, advance to a new round
         if (player.passCounter && com.passCounter) {
+            printMessage(`Both players passed, end of round ${roundNumber}`);
             return advanceRound();
         }
         return toggleTurn(user);

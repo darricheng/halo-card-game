@@ -167,13 +167,31 @@ body {
     color: rgb(44, 151, 250);
     overflow: scroll;
 }
-#tutorial md-block {
+#close-tutorial-button {
+    /* Make close button remain at top-right */
+    position: sticky;
+    top: 24px;
+    margin-left: 80%;
+}
+md-block {
     font-family: conduit_itcmedium, Helvetica, sans-serif;
 }
-#close-tutorial-button {
-    position: absolute;
-    top: 24px;
-    right: 24px;
+md-block h1 {
+    margin-top: 0;
+    font-size: 48px;
+}
+md-block h2 {
+    font-size: 40px;
+}
+md-block h3 {
+    font-size: 42px;
+}
+md-block p,
+md-block ul {
+    font-size: 20px;
+}
+md-block img {
+    max-width: 100%;
 }
 
 /****************
