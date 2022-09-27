@@ -489,7 +489,12 @@ window.onload = () => {
                     // Push drawn card to end of hand
                     user.hand.push(drawnCard);
                 }
-                // TODO: Add an else statement to burn cards + animation
+                // Burn cards if hand is too full
+                else {
+                    printMessage(
+                        `${user.name} burnt ${drawnCard.name} because their hand is too full`
+                    );
+                }
             }
         }
         renderHand(user);
