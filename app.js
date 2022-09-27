@@ -482,7 +482,7 @@ window.onload = () => {
         // Button clicked on card in backline
         else if (selectedCardDOM.parentElement.classList.contains("backline")) {
             if (!user.attackToken) {
-                return printMessage("You do not have the attack token!");
+                return printMessage("You do not have the attack token");
             }
             return shiftUnitFromBackToFrontline(user, cardID);
         }
@@ -1046,6 +1046,8 @@ window.onload = () => {
         if (com.turn) {
             // Com takes turn
             com.takeTurn();
+        } else {
+            printMessage("You have the attack token");
         }
     }; // advanceRound
 
