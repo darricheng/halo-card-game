@@ -22,6 +22,7 @@ window.onload = () => {
     const gameTutorialButton = document.querySelector("#game-tutorial-button");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
+    const gameMessagesDiv = document.querySelector("#game-message");
     const gameMessages = document.querySelector("#game-message ol");
     // Card
     const cardTemplate = document.querySelector("#card-template");
@@ -357,6 +358,9 @@ window.onload = () => {
         const newMsg = document.createElement("li");
         newMsg.textContent = msg;
         gameMessages.append(newMsg);
+
+        // Scroll the message box to the bottom whenever a message is added
+        gameMessagesDiv.scrollTop = gameMessagesDiv.scrollHeight;
     }; // printMessage
 
     /**
