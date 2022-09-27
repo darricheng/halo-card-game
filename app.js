@@ -179,7 +179,7 @@ window.onload = () => {
 
                 // Default
                 return hitGameButton(this);
-            }, 10);
+            }, 2000);
         }, // takeTurn
     };
 
@@ -313,11 +313,11 @@ window.onload = () => {
         if (user.name === player.name) {
             player.turn = false;
             com.turn = true;
-            showHideCursor(false);
+            // showHideCursor(false);
         } else {
             player.turn = true;
             com.turn = false;
-            showHideCursor(true);
+            // showHideCursor(true);
         }
         // Render the game button text
         renderGameButtonText();
@@ -383,6 +383,7 @@ window.onload = () => {
      * If false, hide it
      * @param {Boolean} bool
      */
+    /*
     const showHideCursor = (bool) => {
         switch (bool) {
             case true:
@@ -392,7 +393,7 @@ window.onload = () => {
                 containerDiv.classList.add("hide-cursor");
                 break;
         }
-    }; // showHideCursor
+    }; */ // showHideCursor
 
     /**
      * Updates the health value of the affected user
@@ -518,6 +519,9 @@ window.onload = () => {
         const userStr = selectedCardDOM.parentElement.parentElement.id;
         // Use reference object to convert it to actual user object
         const user = reference[userStr];
+
+        // Don't do anything if it isn't the user's turn
+        if (!user.turn) return;
 
         // Conditions for the various actions
 
@@ -848,6 +852,8 @@ window.onload = () => {
      * @param {Object} user The user object that hits the game button
      */
     const hitGameButton = (user) => {
+        // Don't do anything if it isn't the user's turn
+        if (!user.turn) return;
         /** Actions that a user can take:
          * Summon a unit (Turn taken care of by action of summoning)
          * Declare an attack
@@ -1085,13 +1091,13 @@ window.onload = () => {
             com.attackToken = false;
             player.turn = true;
             com.turn = false;
-            showHideCursor(true);
+            // showHideCursor(true);
         } else {
             player.attackToken = false;
             com.attackToken = true;
             player.turn = false;
             com.turn = true;
-            showHideCursor(false);
+            // showHideCursor(false);
         }
 
         // Render the game button text
