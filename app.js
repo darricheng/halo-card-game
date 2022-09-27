@@ -1,7 +1,3 @@
-// Import cards for computer and player
-import playerCards from "./cards/player-cards.js";
-import comCards from "./cards/computer-cards.js";
-
 window.onload = () => {
     /*****************
      * Page Elements *
@@ -40,8 +36,150 @@ window.onload = () => {
      * Resources *
      *************/
     // Default decks
-    const defaultPlayerDeck = playerCards;
-    const defaultComDeck = comCards;
+    const defaultPlayerDeck = [
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+    ];
+    const defaultComDeck = [
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+    ];
 
     /**********
      * States *
@@ -187,7 +325,7 @@ window.onload = () => {
 
                 // Default
                 return hitGameButton(this);
-            }, 2000);
+            }, 10);
         }, // takeTurn
     };
 
@@ -529,7 +667,7 @@ window.onload = () => {
         const user = reference[userStr];
 
         // Don't do anything if it isn't the user's turn
-        if (!user.turn) return;
+        // if (!user.turn) return;
 
         // Conditions for the various actions
 
