@@ -9,10 +9,17 @@ window.onload = () => {
     // Start Screen
     const startScreen = document.querySelector("#start-screen");
     const campaignButton = document.querySelector("#campaign-button");
-    const tutorialButton = document.querySelector("tutorial-button");
+    const homeTutorialButton = document.querySelector("#home-tutorial-button");
+
+    // Tutorial
+    const tutorialDiv = document.querySelector("#tutorial");
+    const closeTutorialButton = document.querySelector(
+        "#close-tutorial-button"
+    );
 
     // Game
     const containerDiv = document.querySelector("#container");
+    const gameTutorialButton = document.querySelector("#game-tutorial-button");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
     const gameMessages = document.querySelector("#game-message ol");
@@ -29,6 +36,9 @@ window.onload = () => {
     /**********
      * States *
      **********/
+    // Tutorial display
+    let tutorialShown = false;
+
     // Round counter
     let roundNumber = 0;
 
@@ -1069,14 +1079,27 @@ window.onload = () => {
     /**
      * Shows the tutorial for the game
      */
-    const showTutorial = () => {};
+    const toggleTutorial = () => {
+        // Close tutorial if it is shown
+        if (tutorialShown) {
+            tutorialShown = false;
+            tutorialDiv.style.display = "none";
+        }
+        // Open tutorial
+        else {
+            tutorialShown = true;
+            tutorialDiv.style.display = "block";
+        }
+    };
 
     /*******************
      * Event Listeners *
      *******************/
     gameButtonDiv.addEventListener("click", () => hitGameButton(player));
     campaignButton.addEventListener("click", startCampaign);
-    tutorialButton.addEventListener("click", showTutorial);
+    homeTutorialButton.addEventListener("click", toggleTutorial);
+    gameTutorialButton.addEventListener("click", toggleTutorial);
+    closeTutorialButton.addEventListener("click", toggleTutorial);
 
     /****************
      * Run the game *
