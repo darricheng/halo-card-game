@@ -492,8 +492,8 @@ md-block img {
 }
 .card-cost {
     /* Position */
-    top: 4px;
-    left: 3px;
+    top: 2px;
+    left: 1px;
     /* Size & shape */
     width: 24px;
     height: 24px;
@@ -517,7 +517,7 @@ md-block img {
     flex-direction: column;
 }
 .card-attack {
-    bottom: 10px;
+    bottom: 4px;
     left: 8px;
     width: 10%;
     height: 10%;
@@ -525,12 +525,23 @@ md-block img {
     color: white;
 }
 .card-health {
-    bottom: 10px;
+    bottom: 4px;
     right: 10px;
     width: 10%;
     height: 10%;
     /* Text */
     color: white;
+}
+/* Card layout specific to firefox */
+@-moz-document url-prefix() {
+    .card-cost {
+        top: 4px;
+        left: 3px;
+    }
+    .card-attack,
+    .card-health {
+        bottom: 10px;
+    }
 }
 /* Hide the card action button on com's cards */
 #com .card-action-button {
