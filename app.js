@@ -212,7 +212,7 @@ window.onload = () => {
         }
 
         return array;
-    }; // Fisher-Yates Shuffle
+    }; // shuffle
 
     /**
      * Takes a card and returns a DOM Object
@@ -371,7 +371,7 @@ window.onload = () => {
     const resetPassCounters = () => {
         player.passCounter = false;
         com.passCounter = false;
-    };
+    }; // resetPassCounters
 
     /**
      * Shows or hides the player's cursor based on turn
@@ -1121,7 +1121,7 @@ window.onload = () => {
         containerDiv.style.display = "block";
         init();
         gameStart();
-    };
+    }; // startCampaign
 
     /**
      * Shows the tutorial for the game
@@ -1137,7 +1137,7 @@ window.onload = () => {
             tutorialShown = true;
             tutorialDiv.style.display = "block";
         }
-    };
+    }; // toggleTutorial
 
     /*******************
      * Event Listeners *
@@ -1147,10 +1147,4 @@ window.onload = () => {
     homeTutorialButton.addEventListener("click", toggleTutorial);
     gameTutorialButton.addEventListener("click", toggleTutorial);
     closeTutorialButton.addEventListener("click", toggleTutorial);
-
-    /****************
-     * Run the game *
-     ****************/
-    // init();
-    // gameStart();
 };
