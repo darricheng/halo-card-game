@@ -17,6 +17,10 @@ window.onload = () => {
         "#close-tutorial-button"
     );
 
+    // Ending Screen
+    const endingScreen = document.querySelector("#ending-screen");
+    const endingScreenButton = document.querySelector("#return-to-main");
+
     // Game
     const containerDiv = document.querySelector("#container");
     const gameTutorialButton = document.querySelector("#game-tutorial-button");
@@ -768,9 +772,9 @@ window.onload = () => {
      * Reset everything
      */
     const init = () => {
-        // Reset both decks
-        player.deck = defaultPlayerDeck;
-        com.deck = defaultComDeck;
+        // Reset both decks by copying from the default
+        player.deck = [...defaultPlayerDeck];
+        com.deck = [...defaultComDeck];
 
         // Add unique IDs to each card
         let k = 0;
@@ -807,6 +811,8 @@ window.onload = () => {
         // Clear board
         player.backline = [];
         com.backline = [];
+        renderBackline(player);
+        renderBackline(com);
 
         // Set round to 0
         roundNumber = 0;
@@ -816,6 +822,9 @@ window.onload = () => {
         player.isDefending = false;
         com.isAttacking = false;
         com.isDefending = false;
+
+        // Empty game messages
+        gameMessages.textContent = "";
 
         // Advance the round to round 1
         advanceRound();
@@ -1108,16 +1117,18 @@ window.onload = () => {
         // Determine winner
         if (user.name === player.name) {
             printMessage(`Defeat`);
+            return showEndingScreen("lose");
         } else {
-            printMessage(`Victory!`);
+            printMessage(`Victory`);
+            return showEndingScreen("win");
         }
     }; // endTheGame
 
     /* Game Management Functions */
 
-    /****************
-     * Start Screen *
-     ****************/
+    /******************
+     * Menu Functions *
+     ******************/
     /**
      * Starts the game when the campaign button on the home screen is clicked
      */
@@ -1144,6 +1155,32 @@ window.onload = () => {
         }
     }; // toggleTutorial
 
+    /**
+     * Renders the ending screen depending on the result of the game
+     * @param result Pass in either win or lose strings
+     */
+    const showEndingScreen = (result) => {
+        const mainResult = endingScreen.querySelector("h1");
+        const description = endingScreen.querySelector("p");
+        if (result === "win") {
+            mainResult.textContent = "VICTORY";
+            description.textContent = "You beat the covenant, well done!";
+        } else {
+            mainResult.textContent = "DEFEAT";
+            description.textContent = "Better luck next time!";
+        }
+        endingScreen.style.display = "block";
+    }; // showEndingScreen
+
+    const returnToMainScreen = () => {
+        startScreen.style.display = "block";
+        containerDiv.style.display = "none";
+        tutorialDiv.style.display = "none";
+        endingScreen.style.display = "none";
+    }; // returnToMainScreen
+
+    /* Menu Functions */
+
     /*******************
      * Event Listeners *
      *******************/
@@ -1152,4 +1189,5 @@ window.onload = () => {
     homeTutorialButton.addEventListener("click", toggleTutorial);
     gameTutorialButton.addEventListener("click", toggleTutorial);
     closeTutorialButton.addEventListener("click", toggleTutorial);
+    endingScreenButton.addEventListener("click", returnToMainScreen);
 };

@@ -105,6 +105,15 @@ body {
     border-color: rgb(223, 235, 247);
     box-shadow: 0 0 4px 0 rgb(223, 235, 247);
 }
+.popup-screen {
+    z-index: 10000;
+    position: absolute;
+    font-family: handel-gothic, Helvetica, sans-serif;
+    background: linear-gradient(rgba(22, 66, 110, 0.8), rgba(0, 0, 0, 0.8));
+    border: 4px solid rgb(51, 151, 250);
+    border-radius: 24px;
+    color: rgb(44, 151, 250);
+}
 
 /****************
  * Start Screen *
@@ -152,19 +161,12 @@ body {
  * Tutorial *
  ************/
 #tutorial {
-    z-index: 10000;
     display: none;
-    position: absolute;
     top: 5%;
     left: 10%;
-    font-family: handel-gothic, Helvetica, sans-serif;
     width: 80%;
     height: 90%;
-    background: linear-gradient(rgba(22, 66, 110, 0.8), rgba(0, 0, 0, 0.8));
-    border: 4px solid rgb(51, 151, 250);
-    border-radius: 24px;
     padding: 12px 36px;
-    color: rgb(44, 151, 250);
     overflow: scroll;
 }
 #close-tutorial-button {
@@ -192,6 +194,41 @@ md-block ul {
 }
 md-block img {
     max-width: 100%;
+}
+
+/*****************
+ * Result Screen *
+ *****************/
+#ending-screen {
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#ending-screen h1 {
+    font-family: haloregular;
+    font-size: 192px;
+    text-align: center;
+    margin-bottom: 80px;
+    /* Font gradient */
+    background: -webkit-linear-gradient(
+        rgba(253, 253, 253, 1),
+        rgba(29, 40, 119, 1)
+    );
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Font gradient end */
+}
+#ending-screen p {
+    font-size: 32px;
+    text-align: center;
+}
+#ending-screen #return-to-main {
+    position: absolute;
+    top: 580px;
+    left: calc((100% - 200px) / 2);
 }
 
 /****************
