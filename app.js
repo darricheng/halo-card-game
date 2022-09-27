@@ -144,6 +144,34 @@ window.onload = () => {
                     return hitGameButton(this);
                 }
 
+                // * Defend
+                if (this.isDefending) {
+                    // Determine how many units can block
+                    let numOfDef = 0;
+                    // Based on the lowest number of units either player has
+                    if (unitsInBattle.length <= this.backline.length) {
+                        numOfDef = unitsInBattle.length;
+                    } else {
+                        numOfDef = this.backline.length;
+                    }
+
+                    // Assign the defenders
+                    for (let i = 0; i < numOfDef; i++) {
+                        const cardButtons = this.backlineDiv.querySelectorAll(
+                            ".card-action-button"
+                        );
+
+                        // Click the first unit in the backline
+                        cardButtons[0].click();
+
+                        // Get the available empty def divs
+                        const emptyDefDivs = filterEmptyDefDivs(this);
+
+                        // Click the first available empty def div
+                        emptyDefDivs[0].click();
+                    }
+                }
+
                 // Default
                 return hitGameButton(this);
             }, 10);
@@ -409,6 +437,27 @@ window.onload = () => {
         }
     }; // renderGameButtonText
 
+    /**
+     * Filters out the defence divs that already contains a unit for the user
+     * @param {Object} user The user that is defending the attack
+     * @returns An array with the empty def divs
+     */
+    const filterEmptyDefDivs = (user) => {
+        // After clicking button, user can click on a defDiv next to assign the card to that def position
+        // Add event listeners to all available defDivs
+        const defDivs = user.frontlineDiv.querySelectorAll(".defence-slot");
+        // Remove defDivs with a card in it (i.e. don't add an event listener)
+        // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
+        const emptyDefDivs = [];
+        for (let i = 0; i < defDivs.length; i++) {
+            if (defDivs[i].children.length === 0) {
+                // Add to empty def divs array
+                emptyDefDivs.push(defDivs[i]);
+            }
+        }
+        return emptyDefDivs;
+    }; // filterEmptyDefDivs
+
     // TODO: Disable and enable card action button to summon unit
     // To be used when declaring blockers
     // And also when opponent's turn
@@ -634,18 +683,8 @@ window.onload = () => {
         // Can explore using event handlers with parameters, see: https://stackoverflow.com/a/10000178
         // Because I'll want a way to pass the cardDOM to the clicked defence slot
         /****************************************/
-        // After clicking button, user can click on a defDiv next to assign the card to that def position
-        // Add event listeners to all available defDivs
-        const defDivs = user.frontlineDiv.querySelectorAll(".defence-slot");
-        // Remove defDivs with a card in it (i.e. don't add an event listener)
-        // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
-        const emptyDefDivs = [];
-        for (let i = 0; i < defDivs.length; i++) {
-            if (defDivs[i].childNodes.length === 0) {
-                // Add to empty def divs array
-                emptyDefDivs.push(defDivs[i]);
-            }
-        }
+
+        const emptyDefDivs = filterEmptyDefDivs(user);
 
         // Search for the card in the backline array
         let selectedCardObj;
@@ -663,6 +702,7 @@ window.onload = () => {
          * @param {Event} e
          */
         const defDivEventListener = (e) => {
+            console.log(e);
             // Remove the text from all def divs
             for (let i = 0; i < emptyDefDivs.length; i++) {
                 emptyDefDivs[i].textContent = "";
