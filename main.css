@@ -125,7 +125,7 @@ body {
 #start-screen {
     background: no-repeat center/100% url("./assets/img/halo-ring-bg.jpg");
 }
-#start-screen * {
+#start-screen > * {
     position: absolute;
 }
 #start-screen #logo {
@@ -134,6 +134,11 @@ body {
     right: 0;
     margin: 0 auto;
     width: 80%;
+}
+#main-menu {
+    display: inline-block;
+    top: 500px;
+    left: calc((100% - 360px) / 2);
 }
 .menu-item {
     font-family: handel-gothic, Helvetica, sans-serif;
@@ -148,19 +153,12 @@ body {
     color: #fff;
     text-shadow: 10px 0 16px rgb(51, 151, 250);
 }
-#campaign-button {
-    top: 500px;
-    left: calc((100% - 360px) / 2);
-}
-#home-tutorial-button {
-    top: 580px;
-    left: calc((100% - 327px) / 2);
-}
 
-/************
- * Tutorial *
- ************/
-#tutorial {
+/**********************
+ * Tutorial & Credits *
+ **********************/
+#tutorial,
+#credits {
     display: none;
     top: 5%;
     left: 10%;
@@ -169,7 +167,7 @@ body {
     padding: 12px 36px;
     overflow: scroll;
 }
-#close-tutorial-button {
+.close-popup-button {
     /* Make close button remain at top-right */
     position: sticky;
     top: 24px;

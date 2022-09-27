@@ -21,8 +21,11 @@
 <body>
 <div id="start-screen">
 	<img id="logo" src="./assets/img/halo-logo.png" />
-	<div class="menu-item" id="campaign-button">CAMPAIGN</div>
-	<div class="menu-item" id="home-tutorial-button">TUTORIAL</div>
+	<div id="main-menu">
+		<div class="menu-item" id="campaign-button">CAMPAIGN</div>
+		<div class="menu-item" id="home-tutorial-button">TUTORIAL</div>
+		<div class="menu-item" id="credits-button">CREDITS</div>
+	</div>
 </div>
 <div id="container">
 	<div class="halo-ce-button" id="game-tutorial-button">TUTORIAL</div>
@@ -85,7 +88,7 @@
 	</div>
 </div>
 <div class="popup-screen" id="tutorial">
-	<div class="halo-ce-button" id="close-tutorial-button">CLOSE</div>
+	<div class="halo-ce-button close-popup-button" id="close-tutorial-button">CLOSE</div>
 	<md-block>
 # Halo: The Card Game
 Welcome to the Tutorial for Halo: The Card Game!
@@ -223,6 +226,10 @@ If you change your mind about your blockers, simply click on the card action but
 ## End
 That is all for this tutorial. Now go out there and kick some Covenant butt!
 	</md-block>
+</div>
+<div class="popup-screen" id="credits">
+	<div class="halo-ce-button close-popup-button" id="close-credits-button">CLOSE</div>
+	<md-block></md-block>
 </div>
 <div class="popup-screen" id="ending-screen">
 	<h1 id="result"></h1>

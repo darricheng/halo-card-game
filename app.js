@@ -10,12 +10,17 @@ window.onload = () => {
     const startScreen = document.querySelector("#start-screen");
     const campaignButton = document.querySelector("#campaign-button");
     const homeTutorialButton = document.querySelector("#home-tutorial-button");
+    const showCreditsButton = document.querySelector("#credits-button");
 
     // Tutorial
     const tutorialDiv = document.querySelector("#tutorial");
     const closeTutorialButton = document.querySelector(
         "#close-tutorial-button"
     );
+
+    // Credits
+    const creditsDiv = document.querySelector("#credits");
+    const closeCreditsButton = document.querySelector("#close-credits-button");
 
     // Ending Screen
     const endingScreen = document.querySelector("#ending-screen");
@@ -43,6 +48,9 @@ window.onload = () => {
      **********/
     // Tutorial display
     let tutorialShown = false;
+
+    // Credits display
+    let creditsShown = false;
 
     // Round counter
     let roundNumber = 0;
@@ -1146,7 +1154,7 @@ window.onload = () => {
     }; // startCampaign
 
     /**
-     * Shows the tutorial for the game
+     * Shows and hides the tutorial for the game
      */
     const toggleTutorial = () => {
         // Close tutorial if it is shown
@@ -1160,6 +1168,22 @@ window.onload = () => {
             tutorialDiv.style.display = "block";
         }
     }; // toggleTutorial
+
+    /**
+     * Shows and hides the game credits
+     */
+    const toggleCredits = () => {
+        // Close credits if it is shown
+        if (creditsShown) {
+            creditsShown = false;
+            creditsDiv.style.display = "none";
+        }
+        // Open tutorial
+        else {
+            creditsShown = true;
+            creditsDiv.style.display = "block";
+        }
+    };
 
     /**
      * Renders the ending screen depending on the result of the game
@@ -1195,5 +1219,7 @@ window.onload = () => {
     homeTutorialButton.addEventListener("click", toggleTutorial);
     gameTutorialButton.addEventListener("click", toggleTutorial);
     closeTutorialButton.addEventListener("click", toggleTutorial);
+    showCreditsButton.addEventListener("click", toggleCredits);
+    closeCreditsButton.addEventListener("click", toggleCredits);
     endingScreenButton.addEventListener("click", returnToMainScreen);
 };
