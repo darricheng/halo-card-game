@@ -1,7 +1,3 @@
-// Import cards for computer and player
-import playerCards from "./cards/player-cards.js";
-import comCards from "./cards/computer-cards.js";
-
 window.onload = () => {
     /*****************
      * Page Elements *
@@ -10,6 +6,7 @@ window.onload = () => {
     const startScreen = document.querySelector("#start-screen");
     const campaignButton = document.querySelector("#campaign-button");
     const homeTutorialButton = document.querySelector("#home-tutorial-button");
+    const showCreditsButton = document.querySelector("#credits-button");
 
     // Tutorial
     const tutorialDiv = document.querySelector("#tutorial");
@@ -17,11 +14,20 @@ window.onload = () => {
         "#close-tutorial-button"
     );
 
+    // Credits
+    const creditsDiv = document.querySelector("#credits");
+    const closeCreditsButton = document.querySelector("#close-credits-button");
+
+    // Ending Screen
+    const endingScreen = document.querySelector("#ending-screen");
+    const endingScreenButton = document.querySelector("#return-to-main");
+
     // Game
     const containerDiv = document.querySelector("#container");
     const gameTutorialButton = document.querySelector("#game-tutorial-button");
     // Board
     const gameButtonDiv = document.querySelector("#game-button");
+    const gameMessagesDiv = document.querySelector("#game-message");
     const gameMessages = document.querySelector("#game-message ol");
     // Card
     const cardTemplate = document.querySelector("#card-template");
@@ -30,14 +36,159 @@ window.onload = () => {
      * Resources *
      *************/
     // Default decks
-    const defaultPlayerDeck = playerCards;
-    const defaultComDeck = comCards;
+    const defaultPlayerDeck = [
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+        {
+            name: "Marine",
+            cost: 1,
+            attack: 2,
+            health: 2,
+            bg: "./cards-bg/marine.jpg",
+        },
+    ];
+    const defaultComDeck = [
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+        {
+            name: "Grunt",
+            cost: 1,
+            attack: 1,
+            health: 3,
+            bg: "./cards-bg/grunt-major.jpg",
+        },
+    ];
 
     /**********
      * States *
      **********/
     // Tutorial display
     let tutorialShown = false;
+
+    // Credits display
+    let creditsShown = false;
 
     // Round counter
     let roundNumber = 0;
@@ -144,6 +295,35 @@ window.onload = () => {
                     return hitGameButton(this);
                 }
 
+                // * Defend
+                if (this.isDefending) {
+                    // Determine how many units can block
+                    let numOfDef = 0;
+                    // Based on the lowest number of units either player has
+                    if (unitsInBattle.length <= this.backline.length) {
+                        numOfDef = unitsInBattle.length;
+                    } else {
+                        numOfDef = this.backline.length;
+                    }
+
+                    // Assign the defenders
+                    for (let i = 0; i < numOfDef; i++) {
+                        const cardButtons = this.backlineDiv.querySelectorAll(
+                            ".card-action-button"
+                        );
+
+                        // Get the available empty def divs
+                        // Search for empty divs first, else after clicking a card button, the def div will have text, i.e. by definition no longer empty
+                        const emptyDefDivs = filterEmptyDefDivs(this);
+
+                        // Click the first unit in the backline
+                        cardButtons[0].click();
+
+                        // Click the first available empty def div
+                        emptyDefDivs[0].click();
+                    }
+                }
+
                 // Default
                 return hitGameButton(this);
             }, 10);
@@ -183,7 +363,7 @@ window.onload = () => {
         }
 
         return array;
-    }; // Fisher-Yates Shuffle
+    }; // shuffle
 
     /**
      * Takes a card and returns a DOM Object
@@ -280,11 +460,11 @@ window.onload = () => {
         if (user.name === player.name) {
             player.turn = false;
             com.turn = true;
-            showHideCursor(false);
+            // showHideCursor(false);
         } else {
             player.turn = true;
             com.turn = false;
-            showHideCursor(true);
+            // showHideCursor(true);
         }
         // Render the game button text
         renderGameButtonText();
@@ -329,6 +509,9 @@ window.onload = () => {
         const newMsg = document.createElement("li");
         newMsg.textContent = msg;
         gameMessages.append(newMsg);
+
+        // Scroll the message box to the bottom whenever a message is added
+        gameMessagesDiv.scrollTop = gameMessagesDiv.scrollHeight;
     }; // printMessage
 
     /**
@@ -339,7 +522,7 @@ window.onload = () => {
     const resetPassCounters = () => {
         player.passCounter = false;
         com.passCounter = false;
-    };
+    }; // resetPassCounters
 
     /**
      * Shows or hides the player's cursor based on turn
@@ -347,6 +530,7 @@ window.onload = () => {
      * If false, hide it
      * @param {Boolean} bool
      */
+    /*
     const showHideCursor = (bool) => {
         switch (bool) {
             case true:
@@ -356,7 +540,7 @@ window.onload = () => {
                 containerDiv.classList.add("hide-cursor");
                 break;
         }
-    }; // showHideCursor
+    }; */ // showHideCursor
 
     /**
      * Updates the health value of the affected user
@@ -409,11 +593,26 @@ window.onload = () => {
         }
     }; // renderGameButtonText
 
-    // TODO: Disable and enable card action button to summon unit
-    // To be used when declaring blockers
-    // And also when opponent's turn
-    // function(user, "disable") or function(user, "enable")
-    // Loop through the user's hand to disable or enable all cards' action button
+    /**
+     * Filters out the defence divs that already contains a unit for the user
+     * @param {Object} user The user that is defending the attack
+     * @returns An array with the empty def divs
+     */
+    const filterEmptyDefDivs = (user) => {
+        // After clicking button, user can click on a defDiv next to assign the card to that def position
+        // Add event listeners to all available defDivs
+        const defDivs = user.frontlineDiv.querySelectorAll(".defence-slot");
+        // Remove defDivs with a card in it (i.e. don't add an event listener)
+        // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
+        const emptyDefDivs = [];
+        for (let i = 0; i < defDivs.length; i++) {
+            if (defDivs[i].childNodes.length === 0) {
+                // Add to empty def divs array
+                emptyDefDivs.push(defDivs[i]);
+            }
+        }
+        return emptyDefDivs;
+    }; // filterEmptyDefDivs
 
     /* Support Functions */
 
@@ -436,7 +635,12 @@ window.onload = () => {
                     // Push drawn card to end of hand
                     user.hand.push(drawnCard);
                 }
-                // TODO: Add an else statement to burn cards + animation
+                // Burn cards if hand is too full
+                else {
+                    printMessage(
+                        `${user.name} burnt ${drawnCard.name} because their hand is too full`
+                    );
+                }
             }
         }
         renderHand(user);
@@ -459,6 +663,7 @@ window.onload = () => {
 
         // Conditions for the various actions
 
+        // Check for user if card is in defence slot first (else any user below will be undefined)
         // Button clicked when user is defending and card is in a defense slot
         if (selectedCardDOM.parentElement.classList.contains("defence-slot")) {
             // Specifically for shifting card out of def div
@@ -466,8 +671,14 @@ window.onload = () => {
                 selectedCardDOM.parentElement.parentElement.parentElement.id;
             const defUser = reference[defUserStr];
 
+            // Don't do anything if it isn't the user's turn
+            if (!defUser.turn) return;
+
             return shiftCardOutOfDefDiv(defUser, selectedCardDOM, cardID);
         }
+
+        // Don't do anything if it isn't the user's turn
+        if (!user.turn) return;
 
         // Button clicked on card in backline when user is defending
         if (user.isDefending) {
@@ -634,18 +845,8 @@ window.onload = () => {
         // Can explore using event handlers with parameters, see: https://stackoverflow.com/a/10000178
         // Because I'll want a way to pass the cardDOM to the clicked defence slot
         /****************************************/
-        // After clicking button, user can click on a defDiv next to assign the card to that def position
-        // Add event listeners to all available defDivs
-        const defDivs = user.frontlineDiv.querySelectorAll(".defence-slot");
-        // Remove defDivs with a card in it (i.e. don't add an event listener)
-        // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
-        const emptyDefDivs = [];
-        for (let i = 0; i < defDivs.length; i++) {
-            if (defDivs[i].childNodes.length === 0) {
-                // Add to empty def divs array
-                emptyDefDivs.push(defDivs[i]);
-            }
-        }
+
+        const emptyDefDivs = filterEmptyDefDivs(user);
 
         // Search for the card in the backline array
         let selectedCardObj;
@@ -663,6 +864,7 @@ window.onload = () => {
          * @param {Event} e
          */
         const defDivEventListener = (e) => {
+            console.log(e);
             // Remove the text from all def divs
             for (let i = 0; i < emptyDefDivs.length; i++) {
                 emptyDefDivs[i].textContent = "";
@@ -719,9 +921,9 @@ window.onload = () => {
      * Reset everything
      */
     const init = () => {
-        // Reset both decks
-        player.deck = defaultPlayerDeck;
-        com.deck = defaultComDeck;
+        // Reset both decks by copying from the default
+        player.deck = [...defaultPlayerDeck];
+        com.deck = [...defaultComDeck];
 
         // Add unique IDs to each card
         let k = 0;
@@ -758,6 +960,8 @@ window.onload = () => {
         // Clear board
         player.backline = [];
         com.backline = [];
+        renderBackline(player);
+        renderBackline(com);
 
         // Set round to 0
         roundNumber = 0;
@@ -767,6 +971,9 @@ window.onload = () => {
         player.isDefending = false;
         com.isAttacking = false;
         com.isDefending = false;
+
+        // Empty game messages
+        gameMessages.textContent = "";
 
         // Advance the round to round 1
         advanceRound();
@@ -790,6 +997,8 @@ window.onload = () => {
      * @param {Object} user The user object that hits the game button
      */
     const hitGameButton = (user) => {
+        // Don't do anything if it isn't the user's turn
+        if (!user.turn) return;
         /** Actions that a user can take:
          * Summon a unit (Turn taken care of by action of summoning)
          * Declare an attack
@@ -1027,13 +1236,13 @@ window.onload = () => {
             com.attackToken = false;
             player.turn = true;
             com.turn = false;
-            showHideCursor(true);
+            // showHideCursor(true);
         } else {
             player.attackToken = false;
             com.attackToken = true;
             player.turn = false;
             com.turn = true;
-            showHideCursor(false);
+            // showHideCursor(false);
         }
 
         // Render the game button text
@@ -1059,16 +1268,18 @@ window.onload = () => {
         // Determine winner
         if (user.name === player.name) {
             printMessage(`Defeat`);
+            return showEndingScreen("lose");
         } else {
-            printMessage(`Victory!`);
+            printMessage(`Victory`);
+            return showEndingScreen("win");
         }
     }; // endTheGame
 
     /* Game Management Functions */
 
-    /****************
-     * Start Screen *
-     ****************/
+    /******************
+     * Menu Functions *
+     ******************/
     /**
      * Starts the game when the campaign button on the home screen is clicked
      */
@@ -1077,10 +1288,10 @@ window.onload = () => {
         containerDiv.style.display = "block";
         init();
         gameStart();
-    };
+    }; // startCampaign
 
     /**
-     * Shows the tutorial for the game
+     * Shows and hides the tutorial for the game
      */
     const toggleTutorial = () => {
         // Close tutorial if it is shown
@@ -1093,7 +1304,49 @@ window.onload = () => {
             tutorialShown = true;
             tutorialDiv.style.display = "block";
         }
+    }; // toggleTutorial
+
+    /**
+     * Shows and hides the game credits
+     */
+    const toggleCredits = () => {
+        // Close credits if it is shown
+        if (creditsShown) {
+            creditsShown = false;
+            creditsDiv.style.display = "none";
+        }
+        // Open tutorial
+        else {
+            creditsShown = true;
+            creditsDiv.style.display = "block";
+        }
     };
+
+    /**
+     * Renders the ending screen depending on the result of the game
+     * @param result Pass in either win or lose strings
+     */
+    const showEndingScreen = (result) => {
+        const mainResult = endingScreen.querySelector("h1");
+        const description = endingScreen.querySelector("p");
+        if (result === "win") {
+            mainResult.textContent = "VICTORY";
+            description.textContent = "You beat the covenant, well done!";
+        } else {
+            mainResult.textContent = "DEFEAT";
+            description.textContent = "Better luck next time!";
+        }
+        endingScreen.style.display = "block";
+    }; // showEndingScreen
+
+    const returnToMainScreen = () => {
+        startScreen.style.display = "block";
+        containerDiv.style.display = "none";
+        tutorialDiv.style.display = "none";
+        endingScreen.style.display = "none";
+    }; // returnToMainScreen
+
+    /* Menu Functions */
 
     /*******************
      * Event Listeners *
@@ -1103,10 +1356,7 @@ window.onload = () => {
     homeTutorialButton.addEventListener("click", toggleTutorial);
     gameTutorialButton.addEventListener("click", toggleTutorial);
     closeTutorialButton.addEventListener("click", toggleTutorial);
-
-    /****************
-     * Run the game *
-     ****************/
-    // init();
-    // gameStart();
+    showCreditsButton.addEventListener("click", toggleCredits);
+    closeCreditsButton.addEventListener("click", toggleCredits);
+    endingScreenButton.addEventListener("click", returnToMainScreen);
 };

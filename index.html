@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script type="module "src="app.js" charset="utf-8"></script>
+	<script src="app.js" charset="utf-8"></script>
 	<!-- Script for in line markdown -->
 	<script type="module" src="https://md-block.verou.me/md-block.js"></script>
 	<!-- Script for in line markdown END -->
@@ -21,8 +21,11 @@
 <body>
 <div id="start-screen">
 	<img id="logo" src="./assets/img/halo-logo.png" />
-	<div class="menu-item" id="campaign-button">CAMPAIGN</div>
-	<div class="menu-item" id="home-tutorial-button">TUTORIAL</div>
+	<div id="main-menu">
+		<div class="menu-item" id="campaign-button">CAMPAIGN</div>
+		<div class="menu-item" id="home-tutorial-button">TUTORIAL</div>
+		<div class="menu-item" id="credits-button">CREDITS</div>
+	</div>
 </div>
 <div id="container">
 	<div class="halo-ce-button" id="game-tutorial-button">TUTORIAL</div>
@@ -84,8 +87,8 @@
 		</div>
 	</div>
 </div>
-<div id="tutorial">
-	<div class="halo-ce-button" id="close-tutorial-button">CLOSE</div>
+<div class="popup-screen" id="tutorial">
+	<div class="halo-ce-button close-popup-button" id="close-tutorial-button">CLOSE</div>
 	<md-block>
 # Halo: The Card Game
 Welcome to the Tutorial for Halo: The Card Game!
@@ -223,6 +226,29 @@ If you change your mind about your blockers, simply click on the card action but
 ## End
 That is all for this tutorial. Now go out there and kick some Covenant butt!
 	</md-block>
+</div>
+<div class="popup-screen" id="credits">
+	<div class="halo-ce-button close-popup-button" id="close-credits-button">CLOSE</div>
+	<md-block>
+# Credits for Halo: The Card Game
+
+Created by: Darric Heng
+
+GitHub: https://github.com/darricheng
+
+LinkedIn: https://www.linkedin.com/in/darric-heng/
+
+This game was created as part of the General Assembly Software Engineering Immersive Program.
+
+## Inspirations
+- Halo: I have been a huge Halo fan since young, so I wanted to reimagine the game in a different format
+- Legends of Runeterra: a digital card game that I enjoy playing and would recommend to anyone who enjoys strategic games
+	</md-block>
+</div>
+<div class="popup-screen" id="ending-screen">
+	<h1 id="result"></h1>
+	<p></p>
+	<div class="halo-ce-button" id="return-to-main">EXIT</div>
 </div>
 <template id="card-template">
 	<div class="card">
