@@ -312,11 +312,12 @@ window.onload = () => {
                             ".card-action-button"
                         );
 
+                        // Get the available empty def divs
+                        // Search for empty divs first, else after clicking a card button, the def div will have text, i.e. by definition no longer empty
+                        const emptyDefDivs = filterEmptyDefDivs(this);
+
                         // Click the first unit in the backline
                         cardButtons[0].click();
-
-                        // Get the available empty def divs
-                        const emptyDefDivs = filterEmptyDefDivs(this);
 
                         // Click the first available empty def div
                         emptyDefDivs[0].click();
@@ -605,19 +606,13 @@ window.onload = () => {
         // (How to check if a div is empty: https://bobbyhadz.com/blog/javascript-check-if-div-is-empty)
         const emptyDefDivs = [];
         for (let i = 0; i < defDivs.length; i++) {
-            if (defDivs[i].children.length === 0) {
+            if (defDivs[i].childNodes.length === 0) {
                 // Add to empty def divs array
                 emptyDefDivs.push(defDivs[i]);
             }
         }
         return emptyDefDivs;
     }; // filterEmptyDefDivs
-
-    // TODO: Disable and enable card action button to summon unit
-    // To be used when declaring blockers
-    // And also when opponent's turn
-    // function(user, "disable") or function(user, "enable")
-    // Loop through the user's hand to disable or enable all cards' action button
 
     /* Support Functions */
 
@@ -666,11 +661,9 @@ window.onload = () => {
         // Use reference object to convert it to actual user object
         const user = reference[userStr];
 
-        // Don't do anything if it isn't the user's turn
-        // if (!user.turn) return;
-
         // Conditions for the various actions
 
+        // Check for user if card is in defence slot first (else any user below will be undefined)
         // Button clicked when user is defending and card is in a defense slot
         if (selectedCardDOM.parentElement.classList.contains("defence-slot")) {
             // Specifically for shifting card out of def div
@@ -678,8 +671,14 @@ window.onload = () => {
                 selectedCardDOM.parentElement.parentElement.parentElement.id;
             const defUser = reference[defUserStr];
 
+            // Don't do anything if it isn't the user's turn
+            if (!defUser.turn) return;
+
             return shiftCardOutOfDefDiv(defUser, selectedCardDOM, cardID);
         }
+
+        // Don't do anything if it isn't the user's turn
+        if (!user.turn) return;
 
         // Button clicked on card in backline when user is defending
         if (user.isDefending) {
