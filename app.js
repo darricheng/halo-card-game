@@ -274,11 +274,12 @@ window.onload = () => {
                         // Click the first available empty def div
                         emptyDefDivs[0].click();
                     }
+                    return setTimeout(() => hitGameButton(this), 2000);
                 }
 
                 // Default
                 return hitGameButton(this);
-            }, 10);
+            }, 2000);
         }, // takeTurn
     };
 
