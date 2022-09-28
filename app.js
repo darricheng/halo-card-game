@@ -1163,6 +1163,11 @@ window.onload = () => {
         draw(player);
         draw(com);
 
+        // Tie game if both players run out of cards
+        if (player.deck.length === 0 && com.deck.length === 0) {
+            return showEndingScreen("tie");
+        }
+
         // Print the round number
         printMessage(`Round ${roundNumber}`);
 
@@ -1277,7 +1282,7 @@ window.onload = () => {
 
     /**
      * Renders the ending screen depending on the result of the game
-     * @param result Pass in either win or lose strings
+     * @param result Pass in either win, lose, or tie strings
      */
     const showEndingScreen = (result) => {
         const mainResult = endingScreen.querySelector("h1");
@@ -1285,9 +1290,12 @@ window.onload = () => {
         if (result === "win") {
             mainResult.textContent = "VICTORY";
             description.textContent = "You beat the covenant, well done!";
-        } else {
+        } else if (result === "lose") {
             mainResult.textContent = "DEFEAT";
             description.textContent = "Better luck next time!";
+        } else if (result === "tie") {
+            mainResult.textContent = "TIE";
+            description.textContent = "You have found the Tie Skull.";
         }
         endingScreen.style.display = "block";
     }; // showEndingScreen
