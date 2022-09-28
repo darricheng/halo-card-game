@@ -817,7 +817,6 @@ window.onload = () => {
          * @param {Event} e
          */
         const defDivEventListener = (e) => {
-            console.log(e);
             // Remove the text from all def divs
             for (let i = 0; i < emptyDefDivs.length; i++) {
                 emptyDefDivs[i].textContent = "";
