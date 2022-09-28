@@ -35,151 +35,103 @@ window.onload = () => {
     /*************
      * Resources *
      *************/
-    // Default decks
-    const defaultPlayerDeck = [
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-        {
-            name: "Marine",
-            cost: 1,
-            attack: 2,
-            health: 2,
-            bg: "./cards-bg/marine.jpg",
-        },
-    ];
-    const defaultComDeck = [
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-        {
-            name: "Grunt",
-            cost: 1,
-            attack: 1,
-            health: 3,
-            bg: "./cards-bg/grunt-major.jpg",
-        },
-    ];
+    // Decks
+    class Card {
+        constructor(name, cost, attack, health, imgName) {
+            this.name = name;
+            this.cost = cost;
+            this.attack = attack;
+            this.health = health;
+            this.bg = `./cards-bg/${imgName}`;
+        }
+    }
+
+    // Create the player deck
+    const defaultPlayerDeck = [];
+    // Cards with 1 copy
+    defaultPlayerDeck.push(
+        new Card(
+            "Sergeant Johnson",
+            10,
+            11,
+            17,
+            "almost-unkillable-sergeant-johnson.jpg"
+        )
+    );
+    // Cards with 2 copies
+    for (let i = 0; i < 2; i++) {
+        defaultPlayerDeck.push(
+            new Card("Rocket Mongoose", 2, 5, 1, "rocket-mongoose.jpeg")
+        );
+        defaultPlayerDeck.push(
+            new Card("Scorpion Tank", 8, 9, 8, "scorpion-tank.jpeg")
+        );
+    }
+    // Cards with 3 copies
+    for (let i = 0; i < 3; i++) {
+        defaultPlayerDeck.push(new Card("Mongoose", 1, 3, 1, "mongoose.jpg"));
+        defaultPlayerDeck.push(
+            new Card("Rocket Marine", 1, 4, 1, "rocket-marine.jpeg")
+        );
+        defaultPlayerDeck.push(new Card("Warthog", 2, 2, 4, "warthog.jpeg"));
+        defaultPlayerDeck.push(
+            new Card("Marine Squad", 2, 2, 3, "marine-squad.jpeg")
+        );
+        defaultPlayerDeck.push(new Card("ODST", 2, 4, 2, "odst.jpeg"));
+        defaultPlayerDeck.push(
+            new Card("Rocket-hog", 3, 4, 3, "rocket-warthog.jpeg")
+        );
+        defaultPlayerDeck.push(new Card("Falcon", 3, 3, 4, "falcon.jpg"));
+        defaultPlayerDeck.push(new Card("Hornet", 3, 2, 5, "hornet.jpg"));
+        defaultPlayerDeck.push(
+            new Card("Gauss-hog", 4, 5, 4, "gauss-warthog.jpg")
+        );
+        defaultPlayerDeck.push(new Card("SPARTAN", 5, 5, 7, "spartan.jpeg"));
+    }
+    // Cards with 5 copies
+    for (let i = 0; i < 5; i++) {
+        defaultPlayerDeck.push(new Card("Marine", 1, 2, 2, "marine.jpg"));
+    }
+    // End create player deck
+
+    // Create the com deck
+    const defaultComDeck = [];
+    // Cards with 1 copy
+    defaultComDeck.push(new Card("Wraith", 8, 7, 9, "wraith.jpeg"));
+    defaultComDeck.push(
+        new Card("Elite Honor Guard", 9, 9, 9, "elite-honor-guard.jpg")
+    );
+    // Cards with 2 copies
+    for (let i = 0; i < 2; i++) {
+        defaultComDeck.push(
+            new Card("Fuel-rod Grunt", 1, 4, 1, "fuel-rod-grunt.jpeg")
+        );
+        defaultComDeck.push(new Card("Banshee", 2, 4, 2, "banshee.jpg"));
+        defaultComDeck.push(
+            new Card("Jackal Sniper", 3, 5, 2, "jackal-sniper.jpg")
+        );
+        defaultComDeck.push(
+            new Card("Elite Ultra", 6, 7, 6, "elite-ultra.jpg")
+        );
+    }
+    // Cards with 3 copies
+    for (let i = 0; i < 3; i++) {
+        defaultComDeck.push(
+            new Card("Suicide Grunt", 1, 3, 1, "suicide-grunt.jpg")
+        );
+        defaultComDeck.push(new Card("Drone", 1, 2, 2, "drone.jpg"));
+        defaultComDeck.push(new Card("Jackal", 2, 1, 4, "jackal.jpeg"));
+        defaultComDeck.push(new Card("Ghost", 2, 3, 2, "ghost.jpg"));
+        defaultComDeck.push(new Card("Brute", 2, 2, 3, "brute.webp"));
+        defaultComDeck.push(new Card("Elite", 3, 3, 4, "elite.webp"));
+        defaultComDeck.push(
+            new Card("Brute Chopper", 3, 4, 3, "brute-chopper.jpg")
+        );
+        defaultComDeck.push(new Card("Hunter", 4, 4, 5, "hunter.jpg"));
+        defaultComDeck.push(new Card("Revenant", 5, 4, 6, "revenant.jpg"));
+        defaultComDeck.push(new Card("Grunt", 1, 1, 3, "grunt.jpg"));
+    }
+    // End create com deck
 
     /**********
      * States *
@@ -322,11 +274,12 @@ window.onload = () => {
                         // Click the first available empty def div
                         emptyDefDivs[0].click();
                     }
+                    return setTimeout(() => hitGameButton(this), 2000);
                 }
 
                 // Default
                 return hitGameButton(this);
-            }, 10);
+            }, 2000);
         }, // takeTurn
     };
 
@@ -864,7 +817,6 @@ window.onload = () => {
          * @param {Event} e
          */
         const defDivEventListener = (e) => {
-            console.log(e);
             // Remove the text from all def divs
             for (let i = 0; i < emptyDefDivs.length; i++) {
                 emptyDefDivs[i].textContent = "";
@@ -1210,6 +1162,11 @@ window.onload = () => {
         draw(player);
         draw(com);
 
+        // Tie game if both players run out of cards
+        if (player.deck.length === 0 && com.deck.length === 0) {
+            return showEndingScreen("tie");
+        }
+
         // Print the round number
         printMessage(`Round ${roundNumber}`);
 
@@ -1324,7 +1281,7 @@ window.onload = () => {
 
     /**
      * Renders the ending screen depending on the result of the game
-     * @param result Pass in either win or lose strings
+     * @param result Pass in either win, lose, or tie strings
      */
     const showEndingScreen = (result) => {
         const mainResult = endingScreen.querySelector("h1");
@@ -1332,9 +1289,12 @@ window.onload = () => {
         if (result === "win") {
             mainResult.textContent = "VICTORY";
             description.textContent = "You beat the covenant, well done!";
-        } else {
+        } else if (result === "lose") {
             mainResult.textContent = "DEFEAT";
             description.textContent = "Better luck next time!";
+        } else if (result === "tie") {
+            mainResult.textContent = "TIE";
+            description.textContent = "You have found the Tie Skull.";
         }
         endingScreen.style.display = "block";
     }; // showEndingScreen
