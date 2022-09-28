@@ -48,9 +48,24 @@ window.onload = () => {
 
     // Create the player deck
     const defaultPlayerDeck = [];
-    // Cards with 5 copies
-    for (let i = 0; i < 5; i++) {
-        defaultPlayerDeck.push(new Card("Marine", 1, 2, 2, "marine.jpg"));
+    // Cards with 1 copy
+    defaultPlayerDeck.push(
+        new Card(
+            "Sergeant Johnson",
+            10,
+            11,
+            17,
+            "almost-unkillable-sergeant-johnson.jpg"
+        )
+    );
+    // Cards with 2 copies
+    for (let i = 0; i < 2; i++) {
+        defaultPlayerDeck.push(
+            new Card("Rocket Mongoose", 2, 5, 1, "rocket-mongoose.jpeg")
+        );
+        defaultPlayerDeck.push(
+            new Card("Scorpion Tank", 8, 9, 8, "scorpion-tank.jpeg")
+        );
     }
     // Cards with 3 copies
     for (let i = 0; i < 3; i++) {
@@ -73,46 +88,19 @@ window.onload = () => {
         );
         defaultPlayerDeck.push(new Card("SPARTAN", 5, 5, 7, "spartan.jpeg"));
     }
-    // Cards with 2 copies
-    for (let i = 0; i < 2; i++) {
-        defaultPlayerDeck.push(
-            new Card("Rocket Mongoose", 2, 5, 1, "rocket-mongoose.jpeg")
-        );
-        defaultPlayerDeck.push(
-            new Card("Scorpion Tank", 8, 9, 8, "scorpion-tank.jpeg")
-        );
+    // Cards with 5 copies
+    for (let i = 0; i < 5; i++) {
+        defaultPlayerDeck.push(new Card("Marine", 1, 2, 2, "marine.jpg"));
     }
-    // Cards with 1 copy
-    defaultPlayerDeck.push(
-        new Card(
-            "Sergeant Johnson",
-            10,
-            11,
-            17,
-            "almost-unkillable-sergeant-johnson.jpg"
-        )
-    );
     // End create player deck
 
     // Create the com deck
     const defaultComDeck = [];
-    // Cards with 3 copies
-    for (let i = 0; i < 3; i++) {
-        defaultComDeck.push(new Card("Grunt", 1, 1, 3, "grunt.jpg"));
-        defaultComDeck.push(
-            new Card("Suicide Grunt", 1, 3, 1, "suicide-grunt.jpg")
-        );
-        defaultComDeck.push(new Card("Drone", 1, 2, 2, "drone.jpg"));
-        defaultComDeck.push(new Card("Jackal", 2, 1, 4, "jackal.jpeg"));
-        defaultComDeck.push(new Card("Ghost", 2, 3, 2, "ghost.jpg"));
-        defaultComDeck.push(new Card("Brute", 2, 2, 3, "brute.webp"));
-        defaultComDeck.push(new Card("Elite", 3, 3, 4, "elite.webp"));
-        defaultComDeck.push(
-            new Card("Brute Chopper", 3, 4, 3, "brute-chopper.jpg")
-        );
-        defaultComDeck.push(new Card("Hunter", 4, 4, 5, "hunter.jpg"));
-        defaultComDeck.push(new Card("Revenant", 5, 4, 6, "revenant.jpg"));
-    }
+    // Cards with 1 copy
+    defaultComDeck.push(new Card("Wraith", 8, 7, 9, "wraith.jpeg"));
+    defaultComDeck.push(
+        new Card("Elite Honor Guard", 9, 9, 9, "elite-honor-guard.jpg")
+    );
     // Cards with 2 copies
     for (let i = 0; i < 2; i++) {
         defaultComDeck.push(
@@ -126,11 +114,23 @@ window.onload = () => {
             new Card("Elite Ultra", 6, 7, 6, "elite-ultra.jpg")
         );
     }
-    // Cards with 1 copy
-    defaultComDeck.push(new Card("Wraith", 8, 7, 9, "wraith.jpeg"));
-    defaultComDeck.push(
-        new Card("Elite Honor Guard", 9, 9, 9, "elite-honor-guard.jpg")
-    );
+    // Cards with 3 copies
+    for (let i = 0; i < 3; i++) {
+        defaultComDeck.push(
+            new Card("Suicide Grunt", 1, 3, 1, "suicide-grunt.jpg")
+        );
+        defaultComDeck.push(new Card("Drone", 1, 2, 2, "drone.jpg"));
+        defaultComDeck.push(new Card("Jackal", 2, 1, 4, "jackal.jpeg"));
+        defaultComDeck.push(new Card("Ghost", 2, 3, 2, "ghost.jpg"));
+        defaultComDeck.push(new Card("Brute", 2, 2, 3, "brute.webp"));
+        defaultComDeck.push(new Card("Elite", 3, 3, 4, "elite.webp"));
+        defaultComDeck.push(
+            new Card("Brute Chopper", 3, 4, 3, "brute-chopper.jpg")
+        );
+        defaultComDeck.push(new Card("Hunter", 4, 4, 5, "hunter.jpg"));
+        defaultComDeck.push(new Card("Revenant", 5, 4, 6, "revenant.jpg"));
+        defaultComDeck.push(new Card("Grunt", 1, 1, 3, "grunt.jpg"));
+    }
     // End create com deck
 
     /**********
