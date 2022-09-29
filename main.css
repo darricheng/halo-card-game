@@ -361,7 +361,6 @@ md-block img {
     width: 80%;
     height: 18px;
     margin: 2px auto;
-    background: lightgray;
     border: 1px solid black;
 }
 .hide-cursor {
