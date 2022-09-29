@@ -47,91 +47,103 @@ window.onload = () => {
     }
 
     // Create the player deck
-    const defaultPlayerDeck = [];
-    // Cards with 1 copy
-    defaultPlayerDeck.push(
-        new Card(
-            "Sergeant Johnson",
-            10,
-            11,
-            17,
-            "almost-unkillable-sergeant-johnson.jpg"
-        )
-    );
-    // Cards with 2 copies
-    for (let i = 0; i < 2; i++) {
+    const createPlayerDeck = () => {
+        const defaultPlayerDeck = [];
+        // Cards with 1 copy
         defaultPlayerDeck.push(
-            new Card("Rocket Mongoose", 2, 5, 1, "rocket-mongoose.jpeg")
+            new Card(
+                "Sergeant Johnson",
+                10,
+                11,
+                17,
+                "almost-unkillable-sergeant-johnson.jpg"
+            )
         );
-        defaultPlayerDeck.push(
-            new Card("Scorpion Tank", 8, 9, 8, "scorpion-tank.jpeg")
-        );
-    }
-    // Cards with 3 copies
-    for (let i = 0; i < 3; i++) {
-        defaultPlayerDeck.push(new Card("Mongoose", 1, 3, 1, "mongoose.jpg"));
-        defaultPlayerDeck.push(
-            new Card("Rocket Marine", 1, 4, 1, "rocket-marine.jpeg")
-        );
-        defaultPlayerDeck.push(new Card("Warthog", 2, 2, 4, "warthog.jpeg"));
-        defaultPlayerDeck.push(
-            new Card("Marine Squad", 2, 2, 3, "marine-squad.jpeg")
-        );
-        defaultPlayerDeck.push(new Card("ODST", 2, 4, 2, "odst.jpeg"));
-        defaultPlayerDeck.push(
-            new Card("Rocket-hog", 3, 4, 3, "rocket-warthog.jpeg")
-        );
-        defaultPlayerDeck.push(new Card("Falcon", 3, 3, 4, "falcon.jpg"));
-        defaultPlayerDeck.push(new Card("Hornet", 3, 2, 5, "hornet.jpg"));
-        defaultPlayerDeck.push(
-            new Card("Gauss-hog", 4, 5, 4, "gauss-warthog.jpg")
-        );
-        defaultPlayerDeck.push(new Card("SPARTAN", 5, 5, 7, "spartan.jpeg"));
-    }
-    // Cards with 5 copies
-    for (let i = 0; i < 5; i++) {
-        defaultPlayerDeck.push(new Card("Marine", 1, 2, 2, "marine.jpg"));
-    }
-    // End create player deck
+        // Cards with 2 copies
+        for (let i = 0; i < 2; i++) {
+            defaultPlayerDeck.push(
+                new Card("Rocket Mongoose", 2, 5, 1, "rocket-mongoose.jpeg")
+            );
+            defaultPlayerDeck.push(
+                new Card("Scorpion Tank", 8, 9, 8, "scorpion-tank.jpeg")
+            );
+        }
+        // Cards with 3 copies
+        for (let i = 0; i < 3; i++) {
+            defaultPlayerDeck.push(
+                new Card("Mongoose", 1, 3, 1, "mongoose.jpg")
+            );
+            defaultPlayerDeck.push(
+                new Card("Rocket Marine", 1, 4, 1, "rocket-marine.jpeg")
+            );
+            defaultPlayerDeck.push(
+                new Card("Warthog", 2, 2, 4, "warthog.jpeg")
+            );
+            defaultPlayerDeck.push(
+                new Card("Marine Squad", 2, 2, 3, "marine-squad.jpeg")
+            );
+            defaultPlayerDeck.push(new Card("ODST", 2, 4, 2, "odst.jpeg"));
+            defaultPlayerDeck.push(
+                new Card("Rocket-hog", 3, 4, 3, "rocket-warthog.jpeg")
+            );
+            defaultPlayerDeck.push(new Card("Falcon", 3, 3, 4, "falcon.jpg"));
+            defaultPlayerDeck.push(new Card("Hornet", 3, 2, 5, "hornet.jpg"));
+            defaultPlayerDeck.push(
+                new Card("Gauss-hog", 4, 5, 4, "gauss-warthog.jpg")
+            );
+            defaultPlayerDeck.push(
+                new Card("SPARTAN", 5, 5, 7, "spartan.jpeg")
+            );
+        }
+        // Cards with 5 copies
+        for (let i = 0; i < 5; i++) {
+            defaultPlayerDeck.push(new Card("Marine", 1, 2, 2, "marine.jpg"));
+        }
+        // End create player deck
+        return defaultPlayerDeck;
+    }; // createPlayerDeck
 
     // Create the com deck
-    const defaultComDeck = [];
-    // Cards with 1 copy
-    defaultComDeck.push(new Card("Wraith", 8, 7, 9, "wraith.jpeg"));
-    defaultComDeck.push(
-        new Card("Elite Honor Guard", 9, 9, 9, "elite-honor-guard.jpg")
-    );
-    // Cards with 2 copies
-    for (let i = 0; i < 2; i++) {
+    const createComDeck = () => {
+        const defaultComDeck = [];
+        // Cards with 1 copy
+        defaultComDeck.push(new Card("Wraith", 8, 7, 9, "wraith.jpeg"));
         defaultComDeck.push(
-            new Card("Fuel-rod Grunt", 1, 4, 1, "fuel-rod-grunt.jpeg")
+            new Card("Elite Honor Guard", 9, 9, 9, "elite-honor-guard.jpg")
         );
-        defaultComDeck.push(new Card("Banshee", 2, 4, 2, "banshee.jpg"));
-        defaultComDeck.push(
-            new Card("Jackal Sniper", 3, 5, 2, "jackal-sniper.jpg")
-        );
-        defaultComDeck.push(
-            new Card("Elite Ultra", 6, 7, 6, "elite-ultra.jpg")
-        );
-    }
-    // Cards with 3 copies
-    for (let i = 0; i < 3; i++) {
-        defaultComDeck.push(
-            new Card("Suicide Grunt", 1, 3, 1, "suicide-grunt.jpg")
-        );
-        defaultComDeck.push(new Card("Drone", 1, 2, 2, "drone.jpg"));
-        defaultComDeck.push(new Card("Jackal", 2, 1, 4, "jackal.jpeg"));
-        defaultComDeck.push(new Card("Ghost", 2, 3, 2, "ghost.jpg"));
-        defaultComDeck.push(new Card("Brute", 2, 2, 3, "brute.webp"));
-        defaultComDeck.push(new Card("Elite", 3, 3, 4, "elite.webp"));
-        defaultComDeck.push(
-            new Card("Brute Chopper", 3, 4, 3, "brute-chopper.jpg")
-        );
-        defaultComDeck.push(new Card("Hunter", 4, 4, 5, "hunter.jpg"));
-        defaultComDeck.push(new Card("Revenant", 5, 4, 6, "revenant.jpg"));
-        defaultComDeck.push(new Card("Grunt", 1, 1, 3, "grunt.jpg"));
-    }
-    // End create com deck
+        // Cards with 2 copies
+        for (let i = 0; i < 2; i++) {
+            defaultComDeck.push(
+                new Card("Fuel-rod Grunt", 1, 4, 1, "fuel-rod-grunt.jpeg")
+            );
+            defaultComDeck.push(new Card("Banshee", 2, 4, 2, "banshee.jpg"));
+            defaultComDeck.push(
+                new Card("Jackal Sniper", 3, 5, 2, "jackal-sniper.jpg")
+            );
+            defaultComDeck.push(
+                new Card("Elite Ultra", 6, 7, 6, "elite-ultra.jpg")
+            );
+        }
+        // Cards with 3 copies
+        for (let i = 0; i < 3; i++) {
+            defaultComDeck.push(
+                new Card("Suicide Grunt", 1, 3, 1, "suicide-grunt.jpg")
+            );
+            defaultComDeck.push(new Card("Drone", 1, 2, 2, "drone.jpg"));
+            defaultComDeck.push(new Card("Jackal", 2, 1, 4, "jackal.jpeg"));
+            defaultComDeck.push(new Card("Ghost", 2, 3, 2, "ghost.jpg"));
+            defaultComDeck.push(new Card("Brute", 2, 2, 3, "brute.webp"));
+            defaultComDeck.push(new Card("Elite", 3, 3, 4, "elite.webp"));
+            defaultComDeck.push(
+                new Card("Brute Chopper", 3, 4, 3, "brute-chopper.jpg")
+            );
+            defaultComDeck.push(new Card("Hunter", 4, 4, 5, "hunter.jpg"));
+            defaultComDeck.push(new Card("Revenant", 5, 4, 6, "revenant.jpg"));
+            defaultComDeck.push(new Card("Grunt", 1, 1, 3, "grunt.jpg"));
+        }
+        // End create com deck
+        return defaultComDeck;
+    }; // createComDeck
 
     /**********
      * States *
@@ -167,7 +179,7 @@ window.onload = () => {
     // Player
     const player = {
         name: "player",
-        deck: defaultPlayerDeck,
+        deck: [],
         health: 0,
         maxResources: 0,
         currentResources: 0,
@@ -196,7 +208,7 @@ window.onload = () => {
     // Computer
     const com = {
         name: "com",
-        deck: defaultComDeck,
+        deck: [],
         health: 0,
         maxResources: 0,
         currentResources: 0,
@@ -453,6 +465,21 @@ window.onload = () => {
             user.resourceBars[i].style.background = "lightgreen";
         }
     }; // renderResources
+
+    const resetResources = (user) => {
+        user.maxResources = 0;
+        user.currentResources = 0;
+        // Get inner div for the resources number
+        const resourceValue =
+            user.resourcesDiv.querySelector(".current-resources");
+        // Set the inner div to the current resources
+        resourceValue.innerHTML = user.currentResources;
+
+        // Reset the resource appearance
+        for (let i = 9; i >= 0; i--) {
+            user.resourceBars[i].style.background = "lightgray";
+        }
+    };
 
     /**
      * Prints the given string to the game message box
@@ -874,8 +901,8 @@ window.onload = () => {
      */
     const init = () => {
         // Reset both decks by copying from the default
-        player.deck = [...defaultPlayerDeck];
-        com.deck = [...defaultComDeck];
+        player.deck = createPlayerDeck();
+        com.deck = createComDeck();
 
         // Add unique IDs to each card
         let k = 0;
@@ -896,10 +923,14 @@ window.onload = () => {
         renderHealth(com);
 
         // Set resources to round 0 values
-        player.maxResources = 0;
-        com.maxResources = 0;
-        player.currentResources = 0;
-        com.currentResources = 0;
+        // player.maxResources = 0;
+        // com.maxResources = 0;
+        // player.currentResources = 0;
+        // com.currentResources = 0;
+
+        // Render the resources
+        resetResources(player);
+        resetResources(com);
 
         // Set summonCount to 0
         player.summonCount = 0;
@@ -940,8 +971,8 @@ window.onload = () => {
         shuffle(com.deck);
 
         // Both players draw 4
-        draw(player, 4);
-        draw(com, 4);
+        draw(player, 5);
+        draw(com, 5);
     }; // gameStart
 
     /**
