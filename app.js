@@ -1183,6 +1183,9 @@ window.onload = () => {
         // Advance round
         roundNumber++;
 
+        // Print the round number
+        printMessage(`Round ${roundNumber}`);
+
         // Draw cards
         draw(player);
         draw(com);
@@ -1191,9 +1194,6 @@ window.onload = () => {
         if (player.deck.length === 0 && com.deck.length === 0) {
             return showEndingScreen("tie");
         }
-
-        // Print the round number
-        printMessage(`Round ${roundNumber}`);
 
         // Increment max resources by 1
         if (player.maxResources !== 10) {
