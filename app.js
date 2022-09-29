@@ -922,13 +922,7 @@ window.onload = () => {
         renderHealth(player);
         renderHealth(com);
 
-        // Set resources to round 0 values
-        // player.maxResources = 0;
-        // com.maxResources = 0;
-        // player.currentResources = 0;
-        // com.currentResources = 0;
-
-        // Render the resources
+        // Reset the resources
         resetResources(player);
         resetResources(com);
 
@@ -970,7 +964,7 @@ window.onload = () => {
         shuffle(player.deck);
         shuffle(com.deck);
 
-        // Both players draw 4
+        // Both players draw 5
         draw(player, 5);
         draw(com, 5);
     }; // gameStart
