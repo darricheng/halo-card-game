@@ -24,7 +24,7 @@ I call it **HALO: The Card Game**.
 
 You play as Cortana battling against the Prophet of Regret in a virtual battlefield. Your goal is to defeat Regret by overwhelming their forces with your army of UNSC units, so that you can eventually bring their health down to 0. Be careful though, you lose if your health goes down to 0 too!
 
-What are you waiting for? Go out there and kick some Covenant butt!
+What are you waiting for soldier? Go out there and kick some Covenant butt!
 
 ## How to play
 
